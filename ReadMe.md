@@ -10,8 +10,24 @@ in electromagnetic compatibility ([EMC][]) applications.
 
 ## The electromagnetic diffusion model
 
-**TBC** Short introduction to EDM ([Flintoft2017][]) with reference to acoustic literature and 
-PWB method. Link to [AEGPWB][].
+The power balance (PWB) method of estimating the average diffuse field in a system of 
+coupled cavities, as implemented in [AEGPWB][], assumes that the energy density in each
+cavity is uniform ([Hill1994][],[Junqua2005][]). It therefore cannot account for the 
+inhomogeneity in the diffuse field arising from any loss in the cavity. The electromagnetic
+diffusion model (EDM) was proposed as a natural generalization of the PWB method that is
+able to predict such inhomogeneity ([Flintoft2017][]). The EDM is a straightforward 
+translation of the acoustic diffusion model (ADM) into the electromagnetic domain
+([Navarro2015][],[Savioja2015][]); the differences between the EDM and ADM are essentially 
+confined to the auxiliary calculations of the 
+absorption and transmission efficiencies of surface and apertures respectively.
+However, the validity and accuracy of the EDM must still be established independently
+of the ADM since the realms of application are significantly different and the electromagnetic
+field is polarised. A suite of canonical test cases was therefore created into order 
+to explore the realm of validity of the EDM.
+
+Preliminary results for the canonical test cases obtained using two-dimensional models 
+were reported in ([Flintoft2017][]). Initial three-dimensional models will be presented 
+in ([Flintoft2017b][]).
 
 ## Test case features
 
@@ -25,7 +41,7 @@ The test cases include:
 
 * Excitation by point and surface sources.
 
-* Sabine and Jing and Xiang absorption models.
+* Sabine ([Sabine1922][]) and Jing and Xiang ([Jing2008][]) absorption models.
 
 ## Requirements
 
@@ -104,6 +120,7 @@ details see the file [Licence.txt][].
 M. P. Robinson and J. F. Dawson, "Evaluation of the diffusion equation for
 modelling reverberant electromagnetic fields", IEEE Transactions on Electromagnetic
 Compatibility, vol. 59, no. 3, pp. 760–769, 2017. 
+[Postprint](https://pure.york.ac.uk/portal/files/50375003/TEMC_Flintoft_et_al_postprint.pdf)
 
 [Flintoft2017b]: http://www.iceaa.net/j3
 
@@ -122,6 +139,38 @@ Methods in Engineering 79(11), pp. 1309-1331, 2009.
 ([Hecht2012][]) F. Hecht, “New development in FreeFEM++”, Journal of Numerical Mathematics, 
 vol. 20, no. 3-4, pp. 251–265, 2012.
 
+[Hill1994]: http://ieeexplore.ieee.org/xpl/articleDetails.jsp?tp=&arnumber=305461
+
+([Hill1994]) D. A. Hill, M. T. Ma, A. R. Ondrejka, B. F. Riddle, M. L. Crawford 
+and R. T. Johnk, "Aperture excitation of electrically large, lossy cavities", 
+IEEE Transactions on Electromagnetic Compatibility, vol. 36, no. 3, pp. 169-178, 
+Aug 1994.
+
+[Jing2008]: https://doi.org/10.1121/1.3008066
+
+([Jing2008][]) Y. Jing and N. Xiang, “Visualizations of sound energy across coupled 
+rooms using a diffusion equation model”, J. Acoust. Soc. Am., vol. 124, pp. EL360–EL365, Nov. 2008.
+
+[Junqua2005]: http://www.tandfonline.com/doi/abs/10.1080/02726340500214845
+
+([Junqua2005]) I. Junqua, J.-P. Parmantier and F. Issac,
+"A Network Formulation of the Power Balance Method for High-Frequency Coupling",
+Electromagnetics, vol. 25 , no. 7-8, pp. 603-622, 2005.
+
+[Navarro2015]: http://dx.doi.org/10.1080/19401493.2013.850534
+
+([Navarro2015][]) J. M. Navarro and J. Escolano, “Simulation of building indoor acoustics 
+using an acoustic diffusion equation model”, Journal of Building Performance Simulation, 
+vol. 8, no. 1, pp. 3-14, 2015.
+
+[Sabine1922]: https://archive.org/details/collectedpaperso00sabi
+
+([Sabine1922][]) W. C. Sabine, Collected Papers on Acoustics, Harvard University Press, 1922
+
+[Savioja2015]: http://dx.doi.org/10.1121/1.4926438
+
+([Savioja2015][]) L. Savioja and U. Peter Svensson, “Overview of geometrical room acoustic 
+modeling techniques”, J. Acoust. Soc. Am., vol. 138, no .2, pp. 708–730, 2015.
 
 [Dr Ian Flintoft]: https://idflintoft.bitbucket.io
 [University of York]: http://www.york.ac.uk
