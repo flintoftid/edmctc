@@ -1,4 +1,4 @@
-![](https://bitbucket.org/uoyaeg/aeg/wiki/edmctc.jpg )
+![](https://bitbucket.org/uoyaeg/edmctc/wiki/edmctc.jpg )
 
 # Canonical test cases for electromagnetic diffusion models
 
