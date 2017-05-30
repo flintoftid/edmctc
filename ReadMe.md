@@ -55,6 +55,8 @@ The test-cases are implemented using a combination of [Open Source][] tools:
 
 3. [GNU][] [Octave][] or [MATLAB][]: Most of the post-processing is implemented in a portable 
    subset of GNU [Octave][] / [MATLAB][]. 
+
+4. [cquiver][]: Vector field plots are improved by using the cquiver function.
    
 The test cases have been primarily developed using GNU [Octave][] on Linux platforms, 
 but should run under both GNU [Octave][] and [MATLAB][] on Linux and Windows systems.
@@ -193,4 +195,5 @@ modeling techniques”, J. Acoust. Soc. Am., vol. 138, no .2, pp. 708–730, 201
 [MATLAB]: http://www.mathworks.co.uk/products/matlab
 [Mercurial]: https://www.mercurial-scm.org
 [AEGPWB]: https://bitbucket.org/uoyaeg/aegpwb
+[cquiver]: http://uk.mathworks.com/matlabcentral/fileexchange/29487-2d-vector-field-visualization
 
