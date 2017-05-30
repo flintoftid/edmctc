@@ -179,6 +179,7 @@ modeling techniques”, J. Acoust. Soc. Am., vol. 138, no .2, pp. 708–730, 201
 [GPL3]: http://www.gnu.org/copyleft/gpl.html
 [GNU]: https://www.gnu.org/home.en.html
 [EMC]: http://www.york.ac.uk/electronics/research/physlayer/appliedem/emc/
+[FEM]: https://en.wikipedia.org/wiki/Finite_element_method
 
 [Install.md]: https://bitbucket.org/uoyaeg/edmctc/src/tip/Install.md
 [tutorial]: https://bitbucket.org/uoyaeg/edmctc/src/tip/tutorial/Tutorial.md
