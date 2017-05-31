@@ -56,14 +56,73 @@ The test-cases are implemented using a combination of [Open Source][] tools:
 3. [GNU][] [Octave][] or [MATLAB][]: Most of the post-processing is implemented in a portable 
    subset of GNU [Octave][] / [MATLAB][]. 
 
-4. [cquiver][]: Vector field plots are improved by using the cquiver function.
+4. [cquiver][]: Vector field plots require the cquiver function.
    
 The test cases have been primarily developed using GNU [Octave][] on Linux platforms, 
 but should run under both GNU [Octave][] and [MATLAB][] on Linux and Windows systems.
 
 ## Documentation
 
-This is it so far...
+There are four implementations of the test cases:
+
+1. [FEM_SDM_2D][]: An approximate two-dimensional solution using Kantorovich reduction. 
+   The partitioned cavity is implemented using a single domain method (SDM). This implicitly
+   enforces continuity of the energy density and its flux through the aperture.
+
+2. [FEM_DDM_2D][]: An approximate two-dimensional solution using Kantorovich reduction
+   of the partitioned cavity cases implemented using a domain decomposition method (DDM) with
+   an energy exchange boundary condition. This enforces continuity of the energy density
+   flux through the aperture. A Schwarz iteration is used to find the solution.
+
+3. [FEM_SDM_3D][]: A full three-dimensional solution. The partitioned cavity is 
+   implemented using a single domain method (SDM).
+
+4. [FEM_DDM_3D][]: A full three-dimensional solution of the partitioned cavity
+   cases implemented using a domain decomposition method (DDM).
+
+There is a list and description of the main variables in doc/[Variables.md][].
+
+The outline work-flow is
+
+1. Set the input parameters in the `parameters.geo` file.
+
+2. Create the mesh if required using Gmsh. This must be done interactively via
+   the GUI. The mesh must be saved in the INRA Mesh format, choosing the export
+   option "physical entities". The normal vectors for all surfaces enclosing a 
+   cavity must be pointing outwards.
+
+    $ Gmsh SDM_2D.geo
+
+    Mesh -> 2D
+    Mesh -> 3D
+    Save As -> INRA Mesh -> physical entities -> model.mesh
+
+3. Solve the problem using [FreeFEM++][]:
+
+    $ FreeFem++ Model1.edp
+
+   This should create ASCII data files `w.dat`, `wr.dat`, `J.dat` and `Jr.dat` 
+   containing the energy density, reverberant energy density, energy density
+   flux and reverberant energy density flux fields respectively.
+
+4. Post-process the fields using GNU [Octave][] or [MATLAB][]:
+
+    $ octave 
+    octave> Model1
+
+## Notes
+
+* The plots are currently of limited quality with [Octave][] version 4.0.3.
+
+* The [FreeFEM++][] and [Octave][] code is modular in the sense that it is split
+  into different files; however, the namespace is global so care must be taken
+  regarding variable name clashes.
+
+* Beware the scoping rules in FreeFEM++. Certain entities are implemented as
+  "macros" and cannot be declared and defined seperately. This mean that 
+  sometimes code has to be repeated.
+
+* The same `parameters.geo` can be read by the Gmsh, FreeFEM++ and Octave scripts.
 
 ## Bugs and support
 
@@ -187,7 +246,12 @@ modeling techniques”, J. Acoust. Soc. Am., vol. 138, no .2, pp. 708–730, 201
 [tutorial]: https://bitbucket.org/uoyaeg/edmctc/src/tip/tutorial/Tutorial.md
 [Bugs.md]: https://bitbucket.org/uoyaeg/edmctc/src/tip/doc/Bugs.md
 [ToDo.md]: https://bitbucket.org/uoyaeg/edmctc/src/tip/doc/ToDo.md
+[Variables.md]: https://bitbucket.org/uoyaeg/edmctc/src/tip/doc/Variables.md
 [Licence.txt]: https://bitbucket.org/uoyaeg/edmctc/src/tip/Licence.txt
+[FEM_SDM_2D]: https://bitbucket.org/uoyaeg/edmctc/src/tip/FEM_SDM_2D
+[FEM_DDM_2D]: https://bitbucket.org/uoyaeg/edmctc/src/tip/FEM_DDM_2D
+[FEM_SDM_3D]: https://bitbucket.org/uoyaeg/edmctc/src/tip/FEM_SDM_3D
+[FEM_DDM_3D]: https://bitbucket.org/uoyaeg/edmctc/src/tip/FEM_DDM_3D
 
 [Gmsh]: http://gmsh.info
 [FreeFEM++]: http://www.freefem.org
