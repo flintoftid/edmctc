@@ -18,7 +18,7 @@ Variable        | Unit |     Range    | Description
 isSrc           |  -   |  0/1         | Whether to mesh the source as a spherical surface
 isCyl           |  -   |  0/1         | Whether to include the cylinder
 isPart          |  -   |  0/1         | Whether to include the partition
-isSabine        |  -   |  0/1         | Whether to use Sabine or Jing & Xiang absorption factor
+isSabine        |  -   |  0/1         | Whether to use Sabine or Jing & Xiang exchange coefficient
 Lx              |  m   |  >0          | Cavity size in x-direction
 Ly              |  m   |  >0          | Cavity size in y-direction
 Lz              |  m   |  >0          | Cavity size in z-direction
@@ -27,6 +27,7 @@ partX           |  m   | >0, < Lx     | x-coordinate of partition
 partThickness   |  m   | >0, <<Lx     | Partition thickness
 partAE          |  -   | >=0          | Absorption efficiency of partition
 holeWidth       |  m   | >0, < Ly     | Aperture width
+holeTE          |  m   | >=0          | Aperture transmission efficiency
 cylXWithPart    |  m   | >partX, < Lx | x-coordinate of cylinder if partition is present
 cylXWithoutPart |  m   | >partX, < Lx | x-coordinate of cylinder if partition is not present
 cylY            |  m   | >0, < Ly     | y-coordinate of cylinder
@@ -46,11 +47,15 @@ Variable        | Unit  | Description
 srcArea         | m^2   | Surface source surface area
 srcVolume       | m^3   | Surface source volume
 srcExitance     | W/m^2 | Surface source exitance
-wallAF          |  -    | Wall absorption factor
-partAF          |  -    | Partition absorption factor
-cylAF           |  -    | Cylinder absorption factor
+wallEC          |  m/s  | Wall exchange coefficient
+partEC          |  m/s  | Partition exchange coefficient
+cylEC           |  m/s  | Cylinder exchange coefficient
 holeArea        |  m^2  | hole area
 holeTCS         |  m^2  | hole average transmission cross-section
+holeEC11        |  m/s  | hole exchange coefficient - aborption in sub-cavity 1
+holeEC12        |  m/s  | hole exchange coefficient - transmission into sub-cavity 1
+holeEC21        |  m/s  | hole exchange coefficient - tranmisssion into sub-cavity 2
+holeEC22        |  m/s  | hole exchange coefficient - aborption in sub-cavity 2
 cylXSArea       |  m^2  | cylinder cross-sectional area
 cylArea         |  m^2  | cylinder surface area
 cylVolume       |  m^3  | Cylinder volume
@@ -85,26 +90,31 @@ D2              | m^2/s | Overall diffusivity for > partX [2]
 
 ## Kantorovich parameters
 
-Variable        | Unit | Description
-:---------------|------|--------------------------------------------------------
-zetaz1          |  /m  | Vertical profile coefficient in sub-cavity 1
-Z21             |  m   | Integral of Z(z)^2 in sub-cavity 1
-Z11             |  m   | Integral of Z(z) in sub-cavoty 1
-d2Zdz21         |  /m  | Integral of d^2Z/dz^2 in sub-cavity 1
-Zho21           |  -   | Z(z) at half height of sub-cavity 1
-Dp1             | m/s  | Sub-cavity 1 reduced diffusivity
-LambdaZ1        |  /s  | Sub-cavity 1 reduced energy loss rate
-wallAFp1        |  -   | Sub-cavity 1 reduced side wall absorption factor
-partAFp1        |  -   | Sub-cavity 1 reduced partition absorption factor
-zetaz2          |  /m  | Vertical profile coefficient in sub-cavity 2
-Z22             |  m   | Integral of Z(z)^2 in sub-cavity 2
-Z12             |  m   | Integral of Z(z) in sub-cavoty 2
-d2Zdz22         |  /m  | Integral of d^2Z/dz^2 in sub-cavity 2
-Zho22           |  -   | Z(z) at half height of sub-cavity 2
-Dp2             | m/s  | Sub-cavity 2 reduced diffusivity
-LambdaZ2        |  /s  | Sub-cavity 2 reduced energy loss rate
-wallAFp2        |  -   | Sub-cavity 2 reduced side wall absorption factor
-partAFp2        |  -   | Sub-cavity 2 reduced partition absorption factor
+Variable        | Unit  | Description
+:---------------|-------|--------------------------------------------------------
+zetaz1          |  /m   | Vertical profile coefficient in sub-cavity 1
+Z21             |   m   | Integral of Z(z)^2 in sub-cavity 1
+Z11             |   m   | Integral of Z(z) in sub-cavoty 1
+d2Zdz21         |  /m   | Integral of d^2Z/dz^2 in sub-cavity 1
+Zho21           |   -   | Z(z) at half height of sub-cavity 1
+Dp1             |  m/s  | Sub-cavity 1 reduced diffusivity
+LambdaZ1        |  /s   | Sub-cavity 1 reduced energy loss rate
+wallECp1        | m^2/s | Sub-cavity 1 reduced side wall exchange coefficient
+partECp1        | m^2/s | Sub-cavity 1 reduced partition exchange coefficient
+zetaz2          |  /m   | Vertical profile coefficient in sub-cavity 2
+Z22             |   m   | Integral of Z(z)^2 in sub-cavity 2
+Z12             |   m   | Integral of Z(z) in sub-cavoty 2
+d2Zdz22         |  /m   | Integral of d^2Z/dz^2 in sub-cavity 2
+Zho22           |   -   | Z(z) at half height of sub-cavity 2
+Dp2             |  m/s  | Sub-cavity 2 reduced diffusivity
+LambdaZ2        |  /s   | Sub-cavity 2 reduced energy loss rate
+wallECp2        | m^2/s | Sub-cavity 2 reduced side wall exchange coefficient
+partECp2        | m^2/s | Sub-cavity 2 reduced partition exchange coefficient
+cylECp2         | m^2/s | Sub-cavity 2 reduced partition exchange coefficient
+holeEC11p       | m^2/s | reduced hole exchange coefficient
+holeEC12p       | m^2/s | reduced hole exchange coefficient
+holeEC21p       | m^2/s | reduced hole exchange coefficient
+holeEC22p       | m^2/s | reduced hole exchange coefficient
 
 ## Power balance model parameters
 
@@ -169,3 +179,4 @@ S2rdB           | dB W/m^2 | Reverberant 2D power density field in decibels
 Delta2dB        |    dB    | Uniformity of 2D energy density in decibels
 J2dB            | dB W/m^2 | Magnitude of total 2D energy density flux field in decibels
 Upsilon2dB      |    dB    | Anisotropy of 2D power density in decibels
+
