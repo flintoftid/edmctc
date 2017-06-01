@@ -35,13 +35,14 @@ The test cases include:
 
 * Absorption in cavity walls;
 
-* Absorption in  a volumetric lossy object.
+* Absorption in a volumetric lossy object.
 
 * Transmission through electrically small and large apertures.
 
 * Excitation by point and surface sources.
 
-* Sabine ([Sabine1922][]) and Jing and Xiang ([Jing2008][]) absorption models.
+* Sabine ([Sabine1922][]) and Jing and Xiang ([Jing2008][]) exchange coefficinet
+  absorption models.
 
 ## Requirements
 
@@ -56,7 +57,7 @@ The test-cases are implemented using a combination of [Open Source][] tools:
 3. [GNU][] [Octave][] or [MATLAB][]: Most of the post-processing is implemented in a portable 
    subset of GNU [Octave][] / [MATLAB][]. 
 
-4. [cquiver][]: Vector field plots require the cquiver function.
+4. [cquiver][]: Vector field plots in [Octave][] / [MATLAB][] require the cquiver function.
    
 The test cases have been primarily developed using GNU [Octave][] on Linux platforms, 
 but should run under both GNU [Octave][] and [MATLAB][] on Linux and Windows systems.
@@ -70,15 +71,15 @@ There are four implementations of the test cases:
    enforces continuity of the energy density and its flux through the aperture.
 
 2. [FEM_DDM_2D][]: An approximate two-dimensional solution using Kantorovich reduction
-   of the partitioned cavity cases implemented using a domain decomposition method (DDM) with
+   of the partitioned cavity cases implemented using a coupled dual domain method (DDM) with
    an energy exchange boundary condition. This enforces continuity of the energy density
-   flux through the aperture. A Schwarz iteration is used to find the solution.
+   flux through the aperture. An iterative method is used to find the solution.
 
 3. [FEM_SDM_3D][]: A full three-dimensional solution. The partitioned cavity is 
    implemented using a single domain method (SDM).
 
 4. [FEM_DDM_3D][]: A full three-dimensional solution of the partitioned cavity
-   cases implemented using a domain decomposition method (DDM).
+   cases implemented using a coupled dual domain method (DDM).
 
 There is a list and description of the main variables in doc/[Variables.md][].
 
@@ -120,9 +121,9 @@ The outline work-flow is
 
 * Beware the scoping rules in FreeFEM++. Certain entities are implemented as
   "macros" and cannot be declared and defined seperately. This mean that 
-  sometimes code has to be repeated.
+  sometimes code has to be repeated in differnet blocks.
 
-* The same `parameters.geo` can be read by the Gmsh, FreeFEM++ and Octave scripts.
+* The same `parameters.geo` is read by the Gmsh, FreeFEM++ and Octave scripts.
 
 ## Bugs and support
 
@@ -150,8 +151,6 @@ There is a Wiki on the bitbucket [project page](https://bitbucket.org/uoyaeg/edm
 We welcome any contributions to the development of the code, including:
 
 * Fixing bugs.
-
-* Interesting examples that can be used for test-cases.
 
 * Improving the user documentation.
 

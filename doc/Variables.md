@@ -93,29 +93,29 @@ D2              | m^2/s | Overall diffusivity for > partX [2]
 Variable        | Unit  | Description
 :---------------|-------|--------------------------------------------------------
 zetaz1          |  /m   | Vertical profile coefficient in sub-cavity 1
-Z21             |   m   | Integral of Z(z)^2 in sub-cavity 1
-Z11             |   m   | Integral of Z(z) in sub-cavoty 1
+intZSquared1    |   m   | Integral of Z(z)^2 in sub-cavity 1
+intZ1           |   m   | Integral of Z(z) in sub-cavoty 1
 d2Zdz21         |  /m   | Integral of d^2Z/dz^2 in sub-cavity 1
-Zho21           |   -   | Z(z) at half height of sub-cavity 1
-Dp1             |  m/s  | Sub-cavity 1 reduced diffusivity
-LambdaZ1        |  /s   | Sub-cavity 1 reduced energy loss rate
-wallECp1        | m^2/s | Sub-cavity 1 reduced side wall exchange coefficient
-partECp1        | m^2/s | Sub-cavity 1 reduced partition exchange coefficient
+ZHalfHeight1    |   -   | Z(z) at half height of sub-cavity 1
+redD1           |  m/s  | Sub-cavity 1 reduced diffusivity
+arealLossRate1  |  /s   | Sub-cavity 1 reduced energy loss rate
+redWallEC1      | m^2/s | Sub-cavity 1 reduced side wall exchange coefficient
+redPartEC1      | m^2/s | Sub-cavity 1 reduced partition exchange coefficient
 zetaz2          |  /m   | Vertical profile coefficient in sub-cavity 2
-Z22             |   m   | Integral of Z(z)^2 in sub-cavity 2
-Z12             |   m   | Integral of Z(z) in sub-cavoty 2
+intZSquared2    |   m   | Integral of Z(z)^2 in sub-cavity 2
+intZ2           |   m   | Integral of Z(z) in sub-cavoty 2
 d2Zdz22         |  /m   | Integral of d^2Z/dz^2 in sub-cavity 2
-Zho22           |   -   | Z(z) at half height of sub-cavity 2
-Dp2             |  m/s  | Sub-cavity 2 reduced diffusivity
-LambdaZ2        |  /s   | Sub-cavity 2 reduced energy loss rate
-wallECp2        | m^2/s | Sub-cavity 2 reduced side wall exchange coefficient
-partECp2        | m^2/s | Sub-cavity 2 reduced partition exchange coefficient
-cylECp2         | m^2/s | Sub-cavity 2 reduced partition exchange coefficient
-holeEC11p       | m^2/s | reduced hole exchange coefficient
-holeEC12p       | m^2/s | reduced hole exchange coefficient
-holeEC21p       | m^2/s | reduced hole exchange coefficient
-holeEC22p       | m^2/s | reduced hole exchange coefficient
-
+ZHalfHeight2    |   -   | Z(z) at half height of sub-cavity 2
+redD2           |  m/s  | Sub-cavity 2 reduced diffusivity
+arealLossRate2  |  /s   | Sub-cavity 2 reduced energy loss rate
+redWallEC2      | m^2/s | Sub-cavity 2 reduced side wall exchange coefficient
+redPartEC2      | m^2/s | Sub-cavity 2 reduced partition exchange coefficient
+redCylEC2       | m^2/s | Sub-cavity 2 reduced partition exchange coefficient
+redHoleEC11     | m^2/s | reduced hole exchange coefficient
+redHoleEC12     | m^2/s | reduced hole exchange coefficient
+redHoleEC21     | m^2/s | reduced hole exchange coefficient
+redHoleEC22     | m^2/s | reduced hole exchange coefficient
+  
 ## Power balance model parameters
 
 Variable        | Unit  | Description
@@ -179,4 +179,3 @@ S2rdB           | dB W/m^2 | Reverberant 2D power density field in decibels
 Delta2dB        |    dB    | Uniformity of 2D energy density in decibels
 J2dB            | dB W/m^2 | Magnitude of total 2D energy density flux field in decibels
 Upsilon2dB      |    dB    | Anisotropy of 2D power density in decibels
-
