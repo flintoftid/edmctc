@@ -79,6 +79,7 @@ comprehensive background and references.
 %\hline
 ACS              & (Average) Absorption Cross-Section  \\
 AE               &(Average) Absorption Efficiency      \\
+BC               &Boundary Condition                   \\
 EC               &(Energy) Exchange Coefficient        \\
 EM               &Electromagnetic                      \\
 FE               &Finite Element                       \\
@@ -242,7 +243,7 @@ value?}
 {\color{red} Question: How do we determine the diffusivity in cases with complex topology such as
 the test case with the cylinder? Empirically it appears the diffusivity is about one quarter of that
 of the empty sub-cavity in the dutal cavity case. In the single cavity case the effect is not
-noticable. The fitting method of determining MFP_fitting = 4S/S_fitting does not appear to be
+noticable. The fitting method of determining fittingMFP = 4S/fittingS does not appear to be
 appropriate for single contents which significiantly perturb the cavity shape.}
 
 \subsection[Absorption in the cavity walls]{Absorption in the cavity walls}
@@ -437,7 +438,7 @@ w\prt = W(x,y,t)Z(z),
 where the dimensionless function $Z(z)$ is assumed known a-priori
 (anzatz), for example, here it is assumed to be quadratic. This function must
 satisfy the Robin BCs applied on the  $z=0$ and  $z=L_z$ faces of the domain.
-If these upper and lower faces have the same uniform ECs $h_rw$ and the
+If these upper and lower faces have the same uniform ECs $h_\rw$ and the
 diffusivity in the domain is also uniform then
 \begin{align}
 Z(z) &= 1 + \xi\left( z-\frac{z^2}{L_z} \right)
@@ -526,7 +527,7 @@ which can be used to reduce the second order derivative term in the integral for
 &+\Lambda_V \iiint_{\Omega} u\pr w\prt\dif{V}
 =\iiint_{\Omega} u\pr p\prt\dif{V}.
 \end{align}
-The Robin boundary conditions
+The most general form of the Robin boundary conditions
 \begin{align}
 D\pr\uvn{\vcdot}{\vnabla} w\prt +h\pr w\prt-J_\rs\prt=0
 \end{align}
@@ -632,12 +633,13 @@ The system can be solved iteratively. We first initialise
 $J_{12}\prt$ using the homogeneous PWB solution in $\Omega_2$
 \begin{align}
 \begin{matrix}
-J_{12}\prt = h_{12}\pr w_{2;\rh} &\vr\in\partial\Omega_{12}
+J^0_{12}\prt = h_{12}\pr w_{2;\rh} &\vr\in\partial\Omega_{12}
 \end{matrix}
 \end{align}
 and then solve the FE system~(\ref{eq:wf:coup1}) in domain $\Omega_1$ using
-this value. $J_{21}\prt$ can then be calculated from~(\ref{eq:wf:coup:J21}) and 
-hence the FE system~(\ref{eq:wf:coup2}) in domain $\Omega_2$ can be  solved. 
+this value to give $w_1^0\prt$. $J^0_{21}\prt$ can then be calculated from~(\ref{eq:wf:coup:J21}),
+$J_{21}^0\prt = h_{21}\pr w^0_1\prt$, and hence the FE system~(\ref{eq:wf:coup2}) in domain $\Omega_2$ 
+can be  solved for $w_2^0\prt$. 
 This process is repeated until the solution has converged; this typically only 
 requires a handful of iterations.
 
@@ -645,17 +647,31 @@ For a flux continuity boundary condition
 \begin{align}
 \uvn_1{\vcdot}\left[D_1\pr{\vnabla}w_1\prt-D_2\pr{\vnabla}w_2\prt\right]=0
 \end{align}
-an iterative scheme can be also be applied. Robin BCs are enforced on each side
-of the boundary 
+an iterative scheme can be also be applied. The weak forms are as in~(\ref{eq:wf:coup1}) 
+and~(\ref{eq:wf:coup2}), but with the $h_{11}\pr$ and $h_{22}\pr$ terms omitted. Robin BCs 
+are enforced on each side of the boundary 
 \begin{align}
 \uvn_1{\vcdot}D_1\pr{\vnabla}w_1\prt+J_{21}\prt &=0 \\
 \uvn_2{\vcdot}D_2\pr{\vnabla}w_2\prt-J_{21}\prt &=0
 \end{align}
-in terms of the net energy flux from domain 1 into domain 2. At each iteration $n$ this can be
-update using a relaxation approach with relaxation parameter $\beta$:
+in terms of the net energy flux from domain 1 into domain 2. At each iteration, $n$, this can be
+updated using a relaxation approach with relaxation parameter $\beta\sim 0.1$:
 \begin{align}
-J^{n+1}_{21}\prt = \beta J^n_{21}\prt + ( 1 - \beta) h_{21}\pr \left[ w^n_1\prt - w^n_2\prt \right].
+J^{n+1}_{21}\prt &= \beta J^n_{21}\prt + ( 1 - \beta) h_{21}\pr \left[ w^n_1\prt - w^n_2\prt \right] \\
+J^{n+1}_{12}\prt &= \beta J^n_{12}\prt + ( 1 - \beta) h_{12}\pr \left[ w^n_2\prt - w^n_1\prt \right].
 \end{align}
+
+As described in Section~\ref{sc:sum:coup} the energy exchange BC and flux continuity BC approaches 
+are equivalent in the case of a lossless aperture. 
+
+Continuity of both the energy density and flux can be enforced using a Schwarz domain decompostion
+method:
+\begin{align}
+J^0_{21}\prt &= 0 \\
+J^{n+1}_{21}\prt &= J^n_{21}\prt + \beta h_{21}\pr \left[ w^n_1\prt - w^n_2\prt \right] \\
+J^{n+1}_{12}\prt &= -J^{n+1}_{21}\prt .
+\end{align}
+This is therefore equivalent to a single domain method.
 
 \subsection[Two dimensional FEM solution]{Two dimensional FEM solution}
 \label{sc:fem:2d}
@@ -743,7 +759,7 @@ $\alpha_\mathrm{cyl}$  &\texttt{cylAE}         &0.95 \\
 \begin{center}
 \includegraphics[width=0.6\linewidth]{figures/domains0}
 \vspace{-4mm}
-\caption{\label{fg:tcdom0} Domain nomenclature for single domain implementation of single cavity.}
+\caption{\label{fg:tcdom0} Domain nomenclature for a single domain implementation of the single cavity.}
 \end{center}
 \end{figure}
 
@@ -751,7 +767,8 @@ $\alpha_\mathrm{cyl}$  &\texttt{cylAE}         &0.95 \\
 \begin{center}
 \includegraphics[width=0.6\linewidth]{figures/domains1}
 \vspace{-4mm}
-\caption{\label{fg:tcdom1} Domain nomenclature for single domain implementation of dual cavity.}
+\caption{\label{fg:tcdom1} Domain nomenclature for a single domain implementation of the dual cavity, using
+a inhomogeneous diffusivity.}
 \end{center}
 \end{figure}
 
@@ -759,7 +776,7 @@ $\alpha_\mathrm{cyl}$  &\texttt{cylAE}         &0.95 \\
 \begin{center}
 \includegraphics[width=0.6\linewidth]{figures/domains2}
 \vspace{-4mm}
-\caption{\label{fg:tcdom2} Domain nomenclature for two domain implementation of dual cavity.}
+\caption{\label{fg:tcdom2} Domain nomenclature for a two domain implementation of the dual cavity.}
 \end{center}
 \end{figure}
 
