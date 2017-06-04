@@ -1,0 +1,276 @@
+//
+// 2D dual domain model of the Canonical Test Cases.
+// Energy exchange boundary condition version - continuity of energy density flux.
+//
+// (c) 2016-2017, Ian D. Flintoft <ian.flintoft@googlemail.com>
+//
+// This file is part of the Electromagnetic Diffusion Model (EDM) 
+// Canonical Example Suite [Flintoft2017,flintoft2017b].
+//
+// The EDM Canonical Example Suite is free software: you can 
+// redistribute it and/or modify it under the terms of the GNU 
+// General Public License as published by the Free Software 
+// Foundation, either version 3 of the License, or (at your option) 
+// any later version.
+//
+// The EDM Canonical Example Suite is distributed in the hope that 
+// it will be useful, but WITHOUT ANY WARRANTY; without even the 
+// implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+// PURPOSE.  See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with  The EDM Canonical Example Suite.  If not, 
+// see <http://www.gnu.org/licenses/>.
+//
+// References:
+//
+// [Flintoft2017] I D Flintoft, A C Marvin, F I Funn, L Dawson, X Zhang,
+// M P Robinson, and J F Dawson, "Evaluation of the diffusion equation for
+// modelling reverberant electromagnetic fields", IEEE Transactions on Electromagnetic
+// Compatibility, vol. 59, no. 3, pp. 760–769, 2017. DOI: 10.1109/TEMC.2016.2623356.
+//
+// [Flintoft2017b] I D Flintoft and J F Dawson, “3D electromagnetic diffusion models 
+// for reverberant environments”, 2017 International Conference on Electromagnetics 
+// in Advanced Applications (ICEAA2017), Verona, Italy, pp. 11-15 Sep. 2017.
+//
+
+// External modules.
+load "medit"
+
+// Utility macros.
+include "../../edp/macros.edp"
+
+// Import general EDM parameters. 
+include "../../edp/generalParameters.edp"
+
+// Import Canonical test case model parameters.
+include "../../edp/inputParameters.edp"
+
+// Canonical test case derived model parameters.
+include "../../edp/derivedParameters.edp"
+
+// PWB model.
+include "../../edp/PWB.edp"
+
+// Kantorovich reduction.
+include "../../edp/Kantorovich.edp"
+
+// Create 2D mesh.
+include "../../edp/mesh2D_DDM.edp"
+
+//
+// Finite element spaces.
+//
+
+fespace Vh1( Th1 , P1 ); 
+Vh1 W1 = w1pwb, U1;                              // Weak form test functions in cavity 1.
+Vh1 B1;                                          // Point source in cavity 1.
+Vh1 J12 = redHoleEC12 * w2pwb;                   // Energy density flux through aperture from sub-cavity 2 to sub-cavity 1.
+
+fespace Vh2( Th2 , P1 );
+Vh2 W2 = w2pwb , U2;                             // Weak form test functions in cavity 2.
+Vh2 J21 = redHoleEC21 * w1pwb;                   // Energy density flux through aperture from sub-cavity 1 to sub-cavity 2.
+
+// Poins sources.
+real srcExitance = srcTRP / srcPerimeter;        // Surface source exitance [W/m].
+real[int] xsource = [ srcX ];                    // Vector of x-coordinates of sources [m].
+real[int] ysource = [ srcY ];                    // Vector of y-coordinates of sources [m].
+real[int] zsource = [ srcZ ];                    // Vector of z-coordinates of sources [m].
+real[int] Pt = [ srcTRP ];                       // Vector of source isotropic radiate powers [W].
+
+// Interpolate delta-function sources.
+matrix SRC;
+if( !isSrc ) {
+  SRC = interpolate( Vh1 , xsource , ysource );
+  B1[] = SRC * Pt;
+  B1[] = -B1[];
+}
+
+//
+// FEM solution.
+//
+
+int iterationCounter = 1;                  // Iteration counter.
+real relTolerance = 1e-3;                  // Relative tolerance for total energy convergence.
+real totalEnergy1old = int2d(Th1)( W1 );   // Total energy in sub-cavity 1 at last iteration.
+real totalEnergy2old = int2d(Th2)( W2 );   // Total energy in sub-cavity 2 at last iteration.
+real totalEnergy1;                         // Total energy in sub-cavity 2 at current iteration.
+real totalEnergy2;                         // Total energy in sub-cavity 2 at current iteration.
+
+// Solve the weak form of the diffusion equation.
+if( !isCyl && !isSrc ) {
+
+  problem diffusion1( W1 , U1 , init = iterationCounter , solver = CG ) 
+    = int2d(Th1)       ( redD1 * ( dx(W1) * dx(U1) + dy(W1) * dy(U1) ) )  // Laplace operator.
+    + int2d(Th1)       ( arealLossRate1 * W1 * U1 )                       // Kantorovich loss term.
+    + int1d(Th1,Gwall1)( W1 * U1 * redWallEC1 )                           // Losses on cavity 1 walls.
+    + int1d(Th1,Gpart1)( W1 * U1 * redPartEC1 )                           // Losses on cavity 1 partition.
+    + int1d(Th1,Ghole1)( redHoleEC11 * W1 * U1 )                          // Aperture coupling - out.
+    + int1d(Th1,Ghole1)( -J12 * U1 )                                      // Aperture coupling - in.
+    + B1[];                                                               // Point source.
+    
+   problem diffusion2( W2 , U2 , init = iterationCounter , solver = CG ) 
+    = int2d(Th2)       ( redD2 * ( dx(W2) * dx(U2) + dy(W2) * dy(U2) ) )  // Laplace operator.
+    + int2d(Th2)       ( arealLossRate2 * W2 * U2 )                       // Kantorovich loss term.
+    + int1d(Th2,Gwall2)( W2 * U2 * redWallEC2 )                           // Losses on cavity 2 walls.
+    + int1d(Th2,Gpart2)( W2 * U2 * redPartEC2 )                           // Losses on cavity 2 partition.
+    + int1d(Th2,Ghole2)( redHoleEC22 * W2 * U2 )                          // Aperture coupling - out.
+    + int1d(Th2,Ghole2)( -J21 * U2 );                                     // Aperture coupling - in.
+    
+  while( true )
+  {
+    diffusion1;
+    J21 = redHoleEC21 * W1;
+    diffusion2;
+    J12 = redHoleEC12 * W2; 
+    cout << "Iteration : " << iterationCounter << endl;    
+    cout << "  W1: " << W1(Lx1/2,Ly/2) << endl;
+    cout << "  W2: " << W2(Lx1+Lx2/4,Ly/2) << endl;
+    Vh1 W1dB = 10 * log10( abs( W1 ) );
+    Vh2 W2dB = 10 * log10( abs( W2 ) );
+    plot(  W1dB , W2dB , value = true , wait = 0 , fill = true , nbiso = 20 , cmm = "Energy density (dB J/m^3)" );
+    totalEnergy1 = int2d(Th1)( W1 );
+    totalEnergy2 = int2d(Th2)( W2 );
+    if( abs( ( totalEnergy1 - totalEnergy1old ) / totalEnergy1old ) < relTolerance && abs(  ( totalEnergy2 - totalEnergy2old ) / totalEnergy2old ) < relTolerance )
+      break;
+    totalEnergy1old = totalEnergy1;
+    totalEnergy2old = totalEnergy2;
+    iterationCounter = iterationCounter + 1;
+  }
+    
+}
+else if( isCyl && !isSrc ) {
+
+  problem diffusion1( W1 , U1 , init = iterationCounter , solver = CG ) 
+    = int2d(Th1)       ( redD1 * ( dx(W1) * dx(U1) + dy(W1) * dy(U1) ) )  // Laplace operator.
+    + int2d(Th1)       ( arealLossRate1 * W1 * U1 )                       // Kantorovich loss term.
+    + int1d(Th1,Gwall1)( W1 * U1 * redWallEC1 )                           // Losses on cavity 1 walls.
+    + int1d(Th1,Gpart1)( W1 * U1 * redPartEC1 )                           // Losses on cavity 1 partition.
+    + int1d(Th1,Ghole1)( redHoleEC11 * W1 * U1 )                          // Aperture coupling - out.
+    + int1d(Th1,Ghole1)( -J12 * U1 )                                      // Aperture coupling - in.
+    + B1[];                                                               // Point source.
+    
+   problem diffusion2( W2 , U2 , init = iterationCounter , solver = CG ) 
+    = int2d(Th2)       ( redD2 * ( dx(W2) * dx(U2) + dy(W2) * dy(U2) ) )  // Laplace operator.
+    + int2d(Th2)       ( arealLossRate2 * W2 * U2 )                       // Kantorovich loss term.
+    + int1d(Th2,Gwall2)( W2 * U2 * redWallEC2 )                           // Losses on cavity 2 walls.
+    + int1d(Th2,Gpart2)( W2 * U2 * redPartEC2 )                           // Losses on cavity 2 partition.
+    + int1d(Th2,Gcyl)  ( W2 * U2 * redCylEC )                             // Robin BC on cylinder.
+    + int1d(Th2,Ghole2)( redHoleEC22 * W2 * U2 )                          // Aperture coupling - out.
+    + int1d(Th2,Ghole2)( -J21 * U2 );                                     // Aperture coupling - in.
+    
+  while( true )
+  {
+    diffusion1;
+    J21 = redHoleEC21 * W1;
+    diffusion2;
+    J12 = redHoleEC12 * W2; 
+    cout << "Iteration : " << iterationCounter << endl;    
+    cout << "  W1: " << W1(Lx1/2,Ly/2) << endl;
+    cout << "  W2: " << W2(Lx1+Lx2/4,Ly/2) << endl;
+    Vh1 W1dB = 10 * log10( abs( W1 ) );
+    Vh2 W2dB = 10 * log10( abs( W2 ) );
+    plot(  W1dB , W2dB , value = true , wait = 0 , fill = true , nbiso = 20 , cmm = "Energy density (dB J/m^3)" );
+    totalEnergy1 = int2d(Th1)( W1 );
+    totalEnergy2 = int2d(Th2)( W2 );
+    if( abs( ( totalEnergy1 - totalEnergy1old ) / totalEnergy1old ) < relTolerance && abs(  ( totalEnergy2 - totalEnergy2old ) / totalEnergy2old ) < relTolerance )
+      break;
+    totalEnergy1old = totalEnergy1;
+    totalEnergy2old = totalEnergy2;
+    iterationCounter = iterationCounter + 1;
+  }
+
+}
+else if( !isCyl && isSrc ) {
+
+  problem diffusion1( W1 , U1 , init = iterationCounter , solver = CG ) 
+    = int2d(Th1)       ( redD1 * ( dx(W1) * dx(U1) + dy(W1) * dy(U1) ) )  // Laplace operator.
+    + int2d(Th1)       ( arealLossRate1 * W1 * U1 )                       // Kantorovich loss term.
+    + int1d(Th1,Gwall1)( W1 * U1 * redWallEC1 )                           // Losses on cavity 1 walls.
+    + int1d(Th1,Gpart1)( W1 * U1 * redPartEC1 )                           // Losses on cavity 1 partition.
+    + int1d(Th1,Ghole1)( redHoleEC11 * W1 * U1 )                          // Aperture coupling - out.
+    + int1d(Th1,Ghole1)( -J12 * U1 )                                      // Aperture coupling - in.
+    - int1d(Th1,Gsrc)  ( U1 * srcExitance );                              // Surface source.
+    
+   problem diffusion2( W2 , U2 , init = iterationCounter , solver = CG ) 
+    = int2d(Th2)       ( redD2 * ( dx(W2) * dx(U2) + dy(W2) * dy(U2) ) )  // Laplace operator.
+    + int2d(Th2)       ( arealLossRate2 * W2 * U2 )                       // Kantorovich loss term.
+    + int1d(Th2,Gwall2)( W2 * U2 * redWallEC2 )                           // Losses on cavity 2 walls.
+    + int1d(Th2,Gpart2)( W2 * U2 * redPartEC2 )                           // Losses on cavity 2 partition.
+    + int1d(Th2,Ghole2)( redHoleEC22 * W2 * U2 )                          // Aperture coupling - out.
+    + int1d(Th2,Ghole2)( -J21 * U2 );                                     // Aperture coupling - in.
+    
+  while( true )
+  {
+    diffusion1;
+    J21 = redHoleEC21 * W1;
+    diffusion2;
+    J12 = redHoleEC12 * W2; 
+    cout << "Iteration : " << iterationCounter << endl;    
+    cout << "  W1: " << W1(Lx1/2,Ly/2) << endl;
+    cout << "  W2: " << W2(Lx1+Lx2/4,Ly/2) << endl;
+    Vh1 W1dB = 10 * log10( abs( W1 ) );
+    Vh2 W2dB = 10 * log10( abs( W2 ) );
+    plot(  W1dB , W2dB , value = true , wait = 0 , fill = true , nbiso = 20 , cmm = "Energy density (dB J/m^3)" );
+    totalEnergy1 = int2d(Th1)( W1 );
+    totalEnergy2 = int2d(Th2)( W2 );
+    if( abs( ( totalEnergy1 - totalEnergy1old ) / totalEnergy1old ) < relTolerance && abs(  ( totalEnergy2 - totalEnergy2old ) / totalEnergy2old ) < relTolerance )
+      break;
+    totalEnergy1old = totalEnergy1;
+    totalEnergy2old = totalEnergy2;
+    iterationCounter = iterationCounter + 1;
+  }
+
+}
+else if( isCyl && isSrc ) {
+
+  problem diffusion1( W1 , U1 , init = iterationCounter , solver = CG ) 
+    = int2d(Th1)       ( redD1 * ( dx(W1) * dx(U1) + dy(W1) * dy(U1) ) )  // Laplace operator.
+    + int2d(Th1)       ( arealLossRate1 * W1 * U1 )                       // Kantorovich loss term.
+    + int1d(Th1,Gwall1)( W1 * U1 * redWallEC1 )                           // Losses on cavity 1 walls.
+    + int1d(Th1,Gpart1)( W1 * U1 * redPartEC1 )                           // Losses on cavity 1 partition.
+    + int1d(Th1,Ghole1)( redHoleEC11 * W1 * U1 )                          // Aperture coupling - out.
+    + int1d(Th1,Ghole1)( -J12 * U1 )                                      // Aperture coupling - in.
+    - int1d(Th1,Gsrc)  ( U1 * srcExitance );                              // Surface source.
+    
+   problem diffusion2( W2 , U2 , init = iterationCounter , solver = CG ) 
+    = int2d(Th2)       ( redD2 * ( dx(W2) * dx(U2) + dy(W2) * dy(U2) ) )  // Laplace operator.
+    + int2d(Th2)       ( arealLossRate2 * W2 * U2 )                       // Kantorovich loss term.
+    + int1d(Th2,Gwall2)( W2 * U2 * redWallEC2 )                           // Losses on cavity 2 walls.
+    + int1d(Th2,Gpart2)( W2 * U2 * redPartEC2 )                           // Losses on cavity 2 partition.
+    + int1d(Th2,Gcyl)  ( W2 * U2 * redCylEC )                             // Robin BC on cylinder.
+    + int1d(Th2,Ghole2)( redHoleEC22 * W2 * U2 )                          // Aperture coupling - out.
+    + int1d(Th2,Ghole2)( -J21 * U2 );                                     // Aperture coupling - in.
+    
+  while( true )
+  {
+    diffusion1;
+    J21 = redHoleEC21 * W1;
+    diffusion2;
+    J12 = redHoleEC12 * W2; 
+    cout << "Iteration : " << iterationCounter << endl;    
+    cout << "  W1: " << W1(Lx1/2,Ly/2) << endl;
+    cout << "  W2: " << W2(Lx1+Lx2/4,Ly/2) << endl;
+    Vh1 W1dB = 10 * log10( abs( W1 ) );
+    Vh2 W2dB = 10 * log10( abs( W2 ) );
+    plot(  W1dB , W2dB , value = true , wait = 0 , fill = true , nbiso = 20 , cmm = "Energy density (dB J/m^3)" );
+    totalEnergy1 = int2d(Th1)( W1 );
+    totalEnergy2 = int2d(Th2)( W2 );
+    if( abs( ( totalEnergy1 - totalEnergy1old ) / totalEnergy1old ) < relTolerance && abs(  ( totalEnergy2 - totalEnergy2old ) / totalEnergy2old ) < relTolerance )
+      break;
+    totalEnergy1old = totalEnergy1;
+    totalEnergy2old = totalEnergy2;
+    iterationCounter = iterationCounter + 1;
+  }
+
+}
+
+// Determine energy density at half-height of cavities.
+Vh1 w1 = ZHalfHeight1 * W1;
+Vh2 w2 = ZHalfHeight2 * W2;
+
+// Postprocessing.
+include "../../edp/postprocess2D_DDM.edp"
+
+// Export energy density and flux.
+include "../../edp/export2D_DDM.edp"

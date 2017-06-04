@@ -1,0 +1,194 @@
+//
+// 2D single domain model of the Canonical Test Cases.
+//
+// (c) 2016-2017, Ian D. Flintoft <ian.flintoft@googlemail.com>
+//
+// This file is part of the Electromagnetic Diffusion Model (EDM) 
+// Canonical Example Suite [Flintoft2017,flintoft2017b].
+//
+// The EDM Canonical Example Suite is free software: you can 
+// redistribute it and/or modify it under the terms of the GNU 
+// General Public License as published by the Free Software 
+// Foundation, either version 3 of the License, or (at your option) 
+// any later version.
+//
+// The EDM Canonical Example Suite is distributed in the hope that 
+// it will be useful, but WITHOUT ANY WARRANTY; without even the 
+// implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+// PURPOSE.  See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with  The EDM Canonical Example Suite.  If not, 
+// see <http://www.gnu.org/licenses/>.
+//
+// References:
+//
+// [Flintoft2017] I D Flintoft, A C Marvin, F I Funn, L Dawson, X Zhang,
+// M P Robinson, and J F Dawson, "Evaluation of the diffusion equation for
+// modelling reverberant electromagnetic fields", IEEE Transactions on Electromagnetic
+// Compatibility, vol. 59, no. 3, pp. 760–769, 2017. DOI: 10.1109/TEMC.2016.2623356.
+//
+// [Flintoft2017b] I D Flintoft and J F Dawson, “3D electromagnetic diffusion models 
+// for reverberant environments”, 2017 International Conference on Electromagnetics 
+// in Advanced Applications (ICEAA2017), Verona, Italy, pp. 11-15 Sep. 2017.
+//
+
+// External modules.
+load "medit"
+
+// Utility macros.
+include "../../edp/macros.edp"
+
+// Import general EDM parameters. 
+include "../../edp/generalParameters.edp"
+
+// Import Canonical test case model parameters.
+include "../../edp/inputParameters.edp"
+
+// Canonical test case derived model parameters.
+include "../../edp/derivedParameters.edp"
+
+// PWB model.
+include "../../edp/PWB.edp"
+
+// Kantorovich reduction.
+include "../../edp/Kantorovich.edp"
+
+// Create 2D mesh.
+include "../../edp/mesh2D.edp"
+
+//
+// Finite element spaces.
+//
+
+fespace Vh( Th , P1 ); 
+Vh W , U;              // Weak form test functions in cavities.
+Vh B;                  // Point source.
+
+// Poins sources.
+real srcExitance = srcTRP / srcPerimeter;        // Surface source exitance [W/m].
+real[int] xsource = [ srcX ];                    // Vector of x-coordinates of sources [m].
+real[int] ysource = [ srcY ];                    // Vector of y-coordinates of sources [m].
+real[int] zsource = [ srcZ ];                    // Vector of z-coordinates of sources [m].
+real[int] Pt = [ srcTRP ];                       // Vector of source isotropic radiate powers [W].
+
+// Interpolate delta-function sources.
+matrix SRC;
+if( !isSrc ) {
+  SRC = interpolate( Vh , xsource , ysource );
+  B[] = SRC * Pt;
+  B[] = -B[];
+}
+
+//
+// FEM solution.
+//
+
+// Macros for diffusivity in whole domain.
+func D = D1 * ( x <= partX ) + D2 * ( x > partX );
+func redD = redD1 * ( x <= partX ) + redD2 * ( x > partX );
+func arealLossRate = arealLossRate1 * ( x <= partX ) + arealLossRate2 * ( x > partX );
+
+// Solve the weak form of the diffusion equation.
+if( !isCyl && !isPart && !isSrc ) {
+
+  solve diffusion( W , U , solver = CG ) 
+    = int2d(Th)       ( redD * ( dx(W) * dx(U) + dy(W) * dy(U) ) )  // Laplace operator.
+    + int2d(Th)       ( arealLossRate * W * U )                     // Kantorovich loss term.
+    + int1d(Th,Gwall1)( W * U * redWallEC1 )                        // Losses on cavity 1 walls.
+    + int1d(Th,Gwall2)( W * U * redWallEC2 )                        // Losses on cavity 2 walls.  
+    + B[];                                                          // Point source.
+ 
+}
+else if( isCyl && !isPart && !isSrc ) {
+
+  solve diffusion( W , U , solver = CG ) 
+    = int2d(Th)       ( redD * ( dx(W) * dx(U) + dy(W) * dy(U) ) )  // Laplace operator.
+    + int2d(Th)       ( arealLossRate * W * U )                     // Kantorovich loss term.
+    + int1d(Th,Gwall1)( W * U * redWallEC1 )                        // Losses on cavity 1 walls.
+    + int1d(Th,Gwall2)( W * U * redWallEC2 )                        // Losses on cavity 2 walls.
+    + int1d(Th,Gcyl)  ( W * U * redCylEC )                          // Robin BC on cylinder.
+    + B[];                                                          // Point source.
+
+}
+else if( !isCyl && isPart && !isSrc ) {
+
+  solve diffusion( W , U , solver = CG ) 
+    = int2d(Th)       ( redD * ( dx(W) * dx(U) + dy(W) * dy(U) ) )  // Laplace operator.
+    + int2d(Th)       ( arealLossRate * W * U )                     // Kantorovich loss term.
+    + int1d(Th,Gwall1)( W * U * redWallEC1 )                        // Losses on cavity 1 walls.
+    + int1d(Th,Gwall2)( W * U * redWallEC2 )                        // Losses on cavity 2 walls.  
+    + int1d(Th,Gpart1)( W * U * redPartEC1 )                        // Losses on partition on cavity 1 side.
+    + int1d(Th,Gpart2)( W * U * redPartEC2 )                        // Losses on partition on cavity 2 side.
+    + B[];                                                          // Point source.
+    
+}
+else if( isCyl && isPart && !isSrc ) {
+
+  solve diffusion( W , U , solver = CG ) 
+    = int2d(Th)       ( redD * ( dx(W) * dx(U) + dy(W) * dy(U) ) )  // Laplace operator.
+    + int2d(Th)       ( arealLossRate * W * U )                     // Kantorovich loss term.
+    + int1d(Th,Gwall1)( W * U * redWallEC1 )                        // Losses on cavity 1 walls.
+    + int1d(Th,Gwall2)( W * U * redWallEC2 )                        // Losses on cavity 2 walls.  
+    + int1d(Th,Gpart1)( W * U * redPartEC1 )                        // Losses on partition on cavity 1 side.
+    + int1d(Th,Gpart2)( W * U * redPartEC2 )                        // Losses on partition on cavity 2 side.
+    + int1d(Th,Gcyl)  ( W * U * redCylEC )                          // Robin BC on cylinder.
+    + B[];                                                          // Point source.
+
+}
+else if( !isCyl && !isPart && isSrc ) {
+
+  solve diffusion( W , U , solver = CG ) 
+    = int2d(Th)       ( redD * ( dx(W) * dx(U) + dy(W) * dy(U) ) )  // Laplace operator.
+    + int2d(Th)       ( arealLossRate * W * U )                     // Kantorovich loss term.
+    + int1d(Th,Gwall1)( W * U * redWallEC1 )                        // Losses on cavity 1 walls.
+    + int1d(Th,Gwall2)( W * U * redWallEC2 )                        // Losses on cavity 2 walls.  
+    + int1d(Th,Gcyl)  ( W * U * redCylEC )                          // Robin BC on cylinder.
+    - int1d(Th,Gsrc)  ( U * srcExitance );                          // Surface source.
+    
+}
+else if( isCyl && !isPart && isSrc ) {
+
+  solve diffusion( W , U , solver = CG ) 
+    = int2d(Th)       ( redD * ( dx(W) * dx(U) + dy(W) * dy(U) ) )  // Laplace operator.
+    + int2d(Th)       ( arealLossRate * W * U )                     // Kantorovich loss term.
+    + int1d(Th,Gwall1)( W * U * redWallEC1 )                        // Losses on cavity 1 walls.
+    + int1d(Th,Gwall2)( W * U * redWallEC2 )                        // Losses on cavity 2 walls.
+    + int1d(Th,Gcyl)  ( W * U * redCylEC )                          // Robin BC on cylinder.
+    - int1d(Th,Gsrc)  ( U * srcExitance );                          // Surface source.
+    
+}
+else if( !isCyl && isPart && isSrc ) {
+
+  solve diffusion( W , U , solver = CG ) 
+    = int2d(Th)       ( redD * ( dx(W) * dx(U) + dy(W) * dy(U) ) )  // Laplace operator.
+    + int2d(Th)       ( arealLossRate * W * U )                     // Kantorovich loss term.
+    + int1d(Th,Gwall1)( W * U * redWallEC1 )                        // Losses on cavity 1 walls.
+    + int1d(Th,Gwall2)( W * U * redWallEC2 )                        // Losses on cavity 2 walls.  
+    + int1d(Th,Gpart1)( W * U * redPartEC1 )                        // Losses on partition on cavity 1 side.
+    + int1d(Th,Gpart2)( W * U * redPartEC2 )                        // Losses on partition on cavity 2 side.
+    - int1d(Th,Gsrc)  ( U * srcExitance );                          // Surface source.
+
+}
+else if( isCyl && isPart && isSrc ) {
+
+  solve diffusion( W , U , solver = CG ) 
+    = int2d(Th)       ( redD * ( dx(W) * dx(U) + dy(W) * dy(U) ) )  // Laplace operator.
+    + int2d(Th)       ( arealLossRate * W * U )                     // Kantorovich loss term.
+    + int1d(Th,Gwall1)( W * U * redWallEC1 )                        // Losses on cavity 1 walls.
+    + int1d(Th,Gwall2)( W * U * redWallEC2 )                        // Losses on cavity 2 walls.  
+    + int1d(Th,Gpart1)( W * U * redPartEC1 )                        // Losses on partition on cavity 1 side.
+    + int1d(Th,Gpart2)( W * U * redPartEC2 )                        // Losses on partition on cavity 2 side.
+    + int1d(Th,Gcyl)  ( W * U * redCylEC )                          // Robin BC on cylinder.
+    - int1d(Th,Gsrc)  ( U * srcExitance );                          // Surface source.
+
+}
+
+// Determine energy density at half-height of cavities.
+Vh w = ZHalfHeight1 * W * ( x <= partX ) + ZHalfHeight2 * W * ( x > partX );
+
+// Postprocessing.
+include "../../edp/postprocess2D.edp"
+
+// Export energy density and flux.
+include "../../edp/export2D.edp"

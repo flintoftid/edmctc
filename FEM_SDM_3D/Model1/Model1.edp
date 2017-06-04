@@ -1,0 +1,165 @@
+//
+// 3D single domain model of the Canonical Test Cases.
+//
+// (c) 2016-2017, Ian D. Flintoft <ian.flintoft@googlemail.com>
+//
+// This file is part of the Electromagnetic Diffusion Model (EDM) 
+// Canonical Example Suite [Flintoft2017,flintoft2017b].
+//
+// The EDM Canonical Example Suite is free software: you can 
+// redistribute it and/or modify it under the terms of the GNU 
+// General Public License as published by the Free Software 
+// Foundation, either version 3 of the License, or (at your option) 
+// any later version.
+//
+// The EDM Canonical Example Suite is distributed in the hope that 
+// it will be useful, but WITHOUT ANY WARRANTY; without even the 
+// implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+// PURPOSE.  See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with  The EDM Canonical Example Suite.  If not, 
+// see <http://www.gnu.org/licenses/>.
+//
+// References:
+//
+// [Flintoft2017] I D Flintoft, A C Marvin, F I Funn, L Dawson, X Zhang,
+// M P Robinson, and J F Dawson, "Evaluation of the diffusion equation for
+// modelling reverberant electromagnetic fields", IEEE Transactions on Electromagnetic
+// Compatibility, vol. 59, no. 3, pp. 760–769, 2017. DOI: 10.1109/TEMC.2016.2623356.
+//
+// [Flintoft2017b] I D Flintoft and J F Dawson, “3D electromagnetic diffusion models 
+// for reverberant environments”, 2017 International Conference on Electromagnetics 
+// in Advanced Applications (ICEAA2017), Verona, Italy, pp. 11-15 Sep. 2017.
+//
+
+// External modules.
+load "medit"
+
+// Utility macros.
+include "../../edp/macros.edp"
+
+// Import general EDM parameters. 
+include "../../edp/generalParameters.edp"
+
+// Import Canonical test case model parameters.
+include "../../edp/inputParameters.edp"
+
+// Canonical test case derived model parameters.
+include "../../edp/derivedParameters.edp"
+
+// PWB model.
+include "../../edp/PWB.edp"
+
+// Mesh.
+include "../../edp/mesh3D.edp"
+
+//
+// Finite element spaces.
+//
+
+fespace Vh( Th , P1 ); 
+Vh w , v;                 // Weak form test functions.
+Vh b;                     // Point source in cavity 1.
+
+// Poins sources.
+real srcExitance = srcTRP / srcArea;             // Surface source exitance [W/m].
+real[int] xsource = [ srcX ];                    // Vector of x-coordinates of sources [m].
+real[int] ysource = [ srcY ];                    // Vector of y-coordinates of sources [m].
+real[int] zsource = [ srcZ ];                    // Vector of z-coordinates of sources [m].
+real[int] Pt = [ srcTRP ];                       // Vector of source isotropic radiate powers [W].
+
+// Interpolate delta-function sources.
+matrix SRC;
+if( !isSrc ) {
+  SRC = interpolate( Vh , xsource , ysource , zsource );
+  b[] = SRC * Pt;
+  b[] = -b[];
+}
+
+//
+// FEM solution.
+//
+
+// Macro for diffusivity in whole domain.
+func D = D1 * ( x <= partX ) + D2 * ( x > partX );
+
+// Solve the weak form of the diffusion equation.
+if( isPart && !isCyl && !isSrc ) {
+
+  solve diffusion( w , v , solver = CG ) 
+    = int3d(Th)( D * ( dx(w) * dx(v) + dy(w) * dy(v) + dz(w) * dz(v) ) )
+    + int2d(Th,Gwall)( w * v * wallEC )         
+    + int2d(Th,Gpart)( w * v * partEC )   
+    + b[];
+
+}
+else if( isPart && isCyl && !isSrc ){
+
+  solve diffusion( w , v , solver = CG ) 
+    = int3d(Th)( D * ( dx(w) * dx(v) + dy(w) * dy(v) + dz(w) * dz(v) ) )
+    + int2d(Th,Gwall)( w * v * wallEC )
+    + int2d(Th,Gpart)( w * v * partEC )
+    + int2d(Th,Gcyl)( w * v * cylEC )        
+    + b[];
+
+}
+else if( isPart && !isCyl && isSrc ) {
+
+  solve diffusion( w , v , solver = CG ) 
+    = int3d(Th)( D * ( dx(w) * dx(v) + dy(w) * dy(v) + dz(w) * dz(v) ) )
+    + int2d(Th,Gwall)( w * v * wallEC )
+    + int2d(Th,Gpart)( w * v * partEC ) 
+    - int2d(Th,Gsrc)( v * srcExitance );  
+
+}
+else if( isPart && isCyl && isSrc ) {
+
+  solve diffusion( w , v , solver = CG ) 
+    = int3d(Th)( D * ( dx(w) * dx(v) + dy(w) * dy(v) + dz(w) * dz(v) ) )
+    + int2d(Th,Gwall)( w * v * wallEC )
+    + int2d(Th,Gpart)( w * v * partEC )
+    + int2d(Th,Gcyl)( w * v * cylEC )   
+    - int2d(Th,Gsrc)( v * srcExitance );  
+
+}
+else if( !isPart && !isCyl && !isSrc ) {
+
+  solve diffusion( w , v , solver = CG ) 
+    = int3d(Th)( D * ( dx(w) * dx(v) + dy(w) * dy(v) + dz(w) * dz(v) ) )
+    + int2d(Th,Gwall)( w * v * wallEC )
+    + b[];
+
+}
+else if( !isPart && isCyl && !isSrc ){
+
+  solve diffusion( w , v , solver = CG ) 
+    = int3d(Th)( D * ( dx(w) * dx(v) + dy(w) * dy(v) + dz(w) * dz(v) ) )
+    + int2d(Th,Gwall)( w * v * wallEC )
+    + int2d(Th,Gcyl)( w * v * cylEC )        
+    + b[];
+
+}
+else if( !isPart && !isCyl && isSrc ) {
+
+  solve diffusion( w , v , solver = CG ) 
+    = int3d(Th)( D * ( dx(w) * dx(v) + dy(w) * dy(v) + dz(w) * dz(v) ) )
+    + int2d(Th,Gwall)( w * v * wallEC )
+    - int2d(Th,Gsrc)( v * srcExitance );  
+
+}
+else if( !isPart && isCyl && isSrc ) {
+
+  solve diffusion( w , v , solver = CG ) 
+    = int3d(Th)( D * ( dx(w) * dx(v) + dy(w) * dy(v) + dz(w) * dz(v) ) )
+    + int2d(Th,Gwall)( w * v * wallEC )
+    + int2d(Th,Gcyl)( w * v * cylEC )   
+    - int2d(Th,Gsrc)( v * srcExitance );  
+
+}
+
+// Postprocessing.
+include "../../edp/postprocess3D.edp"
+
+// Export energy density and flux.
+include "../../edp/export3D.edp"

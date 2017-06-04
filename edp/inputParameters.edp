@@ -1,0 +1,114 @@
+//
+// Import model parameters.
+//
+// (c) 2016-2017, Ian D. Flintoft <ian.flintoft@googlemail.com>
+//
+// This file is part of the Electromagnetic Diffusion Model (EDM) 
+// Canonical Example Suite [Flintoft2017,flintoft2017b].
+//
+// The EDM Canonical Example Suite is free software: you can 
+// redistribute it and/or modify it under the terms of the GNU 
+// General Public License as published by the Free Software 
+// Foundation, either version 3 of the License, or (at your option) 
+// any later version.
+//
+// The EDM Canonical Example Suite is distributed in the hope that 
+// it will be useful, but WITHOUT ANY WARRANTY; without even the 
+// implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+// PURPOSE.  See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with  The EDM Canonical Example Suite.  If not, 
+// see <http://www.gnu.org/licenses/>.
+//
+// References:
+//
+// [Flintoft2017] I D Flintoft, A C Marvin, F I Funn, L Dawson, X Zhang,
+// M P Robinson, and J F Dawson, "Evaluation of the diffusion equation for
+// modelling reverberant electromagnetic fields", IEEE Transactions on Electromagnetic
+// Compatibility, vol. 59, no. 3, pp. 760–769, 2017. DOI: 10.1109/TEMC.2016.2623356.
+//
+// [Flintoft2017b] I D Flintoft and J F Dawson, “3D electromagnetic diffusion models 
+// for reverberant environments”, 2017 International Conference on Electromagnetics 
+// in Advanced Applications (ICEAA2017), Verona, Italy, pp. 11-15 Sep. 2017.
+//
+
+// ASCII file with input parameters.
+ifstream inputfile( "parameters.geo" );
+
+bool isSrc;                                  // True if source is modelled as a surface, else point source.
+skippastequals( inputfile ) >> isSrc;
+cout << "isSrc: " << isSrc << endl;
+bool isCyl;                                  // True if cylinder is present.
+skippastequals( inputfile ) >> isCyl;
+cout << "isCyl: " << isCyl << endl;
+bool isPart;                                 // True if cavity is partitioned.
+skippastequals( inputfile ) >> isPart;
+cout << "isPart: " << isPart << endl;
+bool isSabine;                               // True if Sabine loss model, else Jing and Xiang.
+skippastequals( inputfile ) >> isSabine;
+cout << "isSabine: " << isSabine << endl;
+real Lx;                                     // Cavity size in x-direction [m].
+skippastequals( inputfile ) >> Lx; 
+cout << "Lx: " << Lx << endl;
+real Ly;                                     // Cavity size in y-direction [m].
+skippastequals( inputfile ) >> Ly;
+cout << "Ly: " << Ly << endl;
+real Lz;                                     // Cavity size in z-direction [m].
+skippastequals( inputfile ) >> Lz;
+cout << "Lz: " << Lz << endl;
+real wallAE;                                 // Absorption efficiency of cavity walls [-].
+skippastequals( inputfile ) >> wallAE;
+cout << "wallAE: " << wallAE << endl;
+real partX;                                  //  x-coordinate of partition [m].
+skippastequals( inputfile ) >> partX;
+cout << "partX: " << partX << endl;
+real partThickness;                          // Partition thickness [m].
+skippastequals( inputfile ) >> partThickness;
+cout << "partThickness: " << partThickness << endl;
+real partAE;                                 // Absorption efficiency of partition [-].
+skippastequals( inputfile ) >> partAE;
+cout << "partAE: " << partAE << endl;
+real holeWidth;                              // Width of hole [m].
+skippastequals( inputfile ) >> holeWidth;
+cout << "holeWidth: " << holeWidth << endl;
+real holeTE;                                 // Transmission efficiency of hole [-].
+skippastequals( inputfile ) >> holeTE;
+cout << "holeTE: " << holeTE << endl;
+real cylXWithPart;                           // x-coordinate of cylinder if partition is present [m].
+skippastequals( inputfile ) >> cylXWithPart;
+cout << "cylXWithPart: " << cylXWithPart << endl;
+real cylXWithoutPart;                        // x-coordinate of cylinder if partition is not present [m].
+skippastequals( inputfile ) >> cylXWithoutPart;
+cout << "cylXWithoutPart: " << cylXWithoutPart << endl;
+real cylY;                                   // y-coordinate of cylinder [m].
+skippastequals( inputfile ) >> cylY;
+cout << "cylY: " << cylY << endl;
+real cylRadius;                              // Cylinder radius [m].
+skippastequals( inputfile ) >> cylRadius;
+cout << "cylRadius: " << cylRadius << endl;
+real cylAE;                                  // Absorption efficiency of cylinder [-].
+skippastequals( inputfile ) >> cylAE;
+cout << "cylAE: " << cylAE << endl;
+real srcX;                                   // x-coordinate of source [m].
+skippastequals( inputfile ) >> srcX;
+cout << "srcX: " << srcX << endl;
+real srcY;                                   // y-coordinate of source [m].
+skippastequals( inputfile ) >> srcY;
+cout << "srcY: " << srcY << endl;
+real srcZ;                                   // z-coordinate of source [m].
+skippastequals( inputfile ) >> srcZ;
+cout << "srcZ: " << srcZ << endl;
+real srcRadius;                              // Source radius if surface source [m].
+skippastequals( inputfile ) >> srcRadius;
+cout << "srcRadius: " << srcRadius << endl;
+real srcTRP;                                 //  Total radiated power of source [W].
+skippastequals( inputfile ) >> srcTRP;
+cout << "srcTRP: " << srcTRP << endl;
+
+// Cylinder x-coordinate depends on isPart!
+real cylX;
+if( isPart )
+  cylX = cylXWithPart;            
+else
+  cylX = cylXWithoutPart; 

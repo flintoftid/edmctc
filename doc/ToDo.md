@@ -2,8 +2,17 @@
 
 * Verfiy the 2D spurious direct solution - need to find good reference
   for the 2D time-independent Green's function of the Poisson equation.
+  The 2D Green's function is 
+  
+    -1 / ( 2 * pi * D ) * log(|r-r0|)
+  
+  rather than the 3D Green's function 
+  
+    1 / ( 4 * pi * D * | r - r0 | )
 
-* Convert implementation notes to LaTeX and add to repo.  
+* Especially is the calculation and subtraction of the direct energy 
+  density correct in high loss cases. Since EDM isn't really valid 
+  in this then maybe it is not an issue.
 
 * Determine volumes and surface areas from mesh 
   so get more accurate PWB calculation when mesh
@@ -34,10 +43,10 @@
 
   Average ECs?
   
+  BN = avgEC / D * MFP
+  
+  avgEC = surface area weighed average of boundary ECs.
+  D = overall diffusivity.
+  MFP = overall MFP.
+  
   BN < 0.1 => EDM accurate.
-  
-* Rename:
-
-  zetaz1 
-  zetaz2
-  

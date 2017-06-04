@@ -1,0 +1,117 @@
+//
+// 3D dual domain post-processing.
+//
+// (c) 2016-2017, Ian D. Flintoft <ian.flintoft@googlemail.com>
+//
+// This file is part of the Electromagnetic Diffusion Model (EDM) 
+// Canonical Example Suite [Flintoft2017,flintoft2017b].
+//
+// The EDM Canonical Example Suite is free software: you can 
+// redistribute it and/or modify it under the terms of the GNU 
+// General Public License as published by the Free Software 
+// Foundation, either version 3 of the License, or (at your option) 
+// any later version.
+//
+// The EDM Canonical Example Suite is distributed in the hope that 
+// it will be useful, but WITHOUT ANY WARRANTY; without even the 
+// implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+// PURPOSE.  See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with  The EDM Canonical Example Suite.  If not, 
+// see <http://www.gnu.org/licenses/>.
+//
+// References:
+//
+// [Flintoft2017] I D Flintoft, A C Marvin, F I Funn, L Dawson, X Zhang,
+// M P Robinson, and J F Dawson, "Evaluation of the diffusion equation for
+// modelling reverberant electromagnetic fields", IEEE Transactions on Electromagnetic
+// Compatibility, vol. 59, no. 3, pp. 760–769, 2017. DOI: 10.1109/TEMC.2016.2623356.
+//
+// [Flintoft2017b] I D Flintoft and J F Dawson, “3D electromagnetic diffusion models 
+// for reverberant environments”, 2017 International Conference on Electromagnetics 
+// in Advanced Applications (ICEAA2017), Verona, Italy, pp. 11-15 Sep. 2017.
+//
+
+// Energy density flux at half-height of cavities.
+Vh1 J1x, J1y, J1z;
+J1x = -D1 * dx( w1 );
+J1y = -D1 * dy( w1 );
+J1z = -D1 * dz( w1 );
+Vh2 J2x, J2y, J2z;
+J2x = -D2 * dx( w2 );
+J2y = -D2 * dy( w2 );
+J2z = -D2 * dz( w2 );
+
+// Power density.
+Vh1 S1 = c0 * w1;
+Vh2 S2 = c0 * w2;
+
+// Spurious direct energy density from source. Assumed approximately the same for a surface source.
+// Only subtract in source cavity.
+Vh1 w1ds = Pt[0] / ( 4.0 * pi * D1 * sqrt( ( x - xsource[0] )^2 + ( y - ysource[0] )^2 + ( z - zsource[0] )^2 ) );
+
+// Reverberant energy density.
+Vh1 w1r = w1 - w1ds;
+Vh2 w2r = w2;
+
+// Reverberant power density.
+Vh1 S1r = c0 * w1r;
+Vh2 S2r = c0 * w2r;
+
+// Reverberant power density in decibels.
+Vh1 S1rdB = 10.0 * log10( abs( S1r ) );
+Vh2 S2rdB = 10.0 * log10( abs( S2r ) );
+
+// Reverberant energy density flux;
+Vh1 J1rx, J1ry, J1rz;
+J1rx = -D1 * dx( w1r );
+J1ry = -D1 * dy( w1r );
+J1rz = -D1 * dz( w1r );
+Vh2 J2rx, J2ry, J2rz;
+J2rx = -D2 * dx( w2r );
+J2ry = -D2 * dy( w2r );
+J2rz = -D2 * dz( w2r );
+
+//
+// Report.
+//
+
+if( isPart ) {
+  cout << "EDM power density at centre of cavity 1: " << S1(Lx/4,Ly/2,Lz/2) << " W/m^2 = " << 10 * log10( S1(Lx/4,Ly/2,Lz/2) ) << " dB W/m^2" << endl;
+  cout << "EDM power density at centre of in cavity 2: " << S2(3*Lx/4,Ly/2,Lz/2) << " W/m^2 = " << 10 * log10( S2(3*Lx/4,Ly/2,Lz/2) ) << " dB W/m^2" << endl;  
+  cout << "EDM reverberant power density at centre of cavity 1: " << S1r(Lx/4,Ly/2,Lz/2) << " W/m^2 = " << 10 * log10( S1r(Lx/4,Ly/2,Lz/2) ) << " dB W/m^2" << endl;
+  cout << "EDM reverberant power density at centre of in cavity 2: " << S2r(3*Lx/4,Ly/2,Lz/2) << " W/m^2 = " << 10 * log10( S2r(3*Lx/4,Ly/2,Lz/2) ) << " dB W/m^2" << endl;    
+}
+
+//
+// Plots.
+//
+
+// MATLAB "parula" colormap.
+real[int] colors = [
+    0.6859 ,   0.6858 ,   0.5292 ,
+    0.5814 ,   0.9322 ,   0.8589 ,
+    0.5208 ,   0.9628 ,   0.7574 ,
+    0.3391 ,   0.3613 ,   0.7489 ,
+    0.1133 ,   0.6766 ,   0.9264 ,
+    0.1679 ,   0.9453 ,   0.9831   // Kludge - repeat entries to shift range relative to data.
+];
+
+// MATLAB "parula" colormap.
+real[int] colors2 = [
+   0.6859 ,   0.6858 ,   0.5292 ,
+   0.5814 ,   0.9322 ,   0.8589 ,
+   0.5208 ,   0.9628 ,   0.7574 ,
+   0.3391 ,   0.3613 ,   0.7489 ,
+   0.1133 ,   0.6766 ,   0.9264 ,
+   0.1679 ,   0.9453 ,   0.9831 
+];
+
+// Reverberant power density.
+//real[int] levels = [  14.0 , 14.25 , 14.5 , 15.0 , 16.0 , 17.0 , 18.0 , 19.0 , 19.0 , 19.5 , 19.75 , 20.0 , 21.0 ];
+//plot( S1rdB , S2rdB , value = true , viso = levels , wait = 1 , hsv = colors , cmm = "Power density (dB W/m^2)" );
+plot( S1rdB , S2rdB , value = true , nbiso = 12 , wait = 1 , hsv = colors2 , cmm = "Power density (dB W/m^2)" );
+
+// Reverberant energy density flux.
+plot( [ J1x , J1y , J1z ] , [ J2x , J2y , J2z ] , value = true , wait = 1 , hsv = colors2 , cmm = "Energy density flux (W/m^2)" );

@@ -1,0 +1,127 @@
+//
+// Create 2D single domain meshes.
+//
+// (c) 2016-2017, Ian D. Flintoft <ian.flintoft@googlemail.com>
+//
+// This file is part of the Electromagnetic Diffusion Model (EDM) 
+// Canonical Example Suite [Flintoft2017,flintoft2017b].
+//
+// The EDM Canonical Example Suite is free software: you can 
+// redistribute it and/or modify it under the terms of the GNU 
+// General Public License as published by the Free Software 
+// Foundation, either version 3 of the License, or (at your option) 
+// any later version.
+//
+// The EDM Canonical Example Suite is distributed in the hope that 
+// it will be useful, but WITHOUT ANY WARRANTY; without even the 
+// implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+// PURPOSE.  See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with  The EDM Canonical Example Suite.  If not, 
+// see <http://www.gnu.org/licenses/>.
+//
+// References:
+//
+// [Flintoft2017] I D Flintoft, A C Marvin, F I Funn, L Dawson, X Zhang,
+// M P Robinson, and J F Dawson, "Evaluation of the diffusion equation for
+// modelling reverberant electromagnetic fields", IEEE Transactions on Electromagnetic
+// Compatibility, vol. 59, no. 3, pp. 760–769, 2017. DOI: 10.1109/TEMC.2016.2623356.
+//
+// [Flintoft2017b] I D Flintoft and J F Dawson, “3D electromagnetic diffusion models 
+// for reverberant environments”, 2017 International Conference on Electromagnetics 
+// in Advanced Applications (ICEAA2017), Verona, Italy, pp. 11-15 Sep. 2017.
+//
+
+int Gwall1 = 1001;          // Cavity 1 wall projected perimeter.
+int Gwall2 = 1002;          // Cavity 2 wall projected perimeter.
+int Gpart1 = 1003;          // Cavity 1 partition projected perimeter.
+int Gpart2 = 1004;          // Cavity 2 partition projected perimeter.
+int Gcyl = 1005;            // Cylinder projected perimeter.
+int Gsrc = 1006;            // Source projected perimeter.
+
+real wallMeshSize = 10e-3;  // Mesh size at walls.
+real cylMeshSize = 10e-3;   // Mesh size at cylinder.
+real srcMeshSize = 2e-3;    // Mesh size at source.
+
+real partXstart = partX - 0.5 * partThickness;
+
+int N13 = ceil( Lx / 2 / wallMeshSize );
+int N14 = ceil( Ly / wallMeshSize );
+int N15 = ceil( Lx / 2 / wallMeshSize );
+int N23 = ceil( Lx / 2 / wallMeshSize );
+int N24 = ceil( Ly / wallMeshSize );
+int N25 = ceil( Lx / 2 / wallMeshSize );
+int N42 = ceil( partThickness / wallMeshSize );
+int N11 = ceil( ( Ly - holeWidth ) / wallMeshSize );
+int N22 = ceil( ( Ly - holeWidth ) / wallMeshSize );
+int N41 = ceil( partThickness / wallMeshSize );
+int N31 = ceil( cylPerimeter / cylMeshSize );
+int N51 = ceil( srcPerimeter / srcMeshSize );
+
+mesh Th;
+
+// Cavity 1 walls.
+border C13( t = 1,0 ){ x = t * partXstart ; y = Ly     ; label = Gwall1; }
+border C14( t = 1,0 ){ x = 0.0            ; y = t * Ly ; label = Gwall1; }
+border C15( t = 0,1 ){ x = t * partXstart ; y = 0.0    ; label = Gwall1; }
+
+// Cavity 2 walls.
+border C23( t = 0,1 ){ x = partThickness + partXstart + t * ( Lx - partXstart - partThickness ) ; y = 0.0    ; label = Gwall2; }
+border C24( t = 0,1 ){ x = partThickness + partXstart + ( Lx - partXstart - partThickness )     ; y = t * Ly ; label = Gwall2; }
+border C25( t = 1,0 ){ x = partThickness + partXstart + t * ( Lx - partXstart - partThickness ) ; y = Ly     ; label = Gwall2; }
+
+// Partition connector at top.  
+border C42( t = 1,0 ){ x = partXstart + t * partThickness ; y = Ly  ; label = Gwall1; }
+
+if( !isCyl && !isPart && !isSrc ) {
+  border C41( t =  0,1 ){ x = partXstart + t * partThickness ; y = 0 ; label = Gwall1; }  
+  Th = buildmesh( C13(N13) + C14(N14) + C15(N15) + C23(N23) + C24(N24) + C25(N25) + C41(N41) + C42(N42) );
+}
+else if( isCyl && !isPart && !isSrc ) {
+  border C41( t =  0,1 ){ x = partXstart + t * partThickness ; y = 0 ; label = Gwall1; }  
+  border C31( t = 2*pi,0 ){ x = cylX + cylRadius * cos(t) ; y = cylY + cylRadius * sin(t); label = Gcyl; }  
+  Th = buildmesh( C13(N13) + C14(N14) + C15(N15) + C23(N23) + C24(N24) + C25(N25) + C41(N41) + C42(N42) + C31(N31) );
+}
+else if( !isCyl && isPart && !isSrc ) {
+  border C11( t = 0,1 ){ x = partXstart ; y = t * ( Ly - holeWidth ) ; label = Gpart1; }
+  border C22( t = 1,0 ){ x = partThickness + partXstart ; y = t * ( Ly - holeWidth ) ; label = Gpart2; }  
+  border C41( t =  0,1 ){ x = partXstart + t * partThickness ; y = Ly - holeWidth ; label = Gpart1; }  
+  Th = buildmesh( C11(N11) + C13(N13) + C14(N14) + C15(N15) + C22(N22) + C23(N23) + C24(N24) + C25(N25) + C41(N41) + C42(N42) );
+}
+else if( isCyl && isPart && !isSrc ) {
+  border C11( t = 0,1 ){ x = partXstart ; y = t * ( Ly - holeWidth ) ; label = Gpart1; }
+  border C22( t = 1,0 ){ x = partThickness + partXstart ; y = t * ( Ly - holeWidth ) ; label = Gpart2; }  
+  border C41( t =  0,1 ){ x = partXstart + t * partThickness ; y = Ly - holeWidth ; label = Gpart1; }  
+  border C31( t = 2*pi,0 ){ x = cylX + cylRadius * cos(t) ; y = cylY + cylRadius * sin(t); label = Gcyl; }
+  Th = buildmesh( C11(N11) + C13(N13) + C14(N14) + C15(N15) + C22(N22) + C23(N23) + C24(N24) + C25(N25) + C41(N41) + C42(N42) + C31(N31) );
+}
+else if( !isCyl && !isPart && isSrc ) {
+  border C41( t =  0,1 ){ x = partXstart + t * partThickness ; y = 0 ; label = Gwall1; }  
+  border C51( t = 2*pi,0 ){ x = srcX + srcRadius * cos(t) ; y = srcY + srcRadius * sin(t); label = Gsrc; }
+  Th = buildmesh( C13(N13) + C14(N14) + C15(N15) + C23(N23) + C24(N24) + C25(N25) + C41(N41) + C42(N42) + C51(N51) );
+}
+else if( isCyl && !isPart && isSrc ) {
+  border C41( t =  0,1 ){ x = partXstart + t * partThickness ; y = 0 ; label = Gwall1; }  
+  border C31( t = 2*pi,0 ){ x = cylX + cylRadius * cos(t) ; y = cylY + cylRadius * sin(t); label = Gcyl; }  
+  border C51( t = 2*pi,0 ){ x = srcX + srcRadius * cos(t) ; y = srcY + srcRadius * sin(t); label = Gsrc; }
+  Th = buildmesh( C13(N13) + C14(N14) + C15(N15) + C23(N23) + C24(N24) + C25(N25) + C41(N41) + C42(N42) + C31(N31) + C51(N51) );
+}
+else if( !isCyl && isPart && isSrc ) {
+  border C11( t = 0,1 ){ x = partXstart ; y = t * ( Ly - holeWidth ) ; label = Gpart1; }
+  border C22( t = 1,0 ){ x = partThickness + partXstart ; y = t * ( Ly - holeWidth ) ; label = Gpart2; }  
+  border C41( t =  0,1 ){ x = partXstart + t * partThickness ; y = Ly - holeWidth ; label = Gpart1; }  
+  border C51( t = 2*pi,0 ){ x = srcX + srcRadius * cos(t) ; y = srcY + srcRadius * sin(t); label = Gsrc; }
+  Th = buildmesh( C11(N11) + C13(N13) + C14(N14) + C15(N15) + C22(N22) + C23(N23) + C24(N24) + C25(N25) + C41(N41) + C42(N42) + C51(N51) );
+}
+else if( isCyl && isPart && isSrc ) {
+  border C11( t = 0,1 ){ x = partXstart ; y = t * ( Ly - holeWidth ) ; label = Gpart1; }
+  border C22( t = 1,0 ){ x = partThickness + partXstart ; y = t * ( Ly - holeWidth ) ; label = Gpart2; }  
+  border C41( t =  0,1 ){ x = partXstart + t * partThickness ; y = Ly - holeWidth ; label = Gpart1; }  
+  border C31( t = 2*pi,0 ){ x = cylX + cylRadius * cos(t) ; y = cylY + cylRadius * sin(t); label = Gcyl; }
+  border C51( t = 2*pi,0 ){ x = srcX + srcRadius * cos(t) ; y = srcY + srcRadius * sin(t); label = Gsrc; }
+  Th = buildmesh( C11(N11) + C13(N13) + C14(N14) + C15(N15) + C22(N22) + C23(N23) + C24(N24) + C25(N25) + C41(N41) + C42(N42) + C31(N31) + C51(N51) );
+}
+
+// Show the mesh.
+plot( Th , wait = 0 , ps = "mesh.eps" );

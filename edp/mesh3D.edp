@@ -1,0 +1,90 @@
+//
+// Import 3D single domain meshes.
+//
+// (c) 2016-2017, Ian D. Flintoft <ian.flintoft@googlemail.com>
+//
+// This file is part of the Electromagnetic Diffusion Model (EDM) 
+// Canonical Example Suite [Flintoft2017,flintoft2017b].
+//
+// The EDM Canonical Example Suite is free software: you can 
+// redistribute it and/or modify it under the terms of the GNU 
+// General Public License as published by the Free Software 
+// Foundation, either version 3 of the License, or (at your option) 
+// any later version.
+//
+// The EDM Canonical Example Suite is distributed in the hope that 
+// it will be useful, but WITHOUT ANY WARRANTY; without even the 
+// implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+// PURPOSE.  See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with  The EDM Canonical Example Suite.  If not, 
+// see <http://www.gnu.org/licenses/>.
+//
+// References:
+//
+// [Flintoft2017] I D Flintoft, A C Marvin, F I Funn, L Dawson, X Zhang,
+// M P Robinson, and J F Dawson, "Evaluation of the diffusion equation for
+// modelling reverberant electromagnetic fields", IEEE Transactions on Electromagnetic
+// Compatibility, vol. 59, no. 3, pp. 760–769, 2017. DOI: 10.1109/TEMC.2016.2623356.
+//
+// [Flintoft2017b] I D Flintoft and J F Dawson, “3D electromagnetic diffusion models 
+// for reverberant environments”, 2017 International Conference on Electromagnetics 
+// in Advanced Applications (ICEAA2017), Verona, Italy, pp. 11-15 Sep. 2017.
+//
+
+// Surface labels.
+int Gwall;
+int Gpart;
+int Gcyl;
+int Gsrc;
+
+// Load mesh in medit format.
+mesh3 Th;
+if( !isCyl && !isPart && !isSrc ) {
+  Th = readmesh3( "../Meshes/cavity.mesh" );
+  Gwall = 1;
+}
+else if( isCyl && !isPart && !isSrc ) {
+  Th = readmesh3( "../Meshes/cavity_cylinder.mesh" );
+  Gwall = 1;
+  Gcyl = 2;
+}
+else if( !isCyl && isPart && !isSrc ) {
+  Th = readmesh3( "../Meshes/cavity_partition.mesh" );
+  Gwall = 1;
+  Gpart = 2;
+}  
+else if( isCyl && isPart && !isSrc ) {
+  Th = readmesh3( "../Meshes/cavity_partition_cylinder.mesh" );
+  Gwall = 1;
+  Gpart = 2;
+  Gcyl = 3;
+}
+else if( !isCyl && !isPart && isSrc ) {
+  Th = readmesh3( "../Meshes/cavity_source.mesh" );
+  Gwall = 1;
+  Gsrc = 2;
+}
+else if( isCyl && !isPart && isSrc ) {
+  Th = readmesh3( "../Meshes/cavity_cylinder_source.mesh" );
+  Gwall = 1;
+  Gcyl = 2;
+  Gsrc = 3;
+}
+else if( !isCyl && isPart && isSrc ) {
+  Th = readmesh3( "../Meshes/cavity_partition_source.mesh" );
+  Gwall = 1;
+  Gpart = 2;
+  Gsrc = 3;
+}  
+else if( isCyl && isPart && isSrc ) {
+  Th = readmesh3( "../Meshes/cavity_partition_cylinder_source.mesh" );
+  Gwall = 1;
+  Gpart = 2;
+  Gcyl = 3;
+  Gsrc = 4;
+}
+
+// Show the mesh.
+plot ( Th , wait = 0 );
