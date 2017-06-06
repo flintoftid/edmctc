@@ -78,6 +78,7 @@ AE               &(Average) Absorption Efficiency      \\
 BC               &Boundary Condition                   \\
 DOF              &Degrees of Freedom                   \\
 EC               &(Energy) Exchange Coefficient        \\
+EDM              &Electromagnetic diffusion Model      \\
 EEBC             &Energy Exchange Boundary Condition   \\
 EM               &Electromagnetic                      \\
 FCBC             &Flux Continuity Boundary Condition   \\
@@ -176,6 +177,7 @@ The diffusion equation can therefore be interpreted as an equation of continuity
 \frac{\partial w\prt}{\partial t} +\vJ\prt + \Lambda_V w\prt= p\prt &\vr{\in}\Omega
 \end{matrix}
 \end{align}
+for diffuse energy ``flow''.
 
 \subsection[Scattering from the cavity walls]{Scattering from the cavity walls}
 \label{sc:sum:walls}
@@ -208,12 +210,12 @@ mean of the MFP of the walls and fittings,
 \begin{align}
 \frac{1}{\lambda} = \frac{1}{\lambda_\rw} + \frac{1}{\lambda_\rf},
 \end{align}
-as is the corresponding diffusivity
+as is the corresponding overall diffusivity
 \begin{align}
 \frac{1}{D} = \frac{1}{D_\rw} + \frac{1}{D_\rf},
 \end{align}
 The diffusivity is therefore dominated by the shortest MFP. The MFP for
-scattering with identical of fittings of surface area $S_\rf$ and volumetric
+scattering with identical fittings of surface area $S_\rf$ and volumetric
 concentration $n_V^\rf=N_\rf/V$ can be estimated as
 \begin{align}
 \lambda_\rf = \frac{1}{\sigma_\rf^\rs n_V^\rf} = \frac{4V}{S_\rf N_\rf},
@@ -246,7 +248,7 @@ appropriate for single contents which significantly perturb the cavity shape.}
 \subsection[Absorption in the cavity walls]{Absorption in the cavity walls}
 \label{sc:sum:abs}
 
-Absorption in the domain boundary are described by inhomogeneous Robin (also
+Absorption in the domain boundary is described by inhomogeneous Robin (also
 called Fourier or Type 3) boundary conditions:
 \begin{align}
 \begin{matrix}
@@ -256,7 +258,7 @@ called Fourier or Type 3) boundary conditions:
 where $\uvn$ is an outward normal vector to the domain and 
 $h\pr$ is an energy exchange coefficient (EC). $J_\mathrm{out}\prt$ and
 $J_\mathrm{in}\prt$ represent an in-flux and out-flux (exitance) of energy density respectively and
-can be used to model sources and energy exchange boundary conditions (EEBCs) are noted below.
+can be used to model sources and energy exchange boundary conditions (EEBCs) as noted below.
 Various models have been used in the acoustics literature to related the exchange coefficient to the
 average absorption efficiency of the domain boundary, $\alpha\pr$. The
 simplest uses the Sabine estimate of reverberation time giving
@@ -266,25 +268,27 @@ h\pr = \frac{1}{4}\rc_0\alpha \left(r\right)&0\leq\alpha\lesssim 0.2
 \end{matrix}
 \end{align}
 and is regarded in acoustics as accurate only for low absorption $\alpha\lesssim 0.2$. 
-A modified form based on the Eyring reverberation time has also been applied giving
+A modified form based on the Eyring reverberation time has also been applied:
 \begin{align}
 \begin{matrix}
 h\pr = -\rc_0\frac{\log_{10}\left(1-\alpha\pr\right)}{4} &0\leq\alpha< 1
-\end{matrix},
+\end{matrix}.
 \end{align}
-which empirically provides better results for moderate absorption, $\alpha\lesssim 0.5$, 
+This empirically provides better results for moderate absorption, $\alpha\lesssim 0.5$, 
 but becomes singular for $\alpha=1$. More recently a relation based on
 a radiative transport model has been proposed which appears to give good
-results over the full range of absorption
+results over the full range of absorption efficiency:
 \begin{align}
 \begin{matrix}
 h\pr =\rc_0\frac{\alpha\pr}{2\left(2-\alpha\pr\right)} & 0\leq\alpha\leq 1 .
 \end{matrix}
 \end{align}
 
-The absorption efficiencies and exchange coefficients for the walls and fittings
-are denoted by $\alpha_\rw\pr$ and $\alpha_\rf\pr$ and 
-$h_\rw\pr$ and $h_\rf\pr$ respectively.
+The absorption efficiencies and exchange coefficients for the walls are denoted 
+by $\alpha_\rw\pr$ and $h_\rw\pr$ respectively. Large fittings are more
+accurately modelled by including their surfaces in the domain boundary; in 
+this case their absorption efficiencies and exchange coefficients are denoted by
+$\alpha_\rf\pr$ and $h_\rf\pr$ respectively.
 
 \subsection[Sources]{Sources}
 \label{sc:sum:src}
@@ -295,15 +299,15 @@ located at $\vr_\rs$ can be implemented as
 p\prt = P^\rt(t) \delta^{(3)}\left(\vr-\vr_\rs\right).
 \end{align}
 The energy density near such a source contains a spurious direct term that can
-be subtract to give the reverberant energy density
+be subtract to give the reverberant energy density; in 3D this correction is:
 \begin{align}
 w_\rr\pr = w\pr - \frac{P^\rt}{4\pi D\left|\vr-\vr_\rs\right|}.
 \end{align}
 The true direct energy density is
 \begin{align}
-w_\rd\pr = \frac{P^\rt}{4\pi\rc_0\left|\vr-\vr_\rs\right|^2}.
+w_\rd\pr = \frac{P^\rt}{4\pi\rc_0\left|\vr-\vr_\rs\right|^2}
 \end{align}
-The reverberant energy density flux is
+and the reverberant energy density flux is
 \begin{align}
 \vJ_\rr\prt = -D\vnabla w_\rr\pr = \vJ\prt - \frac{P^\rt}{4\pi\left|\vr-\vr_\rs\right|^3}\left(\vr-\vr_\rs\right).
 \end{align}
@@ -320,13 +324,13 @@ The spurious direct energy density from such source is less than for point
 sources.
 
 A portion of the domain boundary $\partial\Omega_\rs$ can also be used as a
-surface source
+surface source by introducing a source terms into the Robin BC:
 \begin{align}
 \begin{matrix}
-\uvn\vcdot\left[D\pr\vnabla w\prt\right] - J_\rs\prt = 0 &\vr\in\partial\Omega_\rs
+\uvn\vcdot\left[D\pr\vnabla w\prt\right] - J_\rs\prt = 0 &\vr\in\partial\Omega_\rs.
 \end{matrix}
 \end{align}
-where the exitance, $J_\rs\prt$, is
+Here the exitance, $J_\rs\prt$, is
 \begin{align}
 J_\rs\prt &= \frac{P^\rt(t)}{S_\rs} \\
 S_\rs &= \oiint_{\partial\Omega_\rs}\dif{S} .
@@ -526,12 +530,12 @@ which can be used to reduce the second order derivative term in the integral for
 &+\Lambda_V \iiint_{\Omega} u\pr w\prt\dif{V}
 =\iiint_{\Omega} u\pr p\prt\dif{V}.
 \end{align}
-The most general form of the Robin boundary conditions
+The most general form of the Robin boundary condition
 \begin{align}
 D\pr\uvn{\vcdot}{\vnabla} w\prt +h\pr w\prt-J_\rs\prt=0
 \end{align}
-are now inserted into the surface term to give the weak form of the diffusion
-problem
+is now inserted into the surface term to give the weak form of the diffusion
+problem:
 \begin{align}
 \frac{{\partial}}{{\partial}t}\iiint_{\Omega} u\pr w\prt\dif{V}
 &+\iiint_{\Omega} D\pr{\vnabla}w\prt{\vcdot}{\vnabla}u\pr\dif{V}
@@ -540,11 +544,11 @@ problem
 -\oiint_{\partial\Omega} u\pr J_\rs\prt\dif{S}
 -\iiint_{\Omega} u\pr p\prt\dif{V}=0.
 \end{align}
-This is in the standard form
+This can be written more concisely as
 \begin{align}
 \langle \dot{w},u \rangle + a(w,u) - \langle J_\rs+p ,u \rangle = 0,
 \end{align}
-where $a(w,u)$ is a bilinear form
+where $a(w,u)$ is the bilinear form
 \begin{align}
 a(w,u)
 =\iiint_{\Omega} D\pr{\vnabla}w\prt{\vcdot}{\vnabla}u\pr\dif{V}
@@ -557,7 +561,7 @@ and the inner product is
 = \iiint_{\Omega} u\pr v\pr \dif{V}.
 \end{align}
 
-The above development is sufficient to implement a numerical solution in FreeFEM++; for 
+The above development is sufficient to implement a numerical solution of the EDM in FreeFEM++; for 
 time-independent problems the essence of this implementation is:
 \begin{verbatim}
    problem EDM( w , u ) 
@@ -568,14 +572,14 @@ time-independent problems the essence of this implementation is:
     - int3d(Omega)       ( u * p );
 \end{verbatim}
 If the diffusivity is inhomogeneous then $D$ must be implemented using a
-suitably constructed FE domain or using a macro, for example
+suitably constructed FE space or using a macro, for example
 \begin{verbatim}
    func D = D1 * ( x <= partX ) + D2 * ( x > partX )  
 \end{verbatim}
 Similarly for the volume source term. For point sources an interpolated 
 FE space can be used.
 
-\subsection[Discretisation of the diffusion problem]{Discretisation of the diffusion problem}
+\subsection[Discretisation and finite element spaces]{Discretisation and finite element spaces}
 \label{sc:fem:discrete}
 
 The mesh is a discrete tessellation of the domain
@@ -591,10 +595,10 @@ The number of vertices in the mesh is denoted by $n_\rv$ and the boundary of the
 discrete domain is denoted by $\partial\Omega\approx\partial\Omega_h$. The finite element
 space on $T_h$, is denoted by $V_h\left(T_h,X\right)$:
 \begin{align}
-V_h\left(T_h,X\right)=\left\{w\pr:w\pr=\sum_{k=1}^M w_k\phi_k\pr,\,w_k{\in}\mathbb{R}\right\}
+V_h\left(T_h,X\right)=\left\{w\pr:w\pr=\sum_{k=1}^M w_k\phi_k\pr,\,w_k{\in}\mathbb{R}\right\},
 \end{align}
-where $X$ denoted the types of finite elements. For example piecewise continuous elements 
-are denoted $P_1$. Here $M$ is the dimension of $V_h$, i.e. the total number of vertices, 
+where $X$ denotes the types of finite elements. For example, piecewise continuous elements 
+are denoted by $P_1$. $M$ is the dimension of $V_h$, i.e. the total number of vertices, 
 which is the number of elements times the number of matching points on each 
 element. $w_k$ are termed the degrees of freedom of $w$ and $M$ is the number 
 of degrees of freedom (DOF). The basis functions $\phi_k\pr$ are usually defined in terms 
@@ -609,7 +613,8 @@ with
 \end{equation*}
 where $\vr_i$ are the $n_\rrm$ vertices of $T_k$. {\color{red} The restriction of $\phi_i$ on $T_k$ is then $\lambda_i^k$.}
 
-Now using the Galerkin method we approximate 
+Now using the Galerkin method we approximate both the energy density and test function using
+the same FE space
 \begin{align}
 w\prt \approx w_h\prt &= \sum_{j=1}^M w_j(t)\phi_j\pr \\
 u\pr \approx u_h\pr &= \sum_{i=1}^M u_i\phi_i\pr
@@ -624,7 +629,7 @@ and substitute these into the weak form to obtain
 -\sum_{i=1}^M u_i\iiint_{\Omega} \phi_i\pr p\prt\dif{V}
 = 0.
 \end{align}
-Denoting the discrete operators
+Denoting the discrete matrix operators by
 \begin{align}
 D_{ij} &= \iiint_{\Omega} D\pr{\vnabla}\phi_i\pr{\vcdot}{\vnabla}\phi_j\pr\dif{V} \\
 M_{ij} &= \iiint_{\Omega} \phi_i\pr\phi_j\pr\dif{V} \\
@@ -640,32 +645,32 @@ this can be written as
 +\sum_{i=1}^M\sum_{j=1}^M u_i H_{ij} w_j \nonumber \\
 &-\sum_{i=1}^M\sum_{j=1}^M u_i J^\rs_i
 -\sum_{i=1}^M u_i P_i
-= 0,
+= 0.
 \end{align}
-where $D_{ij}$ is the stiffness matrix, $M_{ij}$ is the mass
-matrix and $\Lambda_V M_{ij}+H_{ij}$ is the dissipation matrix. This can be written in matrix form as
+$D_{ij}$ is the stiffness matrix, $M_{ij}$ is the mass
+matrix and $\Lambda_V M_{ij}+H_{ij}$ is a dissipation matrix. This can be written in matrix form as
 \begin{align}
 \vec{u}^\rT \mM \dot{\vec{w}} + \vec{u}^\rT\mD \vec{w} +\Lambda_V \vec{u}^\rT\mM \vec{w}+ \vec{u}^\rT\mH \vec{w}
--\vec{u}^\rT\vec{J}^\rs -\vec{u}^\rT\vec{P} = 0.
+-\vec{u}^\rT\vec{J}^\rs -\vec{u}^\rT\vec{P} = 0,
 \end{align}
+where $vec{u}$ and $\vec{w}$ of vectors containing the DOFs and ${}^\rT$ denoted the transpose. 
 Since the system is linear it can be solved be testing with each basis function separately and so it is
 equivalent to the linear system of ordinary differential equations (ODEs)
 \begin{align}
 \mM \dot{\vec{w}} + \mD \vec{w} +\Lambda_V \mM \vec{w}+ \mH \vec{w}
--\vec{J}^\rs -\vec{P} = 0.
+-\vec{J}^\rs -\vec{P} = \vzero.
 \end{align}
 This reduces to a linear algebraic system 
 \begin{align}
 \left( \mD +\Lambda_V \mM + \mH \right) \vec{w} - \left( \vec{J}^\rs + \vec{P} \right) = \vzero
 \end{align}
-for time-independent problems. Time dependent systems can be solved by applied a finite difference
+for time-independent problems. Time dependent systems can be solved by applying a finite difference
 scheme to the time derivative.
 
-\subsection[Coupled domains]{Coupled domains}
+\subsection[Iterative methods for coupled domains]{Iterative methods for coupled domains}
 \label{sc:fem:coup}
 
-For the case of two domains coupled through an energy exchange boundary
-condition the weak forms in each domain are
+For the case of two domains coupled through an EEBC the weak forms in each domain are
 \begin{align}
 \label{eq:wf:coup1}
 &\frac{{\partial}}{{\partial}t}\iiint_{\Omega_1} u_1\pr w_1\prt\dif{V}
@@ -701,7 +706,7 @@ J_{21}\prt = h_{21}\pr w_1\prt &\vr\in\partial\Omega_{21}
 \end{matrix}
 \end{align}
 The system can be solved using a Robin-Robin iterative algorithm. We first initialise
-$J_{12}\prt$ using the homogeneous PWB solution in $\Omega_2$
+$J_{12}\prt$ using the homogeneous power balance (PWB) solution, $w_{2;\rh}$,  in $\Omega_2$
 \begin{align}
 \begin{matrix}
 J^0_{12}\prt = h_{12}\pr w_{2;\rh} &\vr\in\partial\Omega_{12}
@@ -714,7 +719,7 @@ can be  solved for $w_2^0\prt$.
 This process is repeated until the solution has converged; this typically only 
 requires a handful of iterations.
 
-For a flux continuity boundary condition
+For a FCBC
 \begin{align}
 \uvn_1{\vcdot}\left[D_1\pr{\vnabla}w_1\prt-D_2\pr{\vnabla}w_2\prt\right]=0
 \end{align}
@@ -731,10 +736,9 @@ updated using a relaxation approach with relaxation parameter $\beta\sim 0.1$:
 J^{n+1}_{21}\prt &= \beta J^n_{21}\prt + ( 1 - \beta) h_{21}\pr \left[ w^n_1\prt - w^n_2\prt \right] \\
 J^{n+1}_{12}\prt &= \beta J^n_{12}\prt + ( 1 - \beta) h_{12}\pr \left[ w^n_2\prt - w^n_1\prt \right].
 \end{align}
-As described in Section~\ref{sc:sum:coup} the energy exchange BC and flux continuity BC approaches 
-are equivalent in the case of a lossless aperture. 
+As described in Section~\ref{sc:sum:coup} the EEBC and FCBC are equivalent in the case of a lossless aperture. 
 
-Continuity of both the energy density and flux can be enforced using a Schwarz domain decomposition
+Continuity of both the energy density and its flux can be enforced using a Schwarz domain decomposition
 method. The weak forms are the same as for the FCBC method, however the net flux is updated using
 \begin{align}
 J^0_{21}\prt &= 0 \\
@@ -742,7 +746,8 @@ J^{n+1}_{21}\prt &= J^n_{21}\prt + \beta h_{21}\pr \left[ w^n_1\prt - w^n_2\prt 
 J^{n+1}_{12}\prt &= -J^{n+1}_{21}\prt ,
 \end{align}
 where the sign and magnitude of $\beta$ are chosen to give a stable scheme. This Schwarz approach
-is equivalent to using a single domain method.
+is equivalent to using a single domain method. Convergence is typically slower than for the 
+EEBC and FCBC schemes above.
 
 \subsection[Two dimensional FEM solution]{Two dimensional FEM solution}
 \label{sc:fem:2d}
@@ -761,6 +766,9 @@ where
 p_\rs^\prime\left(x,y\right)=\int_0^{L_z}Z(z)p\left(x,y,z,t\right)\dif{z}.
 \end{align}
 
+{\color{red} Question: Is there a more robust way to deal with the 3D point source in the 2D model? Does
+the above implicitly assume that $p\pr=p(x,y)Z(z)$?}
+
 For time-independent problems the FreeFEM++ implementation is 
 \begin{verbatim}
    problem EDM( W , U ) 
@@ -774,7 +782,7 @@ For time-independent problems the FreeFEM++ implementation is
 \section[Canonical test cases]{Canonical test cases}
 \label{sc:tcs}
 
-The two canonical examples investigated are based on the same geometry of a
+The canonical test cases are based on the geometry of a
 cuboid cavity occupying the volume $0 \leq x \leq L_x$, $0 \leq y \leq L_y$ and 
 $0 \leq z \leq L_z$ shown in Figure~\ref{fg:tcgeom}. The walls are assumed to have 
 a homogeneous absorption efficiency of $\alpha_\mathrm{wall}$ and the cavity is excited
@@ -787,7 +795,7 @@ to have a homogeneous absorption efficiency of $\alpha_\mathrm{cyl}$.
 The cavity can also be partitioned into two sub-cavities leaving a hole of width
 $w_\mathrm{hole}$ with the full height of the cavity located in the region 
 $L_y-w_\mathrm{hole} \leq y \leq L_y$, $0 \leq z \leq L_z$ of the shared 
-$x=x_\mathrm{part}$ wall. The slot was chosen to span the whole cavity so that the 
+$x=x_\mathrm{part}$ wall. The hole was chosen to span the whole cavity so that the 
 dimensional reduction technique is applicable and it was located along the edge of the 
 partition for experimental convenience in the validation measurements described in~\cite{Flintoft2017b}.
 The thickness of the partition is denoted $t_\mathrm{part}$.
@@ -836,6 +844,9 @@ $\alpha_\mathrm{cyl}$  &\texttt{cylAE}         &0.95 \\
 \caption{\label{tb:tcparam} Primary parameters and variable names for the test cases.}
 \end{table}
 
+\subsection[Empty unpartitioned cavity]{Empty unpartitioned cavity}
+\label{sc:tcs:emptyunpart}
+
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.6\linewidth]{figures/domains0}
@@ -843,6 +854,13 @@ $\alpha_\mathrm{cyl}$  &\texttt{cylAE}         &0.95 \\
 \caption{\label{fg:tcdom0} Domain nomenclature for a single domain implementation of the single cavity.}
 \end{center}
 \end{figure}
+
+
+\subsection[Unpartitioned cavity with a cylinder]{Unpartitioned cavity with a cylinder}
+\label{sc:tcs:cylunpart}
+
+\subsection[Empty partitioned cavity]{Empty partitioned cavity}
+\label{sc:tcs:emptypart}
 
 \begin{figure}[ht]
 \begin{center}
@@ -860,6 +878,9 @@ a inhomogeneous diffusivity.}
 \caption{\label{fg:tcdom2} Domain nomenclature for a two domain implementation of the dual cavity.}
 \end{center}
 \end{figure}
+
+\subsection[Partitioned cavity with a cylinder]{Partitioned cavity with a cylinder}
+\label{sc:tcs:cylpart}
 
 \bibliographystyle{myabbrvnat}
 \bibliography{EDM_Implementation_Notes}
