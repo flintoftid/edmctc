@@ -1,5 +1,5 @@
 //
-// Calculate derived parameters for the electromagnetic diffusion model.
+// Calculate geometrical parameters for the electromagnetic diffusion model.
 //
 // (c) 2016-2017, Ian D. Flintoft <ian.flintoft@googlemail.com>
 //
@@ -37,149 +37,72 @@
 // Geometry.
 //
 
+// Location for reporting observations.
+real obsX0 = Lx / 2;
+real obsY0 = Ly / 2;
+real obsZ0 = Lz / 2;
+real obsX1 = partX / 2;
+real obsY1 = Ly / 2;
+real obsZ1 = Lz / 2;
+real obsX2 = partX + partThickness + 3 * ( Lx - partX - partThickness ) / 4; 
+real obsY2 = Ly / 2;
+real obsZ2 = Lz / 2;
+
 // Source.
-real srcArea = 4.0 * pi * srcRadius * srcRadius; // Surface source surface area [m^2].
-real srcVolume = srcArea * srcRadius / 3.0;      // Surface source volume [m^3].
-real srcPerimeter = 2.0 * pi * srcRadius;        // Surface source perimeter [m].
-real srcXSArea = pi * srcRadius * srcRadius;     // Surface source cross-sectional area [m^2].
+real srcArea = 4.0 * pi * srcRadius * srcRadius;           // Surface source surface area [m^2].
+real srcVolume = srcArea * srcRadius / 3.0;                // Surface source volume [m^3].
+real srcPerimeter = 2.0 * pi * srcRadius;                  // Surface source perimeter [m].
+real srcXSArea = pi * srcRadius * srcRadius;               // Surface source cross-sectional area [m^2].
 
 // Hole.
-real holeArea = holeWidth * Lz;                        // Hole area [m^2].
-real holeTCS = 0.25 * holeArea;                        // Hole TCS [m^2].
+real holeArea = holeWidth * Lz;                            // Hole area [m^2].
 
 // Partition.
 real partArea = ( 2.0 * ( Ly - holeWidth ) + partThickness ) * Lz ;               
-                                                       // Partition area [m^2].
-real partVolume = ( Ly - holeWidth ) * partThickness * Lz;              
-                                                       // Partition volume [m^3].
-
+                                                           // Partition area [m^2].
 // Cylinder.
-real cylPerimeter = 2.0 * pi * cylRadius;              // Cylinder perimeter [m].
-real cylXSArea = pi * cylRadius * cylRadius;           // Cylinder cross-sectional area [m^2].
-real cylArea = cylPerimeter * Lz;                      // Cylinder surface area [m^2].
-real cylVolume = cylXSArea * Lz;                       // Cylinder volume [m^3].
+real cylPerimeter = 2.0 * pi * cylRadius;                  // Cylinder perimeter [m].
+real cylXSArea = pi * cylRadius * cylRadius;               // Cylinder cross-sectional area [m^2].
+real cylArea = cylPerimeter * Lz;                          // Cylinder surface area [m^2].
+real cylVolume = cylXSArea * Lz;                           // Cylinder volume [m^3].
 
 // Single cavity - cavity 0.
-real V0 = Lx * Ly * Lz;                                // Cavity nominal volume [m^3].
-real SV0 = 2.0 * ( Lx * Ly + Ly * Lz + Lz * Lx );      // Cavity nominal enclosing surface area [m^2].
-real wallArea0 = SV0;                                  // Actual wall surface area [m^2].
+real cavityVolume0 = Lx * Ly * Lz;                         // Cavity volume [m^3].
+real wallArea0 = 2.0 * ( Lx * Ly + Ly * Lz + Lz * Lx );    // Area of cavity walls [m^2].
+real cavityArea0 = wallArea0;                              // Total cavity boundary area [m^2].
 if( isCyl ) {
   wallArea0 = wallArea0 - 2.0 * cylXSArea;
-  // V0 = V0 - cylVolume;
+  cavityArea0 = cavityArea0 - 2.0 * cylXSArea + cylArea;
+  cavityVolume0 = cavityVolume0 - cylVolume;
+}
+if( isSrc ) {
+  cavityArea0 = cavityArea0 + srcArea;
+  cavityVolume0 = cavityVolume0 - srcVolume;
 }
 
-//if( isSrc )
-//  V0 = V0 - srcVolume;
-
 // Partitioned cavity - sub-cavity 1.
-real Lx1 = partX - 0.5 * partThickness;                // Length of sub-cavity 1 [m].
-real V1 = Lx1 * Ly * Lz;                               // Sub-cavity 1 nominal volume [m^3].
-real SV1 = 2.0 * ( Lx1 * Ly + Ly * Lz + Lz * Lx1 );    // Sub-cavity 1 nominal enclosing surface area [m^2].
-real wallArea1 = SV1 - Ly * Lz + 0.5 * partThickness * Lz;                 
-                                                       // Sub-cavity 1 wall area [m^2].
-real partArea1 = 0.5 * partArea;                       // Area of partition in sub-cavity 1 [m^2].
-
-//if( isSrc )
-//  V1 = V1 - srcVolume;
+real Lx1 = partX - 0.5 * partThickness;                    // Length of sub-cavity 1 [m].
+real cavityVolume1 = Lx1 * Ly * Lz + 0.5 * partThickness * holeWidth * Lz;
+                                                           // Sub-cavity 1 volume [m^3].
+real wallArea1 = 2.0 * ( Lx1 * Ly + Ly * Lz + Lz * Lx1 ) + 0.5 * partThickness * Lz; 
+                                                           // Area of sub-cavity 1 walls [m^2].
+real partArea1 = 0.5 * partArea;                           // Area of partition in sub-cavity 1 [m^2].
+real cavityArea1 = wallArea1 + partArea1 + holeArea;       // Total sub-cavity 1 boundary area [m^2].
+if( isSrc ) {
+  cavityArea1 = cavityArea1 + srcArea;
+  cavityVolume1 = cavityVolume1 - srcVolume;
+}
 
 // Partitioned cavity - sub-cavity 2.
-real Lx2 = Lx - partX - 0.5 * partThickness;           // Length of sub-cavity 2 [m].
-real V2 = Lx2 * Ly * Lz;                               // Sub-cavity 2 volume [m^3].
-real SV2 = 2.0 * ( Lx2 * Ly + Ly * Lz + Lz * Lx2 );    // Sub-cavity 2 nominal enclosing surface area [m^2].
-real wallArea2 = SV2 - Ly * Lz + 0.5 * partThickness * Lz;                 
-                                                       // Sub-cavity 2 wall area [m^2].
-real partArea2 = 0.5 * partArea;                       // Area of partition in sub-cavity 2 [m^2].
-
+real Lx2 = Lx - Lx1 - partThickness;                       // Length of sub-cavity 2 [m].
+real cavityVolume2 = Lx2 * Ly * Lz + 0.5 * partThickness * holeWidth * Lz;
+                                                           // Sub-cavity 2 volume [m^3].
+real wallArea2 = 2.0 * ( Lx2 * Ly + Ly * Lz + Lz * Lx2 ) + 0.5 * partThickness * Lz; 
+                                                           // Area of sub-cavity 2 walls [m^2].
+real partArea2 = 0.5 * partArea;                           // Area of partition in sub-cavity 2 [m^2].
+real cavityArea2 = wallArea2 + partArea2 + holeArea;       // Total sub-cavity 2 boundary area [m^2].
 if( isCyl ) {
   wallArea2 = wallArea2 - 2.0 * cylXSArea;
-  // V2 = V2 - cylVolume;
-}  
-
-//
-// PWB & EDM parameters
-//
-
-// Wall absorption factor [-].
-real wallAF;
-if( isSabine )
-  wallAF = 0.25 * wallAE;
-else
-  wallAF = 0.5 * wallAE / ( 2.0 - wallAE );
-
-// Wall exchange coefficient [m/s].
-real wallEC = c0 * wallAF;
-
-// Partition absorption factor [-].
-real partAF;
-if( isSabine )
-  partAF = 0.25 * partAE;
-else
-  partAF = 0.5 * partAE / ( 2.0 - partAE );
-
-// Partition exchange coefficient [m/s].
-real partEC = c0 * partAF;
-
-// Cylinder  absorption factor [-].
-real cylAF;
-if( isSabine )                                
-  cylAF = 0.25 * cylAE;
-else
-  cylAF = 0.5 * cylAE / ( 2.0 - cylAE );
-
-// Cylinder exchange coefficient [m/s].
-real cylEC = c0 * cylAF;
-
-// Single cavity.
-real wallMFP0 = 4.0 * V0 / SV0;                        // Mean free-path of walls [m].
-real wallD0 = wallMFP0 * c0 / 3.0;                     // Diffusion coefficient of walls [m^2/s].
-real wallACS0 = wallAF * wallArea0;                    // Absorption cross-section of wall [m^2].
-
-// Partitioned cavity - sub-cavity 1.
-real wallMFP1 = 4.0 * V1 / SV1;                        // Mean free-path of walls [m].
-real wallD1 = wallMFP1 * c0 / 3.0;                     // Diffusion coefficient of wall [m^2/s].
-real wallACS1 = wallAF * wallArea1;                    // Absorption cross-section of wall [m^2].
-real partACS1 = partAF * partArea1;                    // Absorption cross-section of partition in sub-cavity 1 [m^2].
-
-// Partitioned cavity - sub-cavity 2.
-real wallMFP2 = 4.0 * V2 / SV2;                        // Mean free-path of walls [m].
-real wallD2 = wallMFP2 * c0 / 3.0;                     // Diffusion coefficient of wall [m^2/s].
-real wallACS2 = wallAF * wallArea2;                    // Absorption cross-section of wall [m^2].
-real partACS2 = partAF * partArea2;                    // Absorption cross-section of partition in sub-cavity 2 [m^2].
-
-// Cylinder.
-real cylACS = cylAF * cylArea;                         // Cylinder absorption cross-section [m^2]. 
-real cylMFP0 = 4.0 * V0 / cylArea;                     // Mean free-path of cylinder without partition [m].
-real cylMFP2 = 4.0 * V2 / cylArea;                     // Mean free-path of cylinder with partition [m].
-real cylD0 = cylMFP0 * c0 / 3.0;                       // Diffusion coefficient of cylinder without partition [m/s].
-real cylD2 = cylMFP2 * c0 / 3.0;                       // Diffusion coefficient of cylinder with partition [m/s].
- 
-// Energy exchange boundary conditions for aperture.
-real holeEC11 = 0.25 * holeTE * c0;                    // Exchange coefficient for hole - absorption in sub-cavity 1 [m/s].
-real holeEC22 = 0.25 * holeTE * c0;                    // Exchange coefficient for hole - absorption in sub-cavity 1 [m/s].
-real holeEC12 = 0.25 * holeTE * c0;                    // Exchange coefficient for hole - transmission from sub-cavity 2 to sub-cavity 1 [m/s].
-real holeEC21 = 0.25 * holeTE * c0;                    // Exchange coefficient for hole - transmission from sub-cavity 1 to sub-cavity 2 [m/s].
-
-//
-// Overall diffusivity.
-//
-
-real D1;                                               // Diffusivity for x <= partX.
-real D2;                                               // Diffusivity for x > partX.
-
-if( !isCyl && !isPart ) {
-  D1 = wallD0;
-  D2 = D1;
+  cavityArea2 = cavityArea2 - 2.0 * cylXSArea + cylArea;
+  cavityVolume2 = cavityVolume2 - cylVolume;
 }
-else if( isCyl && !isPart ) {
-  D1 = 1.0 / ( 1.0 / wallD0 + 1.0 / cylD0 );
-  D2 = D1;
-}
-else if( !isCyl && isPart ) {
-  D1 = wallD1;
-  D2 = wallD2;
-}
-else if( isCyl && isPart ) {
-  D1 = wallD1;
-  D2 = 1.0 / ( 1.0 / wallD2 + 1.0 / cylD2 ); 
-}
-

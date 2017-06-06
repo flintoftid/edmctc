@@ -48,11 +48,14 @@ include "../../edp/inputParameters.edp"
 // Canonical test case derived model parameters.
 include "../../edp/derivedParameters.edp"
 
-// PWB model.
-include "../../edp/PWB.edp"
-
 // Mesh.
 include "../../edp/mesh3D.edp"
+
+// SEA parameters.
+include "../../edp/SEA.edp"
+
+// PWB model.
+include "../../edp/PWB.edp"
 
 //
 // Finite element spaces.
@@ -63,7 +66,6 @@ Vh w , v;                 // Weak form test functions.
 Vh b;                     // Point source in cavity 1.
 
 // Poins sources.
-real srcExitance = srcTRP / srcArea;             // Surface source exitance [W/m].
 real[int] xsource = [ srcX ];                    // Vector of x-coordinates of sources [m].
 real[int] ysource = [ srcY ];                    // Vector of y-coordinates of sources [m].
 real[int] zsource = [ srcZ ];                    // Vector of z-coordinates of sources [m].
@@ -110,7 +112,7 @@ else if( isPart && !isCyl && isSrc ) {
     = int3d(Th)( D * ( dx(w) * dx(v) + dy(w) * dy(v) + dz(w) * dz(v) ) )
     + int2d(Th,Gwall)( w * v * wallEC )
     + int2d(Th,Gpart)( w * v * partEC ) 
-    - int2d(Th,Gsrc)( v * srcExitance );  
+    - int2d(Th,Gsrc)( v * srcSurfaceExitance );  
 
 }
 else if( isPart && isCyl && isSrc ) {
@@ -120,7 +122,7 @@ else if( isPart && isCyl && isSrc ) {
     + int2d(Th,Gwall)( w * v * wallEC )
     + int2d(Th,Gpart)( w * v * partEC )
     + int2d(Th,Gcyl)( w * v * cylEC )   
-    - int2d(Th,Gsrc)( v * srcExitance );  
+    - int2d(Th,Gsrc)( v * srcSurfaceExitance );  
 
 }
 else if( !isPart && !isCyl && !isSrc ) {
@@ -145,7 +147,7 @@ else if( !isPart && !isCyl && isSrc ) {
   solve diffusion( w , v , solver = CG ) 
     = int3d(Th)( D * ( dx(w) * dx(v) + dy(w) * dy(v) + dz(w) * dz(v) ) )
     + int2d(Th,Gwall)( w * v * wallEC )
-    - int2d(Th,Gsrc)( v * srcExitance );  
+    - int2d(Th,Gsrc)( v * srcSurfaceExitance );  
 
 }
 else if( !isPart && isCyl && isSrc ) {
@@ -154,7 +156,7 @@ else if( !isPart && isCyl && isSrc ) {
     = int3d(Th)( D * ( dx(w) * dx(v) + dy(w) * dy(v) + dz(w) * dz(v) ) )
     + int2d(Th,Gwall)( w * v * wallEC )
     + int2d(Th,Gcyl)( w * v * cylEC )   
-    - int2d(Th,Gsrc)( v * srcExitance );  
+    - int2d(Th,Gsrc)( v * srcSurfaceExitance );  
 
 }
 

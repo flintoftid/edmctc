@@ -49,11 +49,11 @@ if( isPart )
   fprintf( 'PWB power density in sub-cavity 2: %g W/m^2 = %g dB W/m^2\n' , S2pwb , db10( S2pwb ) );  
 else
   if( isCyl )
-    ACS = wallACS + cylACS;
+    ACS0 = wallACS0 + cylACS;
   else
-    ACS = wallACS; 
+    ACS0 = wallACS0; 
   end % if
-  Spwb = srcTRP / ACS;
-  wpwb = Spwb / c0;
-  fprintf( 'PWB power density in cavity: %g W/m^2 = %g dB W/m^2\n' , Spwb , db10( Spwb ) );
+  S0pwb = srcTRP / ACS;
+  w0pwb = S0pwb / c0;
+  fprintf( 'PWB power density in cavity: %g W/m^2 = %g dB W/m^2\n' , S0pwb , db10( S0pwb ) );
 end % if

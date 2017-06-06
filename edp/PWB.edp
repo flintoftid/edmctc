@@ -33,9 +33,12 @@
 // in Advanced Applications (ICEAA2017), Verona, Italy, pp. 11-15 Sep. 2017.
 //
 
-// Need to be global to initialise DDM solutions.
-real w1pwb; 
-real w2pwb;
+real w0pwb;                                    // Homogeneous PWB energy density in single cavity. 
+real w1pwb;                                    // Homogeneous PWB energy density in sub-cavity 1. 
+real w2pwb;                                    // Homogeneous PWB energy density in sub-cavity 2. 
+real S0pwb;                                    // Homogeneous PWB power density in single cavity. 
+real S1pwb;                                    // Homogeneous PWB power density in sub-cavity 1. 
+real S2pwb;                                    // Homogeneous PWB power density in sub-cavity 2. 
 
 if( isPart ) {
   real ACS1 = wallACS1 + partACS1;
@@ -45,21 +48,20 @@ if( isPart ) {
   else
     ACS2 = wallACS2 + partACS2;
   real det = ( ACS1 + holeTCS ) * ( ACS2 + holeTCS ) - holeTCS * holeTCS;
-  real S1pwb = ( ACS2 + holeTCS ) * srcTRP / det;
-  real S2pwb = holeTCS * srcTRP / det;
+  S1pwb = ( ACS2 + holeTCS ) * srcTRP / det;
+  S2pwb = holeTCS * srcTRP / det;
   w1pwb = S1pwb / c0;
   w2pwb = S2pwb / c0;
   cout << "PWB power density in cavity 1: " << S1pwb << " W/m^2 = " << 10 * log10( S1pwb ) << " dB W/m^2" << endl;
   cout << "PWB power density in cavity 2: " << S2pwb << " W/m^2 = " << 10 * log10( S2pwb ) << " dB W/m^2"<< endl;  
 }
 else {
-  real ACS;
+  real ACS0;
   if( isCyl )
-    ACS = wallACS0 + cylACS;
+    ACS0 = wallACS0 + cylACS;
   else
-    ACS = wallACS0;  
-  real Spwb = srcTRP / ACS;
-  real wpwb = Spwb / c0;
-  cout << "PWB power density in cavity: " << Spwb << " W/m^2 = " << 10 * log10( Spwb ) << " dB W/m^2" << endl;
+    ACS0 = wallACS0;  
+  S0pwb = srcTRP / ACS0;
+  w0pwb = S0pwb / c0;
+  cout << "PWB power density in cavity: " << S0pwb << " W/m^2 = " << 10 * log10( S0pwb ) << " dB W/m^2" << endl;
 }
-

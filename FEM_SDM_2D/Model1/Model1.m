@@ -47,6 +47,9 @@ inputParameters;
 % Derived parameters.
 derivedParameters;
 
+% SEA parameters.
+SEA;
+
 % PWB model.
 PWB;
 

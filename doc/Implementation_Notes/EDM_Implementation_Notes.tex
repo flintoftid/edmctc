@@ -40,13 +40,13 @@
 \providecommand\oiint{\oint}
 \newcommand*{\defeq}{\stackrel{\text{def}}{=}}
 %
-\title{Implementation of the electromagnetic diffusion model of canonical test cases using the finite element method}
+\title{Implementation of electromagnetic diffusion model canonical test cases using FreeFEM++}
 \author{Ian Flintoft}
 \date{2017-02-04}
 %
 \begin{document}
 \clearpage\setcounter{page}{1}{\centering
-\textbf{\Large Implementation of the electromagnetic diffusion model of canonical test cases using the finite element method}
+\textbf{\Large Implementation of electromagnetic diffusion model canonical test cases using FreeFEM++}
 \par}
 \vspace{5mm}
 {\centering\large 
@@ -59,8 +59,8 @@ Web: \url{https://idflintoft.bitbucket.io}}, University of York
 \par}
 \vspace{5mm}
 \textbf{\textit{Abstract}}\textit{ -- These notes provide details of the implementation of the 
-electromagnetic diffusion model of some canonical test cases using the finite element method.
-The treatment is terse and no attempt has been made to motivate the methods used or to provide
+electromagnetic diffusion model of some canonical test cases using the finite element method
+with FreeFEM++. The treatment is terse and no attempt has been made to motivate the methods used or to provide
 comprehensive background and references. 
 }
 %
@@ -69,19 +69,18 @@ comprehensive background and references.
 \tableofcontents
 %
 
-\section[Glossary and symbols]{Glossary and symbols}
+\section*{Glossary and symbols}
 \label{sc:gloss}
 
-%\begin{center}
 \begin{supertabular}{m{2cm}l}
-%\hline
-%\textbf{Acronym} &\textbf{Definition} \\
-%\hline
 ACS              & (Average) Absorption Cross-Section  \\
 AE               &(Average) Absorption Efficiency      \\
 BC               &Boundary Condition                   \\
+DOF              &Degrees of Freedom                   \\
 EC               &(Energy) Exchange Coefficient        \\
+EEBC             &Energy Exchange Boundary Condition   \\
 EM               &Electromagnetic                      \\
+FCBC             &Flux Continuity Boundary Condition   \\
 FE               &Finite Element                       \\
 FEM              &Finite Element Method                \\
 MFP              &Mean-Free-Path                       \\
@@ -90,9 +89,7 @@ PDE              &Partial Differential Equation        \\
 PWB              &Power Balance                        \\
 TCS              &(Average) Transmission Cross-Section \\
 TE               &(Average) Transmission Efficiency    \\
-%\hline
 \end{supertabular}
-%\end{center}
 \vspace{5mm}
 
 \begin{center}
@@ -253,12 +250,14 @@ Absorption in the domain boundary are described by inhomogeneous Robin (also
 called Fourier or Type 3) boundary conditions:
 \begin{align}
 \begin{matrix}
-\uvn\vcdot\left[D\pr\vnabla w\prt\right] + h\pr w\prt = 0 &\vr\in\partial\Omega
+\uvn\vcdot\left[D\pr\vnabla w\prt\right] + h\pr w\prt + J_\mathrm{out}\prt - J_\mathrm{in}\prt = 0 &\vr\in\partial\Omega
 \end{matrix}
 \end{align}
 where $\uvn$ is an outward normal vector to the domain and 
-$h\pr$ is an energy exchange coefficient (EC). Various models have been
-used in the acoustics literature to related the exchange coefficient to the
+$h\pr$ is an energy exchange coefficient (EC). $J_\mathrm{out}\prt$ and
+$J_\mathrm{in}\prt$ represent an in-flux and out-flux (exitance) of energy density respectively and
+can be used to model sources and energy exchange boundary conditions (EEBCs) are noted below.
+Various models have been used in the acoustics literature to related the exchange coefficient to the
 average absorption efficiency of the domain boundary, $\alpha\pr$. The
 simplest uses the Sabine estimate of reverberation time giving
 \begin{align}
@@ -270,7 +269,7 @@ and is regarded in acoustics as accurate only for low absorption $\alpha\lesssim
 A modified form based on the Eyring reverberation time has also been applied giving
 \begin{align}
 \begin{matrix}
-h\pr = -\rc_0\frac{\log_{10}\left(1-\alpha\pr\right)}{4} &0\leq\alpha\lesssim 0.5
+h\pr = -\rc_0\frac{\log_{10}\left(1-\alpha\pr\right)}{4} &0\leq\alpha< 1
 \end{matrix},
 \end{align}
 which empirically provides better results for moderate absorption, $\alpha\lesssim 0.5$, 
@@ -327,7 +326,7 @@ surface source
 \uvn\vcdot\left[D\pr\vnabla w\prt\right] - J_\rs\prt = 0 &\vr\in\partial\Omega_\rs
 \end{matrix}
 \end{align}
-where
+where the exitance, $J_\rs\prt$, is
 \begin{align}
 J_\rs\prt &= \frac{P^\rt(t)}{S_\rs} \\
 S_\rs &= \oiint_{\partial\Omega_\rs}\dif{S} .
@@ -388,8 +387,19 @@ and
 \end{matrix}\\
 \begin{matrix}
 \uvn_2{\vcdot}\left[D_2\pr{\vnabla}w_2\prt\right]+\frac{1}{4}\rc_0\tau\left[w_2\prt-w_1\prt\right]=0 &\vr\in\partial\Omega_{21}
-\end{matrix}\\
+\end{matrix}
 \end{align}
+{\color{red}
+Question: Should we use
+\begin{align}
+\begin{matrix}
+h_{ij}\pr = \rc_0\frac{\tau}{2\left(2-\tau\right)} &0\leq\tau\leq 1
+\end{matrix}
+\end{align}
+for apertures to be consistent with the Jing and Xiang exchange coefficient for
+absorption? 
+}
+
 Denoting the net energy flux from domain $j$ into domain $i$ by 
 $J_{\mathit{ij}}\prt$ these can also be written
 \begin{align}
@@ -401,30 +411,19 @@ $J_{\mathit{ij}}\prt$ these can also be written
 \end{matrix}\\
 J_{12}\prt = -J_{21}\prt = \frac{1}{4}\rc_0\tau\left[w_2\prt-w_1\prt\right].
 \end{align}
-Adding these and noting $\uvn_1=-\uvn_2$ we find
+Adding these and noting $\uvn_1=-\uvn_2$ we find an energy density flux continuity
+boundary condition (FCBC) through the aperture:
 \begin{align}
 \begin{matrix}
 \uvn_1{\vcdot}\left[D_1\pr{\vnabla}w_1\prt-D_2\pr{\vnabla}w_2\prt\right]=0 &\vr\in\partial\Omega_{12}
 \end{matrix}
 \end{align}
-showing that the energy density flux is continuous through the aperture. If
-there is dissipative loss associated with the aperture then
+If there is dissipative loss associated with the aperture then
 \begin{align}
 \uvn_1{\vcdot}\left[D_1\pr{\vnabla}w_1\prt\right]-\uvn_2{\vcdot}\left[D_2\pr{\nabla}w_2\prt\right]=\frac{1}{4}\rc_0\tau
 \left[w_2\prt-w_1\prt\right]+h_{22}\pr w_2\prt-h_{11}\pr w_1\prt
 \end{align}
 where $h_{11},h_{22}>\frac{1}{4}\rc_0\tau$.
-
-{\color{red}
-Question: Should we use
-\begin{align}
-\begin{matrix}
-h_{ij}\pr = \rc_0\frac{\tau}{2\left(2-\tau\right)} &0\leq\tau\leq 1
-\end{matrix}
-\end{align}
-for apertures to be consistent with the Jing and Xiang exchange coefficient for
-absorption? 
-}
 
 \section[Kantorovich reduction to two dimensions]{Kantorovich reduction to two dimensions}
 \label{sc:Kant}
@@ -454,7 +453,7 @@ density in the other two dimensions satisfies the 2D diffusion problem
 \frac{{\partial}W\left(x,y,t\right)}{{\partial}t}
 \int_0^{L_z}Z(z)^2\dif{z}
 - D^\prime{\vnabla}_{xy}^2W\left(x,y,t\right)
-+ \left(\Lambda_A^\prime+\Lambda _Z^\prime\right)W\left(x,y,t\right)
++ \left(\Lambda_A^\prime+\Lambda_Z^\prime\right)W\left(x,y,t\right)
 = p^\prime\left(x,y,t\right)
 & \vr\in\Omega\\
 D^\prime\uvn{\vcdot}{\vnabla}_{xy}W\left(x,y,t\right)+h^\prime\left(x,y\right)W\left(x,y,t\right)=0
@@ -466,7 +465,7 @@ $z$-direction, $\partial\Omega$ is its perimeter and
 \begin{align}
 D^\prime &= D \int_0^{L_z} Z(z)^2\dif{z} \\
 \Lambda_Z^\prime &= -D \int_0^{L_z} \left(\frac{\rd^2Z\left(z\right)}{\rd z^2}Z(z)\right)\dif{z} \\
-\Lambda_A^\prime &= \Lambda_V \int_0^{L_z} Z(z)^2\dif{z} \\
+\Lambda_V^\prime &= \Lambda_V \int_0^{L_z} Z(z)^2\dif{z} \\
 h^\prime\left(x,y\right) &= \int_0^{L_z} h\pr Z(z)^2\dif{z}.
 \end{align}
 If the $z=0$ and $z=L_z$ faces have the same uniform ECs then
@@ -537,58 +536,130 @@ problem
 \frac{{\partial}}{{\partial}t}\iiint_{\Omega} u\pr w\prt\dif{V}
 &+\iiint_{\Omega} D\pr{\vnabla}w\prt{\vcdot}{\vnabla}u\pr\dif{V}
 +\Lambda_V \iiint_{\Omega} u\pr w\prt\dif{V} \nonumber \\
-&+\oiint_{\partial\Omega} u\pr w\prt\dif{S}
+&+\oiint_{\partial\Omega} u\pr h\pr w\prt\dif{S}
 -\oiint_{\partial\Omega} u\pr J_\rs\prt\dif{S}
 -\iiint_{\Omega} u\pr p\prt\dif{V}=0.
 \end{align}
-This is sufficient to implement a numerical solution in FreeFEM++. 
+This is in the standard form
+\begin{align}
+\langle \dot{w},u \rangle + a(w,u) - \langle J_\rs+p ,u \rangle = 0,
+\end{align}
+where $a(w,u)$ is a bilinear form
+\begin{align}
+a(w,u)
+=\iiint_{\Omega} D\pr{\vnabla}w\prt{\vcdot}{\vnabla}u\pr\dif{V}
++\Lambda_V \iiint_{\Omega} u\pr w\prt\dif{V}
++\oiint_{\partial\Omega} u\pr h\pr w\prt\dif{S}
+\end{align}
+and the inner product is
+\begin{align}
+\langle u , v \rangle
+= \iiint_{\Omega} u\pr v\pr \dif{V}.
+\end{align}
 
-The energy density and test function are then expanded over a spatial basis 
-$\left\{\varphi_i\pr\right\}$ with time-dependent coefficients as
-\begin{align}
-w\prt = \sum_{i} w_i(t) \varphi_i\pr
-\end{align}
-and then using the Galerkin method we obtain a set of equations
-\begin{align}
-&\sum_{i} \frac{\rd w_i(t)}{\rd t}\iiint_{\Omega} \varphi_i\pr\varphi_j\pr\dif{V}
-+\sum_{i} w_i\iiint_{\Omega} D\pr{\vnabla}\varphi_i\pr{\vcdot}{\vnabla}\varphi_j\pr\dif{V}
-+\Lambda_V \sum_{i} w_i\iiint_{\Omega} \varphi_i\pr\varphi_j\pr\dif{V} \nonumber \\
-&+\sum_{i} w_i\oiint_{\partial\Omega } h\pr\varphi_j\pr\varphi_i\pr\dif{S}
--\oiint_{\partial\Omega} J_\rs\prt\varphi_j\pr\dif{S}
--\iiint_{\Omega} \varphi_j\pr p\prt\dif{V}=0.
-\end{align}
-The discrete operators are denoted
-\begin{align}
-D_{ij} &= \iiint_{\Omega} D\pr{\vnabla}\varphi_i\pr{\vcdot}{\vnabla}\varphi_j\pr\dif{V} \\
-M_{ij} &= \iiint_{\Omega} \varphi_i\pr\varphi_j\pr\dif{V} \\
-H_{ij} &= \oiint_{\partial\Omega} \varphi_j\pr h\pr \varphi_i\pr\dif{S} \\
-P_j^V(t) &= \iiint_{\Omega} \varphi_j\pr p\prt \dif{V} \\
-P_j^\rs(t) &= \oiint_{\partial\Omega} J_\rs\prt\varphi_j\pr\dif{S},
-\end{align}
-where $\mD$ is the discrete diffusion operator (stiffness matrix), $\mM$ is the mass
-matrix and $\Lambda_V\mM+\mH$ is the dissipation matrix. We finally get the
-matrix form of the FE equations
-\begin{align}
-\mM\frac{\rd w(t)}{\rd t} 
-+\left(\mD+\Lambda_V\mM+H\right)w(t)
-=\mP^V(t)+\mP^\rs(t).
-\end{align}
-This is a set of linear ordinary differential equations (ODEs). The time-dependence can be dealt 
-with by applying a finite difference scheme.
+The above developement is sufficient to implement a numerical solution in FreeFEM++; for 
+time-independent problems the essence of this implementation is:
+\begin{verbatim}
+   problem EDM( w , u ) 
+    = int3d(Omega)       ( D * ( dx(w) * dx(u) + dy(w) * dy(u) + dz(w) * dz(u) ) )
+    + int3d(Omega)       ( w * v * LambdaV )
+    + int2d(Omega,dOmega)( w * u * h )   
+    - int2d(Omega,dOmega)( u * Js )
+    - int3d(Omega)       ( u * p );
+\end{verbatim}
+If the diffusivity is inhomogeneous then $D$ must be implemented using a
+suitably constructed FE domain or using a macro, for example
+\begin{verbatim}
+   func D = D1 * ( x <= partX ) + D2 * ( x > partX )  
+\end{verbatim}
+Similarly for the volume source term. For point sources an interpolated 
+FE space can be used.
 
-For the equilibrium time-independent case the weak-form is
+\subsection[Discretisation of the diffusion problem]{Discretisation of the diffusion problem}
+\label{sc:fem:discrete}
+
+The mesh is a discrete tessellation of the domain
 \begin{align}
-\sum_{i} w_i\iiint_{\Omega} D\pr{\vnabla}\varphi_i\pr{\vcdot}{\vnabla}\varphi_j\pr\dif{V}
-&+\Lambda_V\sum_{i} w_i\iiint_{\Omega} \varphi_i\pr\varphi_j\pr\dif{V}
-+\sum_{i} w_i\oiint_{\partial\Omega} h\pr\varphi_j\pr\varphi_i\pr\dif{S} \nonumber\\
-&-\oiint_{\partial\Omega} J_\rs\pr\varphi_j\pr\dif{S}
--\iiint_{\Omega} \varphi_j\pr p\prt\dif{V}=0
+\Omega \approx \Omega_h= \bigcup_{k=1}^{n_\rT} T_k
 \end{align}
-leading to the linear algebraic system
+using $n_\rT$ elements $T_k$ with characteristics dimension $h$:
 \begin{align}
-\left(\mD+\Lambda_V\mM+\mH\right)w=\mP^V+\mP^\rs
+T_h = \left\{T_k:k=1,{\dots},n_\rT\right\}.
 \end{align}
-for the expansion coefficients.
+The elements are typically triangles in 2D or tetrahdera in 3D.
+The number of vertices in the mesh is denoted by $n_\rv$ and the boundary of the
+discrete domain is denoted by $\partial\Omega\approx\partial\Omega_h$. The finite element
+space on $T_h$, is denoted by $V_h\left(T_h,X\right)$:
+\begin{align}
+V_h\left(T_h,X\right)=\left\{w\pr:w\pr=\sum_{k=1}^M w_k\phi_k\pr,\,w_k{\in}\mathbb{R}\right\}
+\end{align}
+where $X$ denoted the types of finite elements. For example piecewise continuous elements 
+are denoted $P_1$. Here $M$ is the dimension of $V_h$, i.e. the total number of vertices, 
+which is the number of elements times the number of matching points on each 
+element. $w_k$ are termed the degrees of freedom of $w$ and $M$ is the number 
+of degrees of freedom (DOF). The basis functions $\phi_k\pr$ are usually defined in terms 
+of barycentric coordinates. For a point $\vr{\in}T_k$ the barycentric coordinates  
+$\lambda_i^k\left(\vr\right)$ are
+\begin{align}
+\vr = \sum_{i=1}^{n_\rrm} \lambda_i^k \vr_i
+\end{align}
+with
+\begin{equation*}
+\sum_{i=1}^{n_\rrm} \lambda _i^k=1
+\end{equation*}
+where $\vr_i$ are the $n_\rrm$ vertices of $T_k$. {\color{red} The restriction of $\phi_i$ on $T_k$ is then $\lambda_i^k$.}
+
+Now using the Galerkin method we approximate 
+\begin{align}
+w\prt \approx w_h\prt &= \sum_{j=1}^M w_j(t)\phi_j\pr \\
+u\pr \approx u_h\pr &= \sum_{i=1}^M u_i\phi_i\pr
+\end{align}
+and substitute these into the weak form to obtain
+\begin{align}
+&\sum_{i=1}^M\sum_{j=1}^M u_i \dot{w}_j \iiint_{\Omega} \phi_i\pr\phi_j\pr\dif{V}
++\sum_{i=1}^M\sum_{j=1}^M u_i w_j \iiint_{\Omega} D\pr\vnabla\phi_i\pr{\vcdot}{\vnabla}\phi_j\pr\dif{V} \nonumber \\
+&+\Lambda_V\sum_{i=1}^M\sum_{j=1}^M u_i w_j \iiint_{\Omega} \phi_i\pr\phi_j\pr\dif{V} 
++\sum_{i=1}^M\sum_{j=1}^M u_i w_j \oiint_{\partial\Omega} h\pr\phi_i\pr\phi_j\pr\dif{S} \nonumber \\
+&-\sum_{i=1}^M u_i \oiint_{\partial\Omega} \phi_i\pr J_\rs\prt\dif{S}
+-\sum_{i=1}^M u_i\iiint_{\Omega} \phi_i\pr p\prt\dif{V}
+= 0.
+\end{align}
+Denoting the discrete operators
+\begin{align}
+D_{ij} &= \iiint_{\Omega} D\pr{\vnabla}\phi_i\pr{\vcdot}{\vnabla}\phi_j\pr\dif{V} \\
+M_{ij} &= \iiint_{\Omega} \phi_i\pr\phi_j\pr\dif{V} \\
+H_{ij} &= \oiint_{\partial\Omega} \phi_j\pr h\pr \phi_i\pr\dif{S} \\
+J_i^\rs(t) &= \oiint_{\partial\Omega} \phi_i\pr J_\rs\prt\dif{S} \\
+P_i(t) &= \iiint_{\Omega} \phi_i\pr p\prt \dif{V},
+\end{align}
+this can be written as
+\begin{align}
+\sum_{i=1}^M\sum_{j=1}^M u_i M_{ij} \dot{w}_j 
+&+\sum_{i=1}^M\sum_{j=1}^M u_i D_{ij} w_j 
++\Lambda_V\sum_{i=1}^M\sum_{j=1}^M u_i M_{ij} w_j 
++\sum_{i=1}^M\sum_{j=1}^M u_i H_{ij} w_j \nonumber \\
+&-\sum_{i=1}^M\sum_{j=1}^M u_i J^\rs_i
+-\sum_{i=1}^M u_i P_i
+= 0,
+\end{align}
+where $D_{ij}$ is the stiffness matrix, $M_{ij}$ is the mass
+matrix and $\Lambda_V M_{ij}+H_{ij}$ is the dissipation matrix. This can be written in matrix form as
+\begin{align}
+\vec{u}^\rT \mM \dot{\vec{w}} + \vec{u}^\rT\mD \vec{w} +\Lambda_V \vec{u}^\rT\mM \vec{w}+ \vec{u}^\rT\mH \vec{w}
+-\vec{u}^\rT\vec{J}^\rs -\vec{u}^\rT\vec{P} = 0.
+\end{align}
+Since the system is linear it can be solved be testing with each basis function separately and so it is
+equivalent to the linear system of ordinary differential equations (ODEs)
+\begin{align}
+\mM \dot{\vec{w}} + \mD \vec{w} +\Lambda_V \mM \vec{w}+ \mH \vec{w}
+-\vec{J}^\rs -\vec{P} = 0.
+\end{align}
+This reduces to a linear algebraic system 
+\begin{align}
+\left( \mD +\Lambda_V \mM + \mH \right) \vec{w} - \left( \vec{J}^\rs + \vec{P} \right) = \vzero
+\end{align}
+for time-independent problems. Time dependent systems can be solved by applied a finite difference
+scheme to the time derative.
 
 \subsection[Coupled domains]{Coupled domains}
 \label{sc:fem:coup}
@@ -629,7 +700,7 @@ J_{12}\prt = h_{12}\pr w_2\prt &\vr\in\partial\Omega_{12}
 J_{21}\prt = h_{21}\pr w_1\prt &\vr\in\partial\Omega_{21}
 \end{matrix}
 \end{align}
-The system can be solved iteratively. We first initialise
+The system can be solved using a Robin-Robin iterative algorithm. We first initialise
 $J_{12}\prt$ using the homogeneous PWB solution in $\Omega_2$
 \begin{align}
 \begin{matrix}
@@ -654,24 +725,24 @@ are enforced on each side of the boundary
 \uvn_1{\vcdot}D_1\pr{\vnabla}w_1\prt+J_{21}\prt &=0 \\
 \uvn_2{\vcdot}D_2\pr{\vnabla}w_2\prt-J_{21}\prt &=0
 \end{align}
-in terms of the net energy flux from domain 1 into domain 2. At each iteration, $n$, this can be
+in terms of the net energy flux $J_{21}$ from domain 1 into domain 2. At each iteration, $n$, this can be
 updated using a relaxation approach with relaxation parameter $\beta\sim 0.1$:
 \begin{align}
 J^{n+1}_{21}\prt &= \beta J^n_{21}\prt + ( 1 - \beta) h_{21}\pr \left[ w^n_1\prt - w^n_2\prt \right] \\
 J^{n+1}_{12}\prt &= \beta J^n_{12}\prt + ( 1 - \beta) h_{12}\pr \left[ w^n_2\prt - w^n_1\prt \right].
 \end{align}
-
 As described in Section~\ref{sc:sum:coup} the energy exchange BC and flux continuity BC approaches 
 are equivalent in the case of a lossless aperture. 
 
 Continuity of both the energy density and flux can be enforced using a Schwarz domain decompostion
-method:
+method. The weak forms are the same as for the FCBC method, however the net flux is updated using
 \begin{align}
 J^0_{21}\prt &= 0 \\
 J^{n+1}_{21}\prt &= J^n_{21}\prt + \beta h_{21}\pr \left[ w^n_1\prt - w^n_2\prt \right] \\
-J^{n+1}_{12}\prt &= -J^{n+1}_{21}\prt .
+J^{n+1}_{12}\prt &= -J^{n+1}_{21}\prt ,
 \end{align}
-This is therefore equivalent to a single domain method.
+where the signe and magnitude of $\beta$ are chosen to give a stable scheme. This Schwarz approach
+is equivalent to using a single domain method.
 
 \subsection[Two dimensional FEM solution]{Two dimensional FEM solution}
 \label{sc:fem:2d}
@@ -680,7 +751,7 @@ The weak form of the reduced 2D problem is
 \begin{align}
 &\int_0^{L_z}Z(z)^2\dif{z}\iint_{\Omega} U\frac{{\partial}W}{{\partial}t}\dif{x}\dif{y}
 +D^\prime\iint_{\Omega}\frac{{\partial}W}{{\partial}x}\frac{{\partial}U}{{\partial}x}+\frac{{\partial}W}{{\partial}y}\frac{{\partial}U}{{\partial}y}\dif{x}\dif{y} \nonumber \\
-&+\left(\Lambda_A^\prime+\Lambda _Z^\prime\right)\iint_{\Omega }UW\dif{x}\dif{y}
+&+\left(\Lambda_V^\prime+\Lambda_Z^\prime\right)\iint_{\Omega }UW\dif{x}\dif{y}
 +\oint_{\partial\Omega} Uh^\prime\left(x,y\right)W\dif{l} \nonumber \\
 &-\oint_{\partial\Omega} UJ_\rc^\prime\left(x,y\right) W\dif{l}
 -\iint_{\Omega} U p_\rs^\prime\left(x,y\right)\dif{x}\dif{y}=0,
@@ -689,6 +760,16 @@ where
 \begin{align}
 p_\rs^\prime\left(x,y\right)=\int_0^{L_z}Z(z)p\left(x,y,z,t\right)\dif{z}.
 \end{align}
+
+For time-independent problems the FreeFEM++ implementation is 
+\begin{verbatim}
+   problem EDM( W , U ) 
+    = int2d(Omega)       ( D * ( dx(W) * dx(U) + dy(W) * dy(U) ) )
+    + int2d(Omega)       ( W * V * ( LambdaV + LambdaZ ) )
+    + int1d(Omega,dOmega)( W * U * h )   
+    - int1d(Omega,dOmega)( U * Jc )
+    - int2d(Omega)       ( U * ps );
+\end{verbatim}
 
 \section[Canonical test cases]{Canonical test cases}
 \label{sc:tcs}

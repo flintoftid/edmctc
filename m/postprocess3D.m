@@ -74,7 +74,7 @@ Sr = c0 .* wr;
 if( isPart )
   Delta = wr ./ ( w1pwb .* ( x < partX ) + w2pwb .* ( x >= partX ) );
 else
-  Delta = wr ./ wpwb;
+  Delta = wr ./ w0pwb;
 end % if
 
 % Magnitude of energy density flux.

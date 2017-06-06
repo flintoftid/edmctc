@@ -49,11 +49,14 @@ include "../../edp/inputParameters.edp"
 // Canonical test case derived model parameters.
 include "../../edp/derivedParameters.edp"
 
-// PWB model.
-include "../../edp/PWB.edp"
-
 // Mesh.
 include "../../edp/mesh3D_DDM.edp"
+
+// SEA parameters.
+include "../../edp/SEA.edp"
+
+// PWB model.
+include "../../edp/PWB.edp"
 
 //
 // Finite element spaces.
@@ -69,7 +72,6 @@ Vh2 w2 = w2pwb , u2;                             // Weak form test functions in 
 Vh2 J21 = holeEC21 * ( w1pwb - w2pwb ) ;         // Net energy density flux through aperture from sub-cavity 1 to sub-cavity 2.
 
 // Poins sources.
-real srcExitance = srcTRP / srcArea;             // Surface source exitance [W/m].
 real[int] xsource = [ srcX ];                    // Vector of x-coordinates of sources [m].
 real[int] ysource = [ srcY ];                    // Vector of y-coordinates of sources [m].
 real[int] zsource = [ srcZ ];                    // Vector of z-coordinates of sources [m].
@@ -121,8 +123,8 @@ if( !isCyl && !isSrc ) {
     J21 = relaxParam * holeEC12 * ( w1 - w2 ) + ( 1.0 - relaxParam ) * J21;
     J12 = relaxParam * holeEC12 * ( w2 - w1 ) + ( 1.0 - relaxParam ) * J12;
     cout << "Iteration : " << iterationCounter << endl;    
-    cout << "  w1: " << w1(Lx1/2,Ly/2,Lz/2) << endl;
-    cout << "  w2: " << w2(Lx1+Lx2/4,Ly/2,Lz/2) << endl;
+    cout << "  w1: " << w1(obsX1,obsY1,obsZ1) << endl;
+    cout << "  w2: " << w2(obsX2,obsY2,obsZ2) << endl;
     Vh1 w1dB = 10 * log10( abs( w1 ) );
     Vh2 w2dB = 10 * log10( abs( w2 ) );
     plot(  w1dB , w2dB , value = true , wait = 0 , fill = true , nbiso = 20 , cmm = "Energy density (dB J/m^3)" );
@@ -164,8 +166,8 @@ else if( isCyl && !isSrc ){
     J21 = relaxParam * holeEC12 * ( w1 - w2 ) + ( 1.0 - relaxParam ) * J21;
     J12 = relaxParam * holeEC12 * ( w2 - w1 ) + ( 1.0 - relaxParam ) * J12;
     cout << "Iteration : " << iterationCounter << endl;    
-    cout << "  w1: " << w1(Lx1/2,Ly/2,Lz/2) << endl;
-    cout << "  w2: " << w2(Lx1+Lx2/4,Ly/2,Lz/2) << endl;
+    cout << "  w1: " << w1(obsX1,obsY1,obsZ1) << endl;
+    cout << "  w2: " << w2(obsX2,obsY2,obsZ2) << endl;
     Vh1 w1dB = 10 * log10( abs( w1 ) );
     Vh2 w2dB = 10 * log10( abs( w2 ) );
     plot(  w1dB , w2dB , value = true , wait = 0 , fill = true , nbiso = 20 , cmm = "Energy density (dB J/m^3)" );
@@ -191,7 +193,7 @@ else if( !isCyl && isSrc ) {
     + int2d(Th1,Gwall1)( w1 * u1 * wallEC )                                             // Losses on cavity 1 walls.
     + int2d(Th1,Gpart1)( w1 * u1 * partEC )                                             // Losses on cavity 1 partition.
     + int2d(Th1,Ghole1)( -J12 * u1 )                                                    // Aperture coupling - net.
-    - int2d(Th1,Gsrc)( u1 * srcExitance );                                              // Surface source. 
+    - int2d(Th1,Gsrc)( u1 * srcSurfaceExitance );                                       // Surface source. 
     
    problem diffusion2( w2 , u2 , init = iterationCounter , solver = CG ) 
     = int3d(Th2)       ( D * ( dx(w2) * dx(u2) + dy(w2) * dy(u2) + dz(w2) * dz(u2) ) )  // Laplace operator.
@@ -206,8 +208,8 @@ else if( !isCyl && isSrc ) {
     J21 = relaxParam * holeEC12 * ( w1 - w2 ) + ( 1.0 - relaxParam ) * J21;
     J12 = relaxParam * holeEC12 * ( w2 - w1 ) + ( 1.0 - relaxParam ) * J12;
     cout << "Iteration : " << iterationCounter << endl;    
-    cout << "  w1: " << w1(Lx1/2,Ly/2,Lz/2) << endl;
-    cout << "  w2: " << w2(Lx1+Lx2/4,Ly/2,Lz/2) << endl;
+    cout << "  w1: " << w1(obsX1,obsY1,obsZ1) << endl;
+    cout << "  w2: " << w2(obsX2,obsY2,obsZ2) << endl;
     Vh1 w1dB = 10 * log10( abs( w1 ) );
     Vh2 w2dB = 10 * log10( abs( w2 ) );
     plot(  w1dB , w2dB , value = true , wait = 0 , fill = true , nbiso = 20 , cmm = "Energy density (dB J/m^3)" );
@@ -233,7 +235,7 @@ else if( isCyl && isSrc ) {
     + int2d(Th1,Gwall1)( w1 * u1 * wallEC )                                             // Losses on cavity 1 walls.
     + int2d(Th1,Gpart1)( w1 * u1 * partEC )                                             // Losses on cavity 1 partition.
     + int2d(Th1,Ghole1)( -J12 * u1 )                                                    // Aperture coupling - net.
-    - int2d(Th1,Gsrc)( u1 * srcExitance );                                              // Surface source. 
+    - int2d(Th1,Gsrc)( u1 * srcSurfaceExitance );                                       // Surface source. 
 
    problem diffusion2( w2 , u2 , init = iterationCounter , solver = CG ) 
     = int3d(Th2)       ( D * ( dx(w2) * dx(u2) + dy(w2) * dy(u2) + dz(w2) * dz(u2) ) )  // Laplace operator.
@@ -249,8 +251,8 @@ else if( isCyl && isSrc ) {
     J21 = relaxParam * holeEC12 * ( w1 - w2 ) + ( 1.0 - relaxParam ) * J21;
     J12 = relaxParam * holeEC12 * ( w2 - w1 ) + ( 1.0 - relaxParam ) * J12;
     cout << "Iteration : " << iterationCounter << endl;    
-    cout << "  w1: " << w1(Lx1/2,Ly/2,Lz/2) << endl;
-    cout << "  w2: " << w2(Lx1+Lx2/4,Ly/2,Lz/2) << endl;
+    cout << "  w1: " << w1(obsX1,obsY1,obsZ1) << endl;
+    cout << "  w2: " << w2(obsX2,obsY1,obsZ1) << endl;
     Vh1 w1dB = 10 * log10( abs( w1 ) );
     Vh2 w2dB = 10 * log10( abs( w2 ) );
     plot(  w1dB , w2dB , value = true , wait = 0 , fill = true , nbiso = 20 , cmm = "Energy density (dB J/m^3)" );

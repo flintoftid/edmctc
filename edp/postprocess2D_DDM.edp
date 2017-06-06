@@ -82,10 +82,10 @@ J2ry = -D2 * dy( w2r );
 //
 
 if( isPart ) {
-  cout << "EDM power density at centre of cavity 1: " << S1(Lx/4,Ly/2) << " W/m^2 = " << 10 * log10( S1(Lx/4,Ly/2) ) << " dB W/m^2" << endl;
-  cout << "EDM power density at centre of in cavity 2: " << S2(3*Lx/4,Ly/2) << " W/m^2 = " << 10 * log10( S2(3*Lx/4,Ly/2) ) << " dB W/m^2" << endl;  
-  cout << "EDM reverberant power density at centre of cavity 1: " << S1r(Lx/4,Ly/2) << " W/m^2 = " << 10 * log10( S1r(Lx/4,Ly/2) ) << " dB W/m^2" << endl;
-  cout << "EDM reverberant power density at centre of in cavity 2: " << S2r(3*Lx/4,Ly/2) << " W/m^2 = " << 10 * log10( S2r(3*Lx/4,Ly/2) ) << " dB W/m^2" << endl;    
+  cout << "EDM power density at centre of cavity 1: " << S1(obsX1,obsY1) << " W/m^2 = " << 10 * log10( S1(obsX1,obsY1) ) << " dB W/m^2" << endl;
+  cout << "EDM power density at centre of cavity 2: " << S2(obsX2,obsY2) << " W/m^2 = " << 10 * log10( S2(obsX2,obsY2) ) << " dB W/m^2" << endl;  
+  cout << "EDM reverberant power density at centre of cavity 1: " << S1r(obsX1,obsY1) << " W/m^2 = " << 10 * log10( S1r(obsX1,obsY1) ) << " dB W/m^2" << endl;
+  cout << "EDM reverberant power density at centre of cavity 2: " << S2r(obsX2,obsY2) << " W/m^2 = " << 10 * log10( S2r(obsX2,obsY2) ) << " dB W/m^2" << endl;    
 }
 
 //

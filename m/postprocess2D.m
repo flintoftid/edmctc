@@ -68,7 +68,7 @@ S2r = c0 .* w2r;
 if( isPart )
   Delta2 = w2r ./ ( w1pwb .* ( x2 < partX ) + w2pwb .* ( x2 >= partX ) );
 else
-  Delta2 = w2r ./ wpwb;
+  Delta2 = w2r ./ w0pwb;
 end % if
 
 % Magnitude of energy density flux.
