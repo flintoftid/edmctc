@@ -1,0 +1,265 @@
+2017-06-06  Ian Flintoft  <ian.flintoft@googlemail.com>
+
+	* FEM_DDM_2D/Model1/Model1.m, FEM_DDM_2D/Model1/Model1_EEBC.edp,
+	FEM_DDM_2D/Model1/Model1_FCBC.edp,
+	FEM_DDM_2D/Model1/Model1_Schwarz.edp, FEM_DDM_3D/Model1/Model1.m,
+	FEM_DDM_3D/Model1/Model1_EEBC.edp,
+	FEM_DDM_3D/Model1/Model1_FCBC.edp,
+	FEM_DDM_3D/Model1/Model1_Schwarz.edp, FEM_SDM_2D/Model1/Model1.edp,
+	FEM_SDM_2D/Model1/Model1.m, FEM_SDM_3D/Model1/Model1.edp,
+	FEM_SDM_3D/Model1/Model1.m,
+	doc/Implementation_Notes/EDM_Implementation_Notes.tex,
+	doc/Implementation_Notes/MathMacros.tex, doc/ToDo.md, edp/PWB.edp,
+	edp/SEA.edp, edp/derivedParameters.edp, edp/postprocess2D.edp,
+	edp/postprocess2D_DDM.edp, edp/postprocess3D.edp,
+	edp/postprocess3D_DDM.edp, m/PWB.m, m/SEA.m, m/derivedParameters.m,
+	m/postprocess2D.m, m/postprocess3D.m:
+	user: Ian Flintoft <ian.flintoft@googlemail.com> branch 'default'
+	added edp/SEA.edp added m/SEA.m changed FEM_DDM_2D/Model1/Model1.m
+	changed FEM_DDM_2D/Model1/Model1_EEBC.edp changed
+	FEM_DDM_2D/Model1/Model1_FCBC.edp changed
+	FEM_DDM_2D/Model1/Model1_Schwarz.edp changed
+	FEM_DDM_3D/Model1/Model1.m changed FEM_DDM_3D/Model1/Model1_EEBC.edp
+	changed FEM_DDM_3D/Model1/Model1_FCBC.edp changed
+	FEM_DDM_3D/Model1/Model1_Schwarz.edp changed
+	FEM_SDM_2D/Model1/Model1.edp changed FEM_SDM_2D/Model1/Model1.m
+	changed FEM_SDM_3D/Model1/Model1.edp changed
+	FEM_SDM_3D/Model1/Model1.m changed
+	doc/Implementation_Notes/EDM_Implementation_Notes.tex changed
+	doc/Implementation_Notes/MathMacros.tex changed doc/ToDo.md changed
+	edp/PWB.edp changed edp/derivedParameters.edp changed
+	edp/postprocess2D.edp changed edp/postprocess2D_DDM.edp changed
+	edp/postprocess3D.edp changed edp/postprocess3D_DDM.edp changed
+	m/PWB.m changed m/derivedParameters.m changed m/postprocess2D.m
+	changed m/postprocess3D.m
+
+	 Reorganised location of parameter calculations ready to implement
+	mesh driven calculation of volumes and areas.
+	[9af47d612582] [tip]
+
+2017-06-04  Ian Flintoft  <ian.flintoft@googlemail.com>
+
+	* doc/Implementation_Notes/EDM_Implementation_Notes.tex,
+	doc/Implementation_Notes/figures/domains0.eps,
+	doc/Implementation_Notes/figures/domains0.odg,
+	doc/Implementation_Notes/figures/domains1.eps,
+	doc/Implementation_Notes/figures/domains1.odg,
+	doc/Implementation_Notes/figures/domains2.eps,
+	doc/Implementation_Notes/figures/domains2.odg:
+	user: Ian Flintoft <ian.flintoft@googlemail.com> branch 'default'
+	changed doc/Implementation_Notes/EDM_Implementation_Notes.tex
+	changed doc/Implementation_Notes/figures/domains0.eps changed
+	doc/Implementation_Notes/figures/domains0.odg changed
+	doc/Implementation_Notes/figures/domains1.eps changed
+	doc/Implementation_Notes/figures/domains1.odg changed
+	doc/Implementation_Notes/figures/domains2.eps changed
+	doc/Implementation_Notes/figures/domains2.odg
+
+	 Coupled domain updates.
+	[1864bd138566]
+
+	* FEM_DDM_2D/Model1/Model1.m, FEM_DDM_2D/Model1/Model1_EEBC.edp,
+	FEM_DDM_2D/Model1/Model1_FCBC.edp,
+	FEM_DDM_2D/Model1/Model1_Schwarz.edp,
+	FEM_DDM_2D/Model1/parameters.geo, FEM_DDM_3D/Meshes/DDM_3D_1.geo,
+	FEM_DDM_3D/Meshes/DDM_3D_2.geo, FEM_DDM_3D/Meshes/cavity1.key,
+	FEM_DDM_3D/Meshes/cavity1.mesh,
+	FEM_DDM_3D/Meshes/cavity1_source.key,
+	FEM_DDM_3D/Meshes/cavity1_source.mesh,
+	FEM_DDM_3D/Meshes/cavity2.key, FEM_DDM_3D/Meshes/cavity2.mesh,
+	FEM_DDM_3D/Meshes/cavity2_cylinder.key,
+	FEM_DDM_3D/Meshes/cavity2_cylinder.mesh,
+	FEM_DDM_3D/Meshes/parameters.geo, FEM_DDM_3D/Model1/Model1.m,
+	FEM_DDM_3D/Model1/Model1_EEBC.edp,
+	FEM_DDM_3D/Model1/Model1_FCBC.edp,
+	FEM_DDM_3D/Model1/Model1_Schwarz.edp,
+	FEM_DDM_3D/Model1/parameters.geo, FEM_SDM_2D/Meshes/SDM_2D.geo,
+	FEM_SDM_2D/Meshes/parameters.geo, FEM_SDM_2D/Model1/Model1.edp,
+	FEM_SDM_2D/Model1/Model1.m, FEM_SDM_2D/Model1/parameters.geo,
+	FEM_SDM_3D/Meshes/SDM_3D.geo, FEM_SDM_3D/Meshes/cavity.key,
+	FEM_SDM_3D/Meshes/cavity.mesh,
+	FEM_SDM_3D/Meshes/cavity_cylinder.key,
+	FEM_SDM_3D/Meshes/cavity_cylinder.mesh,
+	FEM_SDM_3D/Meshes/cavity_cylinder_source.key,
+	FEM_SDM_3D/Meshes/cavity_cylinder_source.mesh,
+	FEM_SDM_3D/Meshes/cavity_partition.key,
+	FEM_SDM_3D/Meshes/cavity_partition.mesh,
+	FEM_SDM_3D/Meshes/cavity_partition_cylinder.key,
+	FEM_SDM_3D/Meshes/cavity_partition_cylinder.mesh,
+	FEM_SDM_3D/Meshes/cavity_partition_cylinder_source.key,
+	FEM_SDM_3D/Meshes/cavity_partition_cylinder_source.mesh,
+	FEM_SDM_3D/Meshes/cavity_partition_source.key,
+	FEM_SDM_3D/Meshes/cavity_partition_source.mesh,
+	FEM_SDM_3D/Meshes/cavity_source.key,
+	FEM_SDM_3D/Meshes/cavity_source.mesh,
+	FEM_SDM_3D/Meshes/parameters.geo, FEM_SDM_3D/Model1/Model1.edp,
+	FEM_SDM_3D/Model1/Model1.m, FEM_SDM_3D/Model1/parameters.geo,
+	doc/Implementation_Notes/EDM_Implementation_Notes.bib,
+	doc/Implementation_Notes/EDM_Implementation_Notes.tex,
+	doc/Implementation_Notes/MathMacros.tex,
+	doc/Implementation_Notes/figures/domains0.eps,
+	doc/Implementation_Notes/figures/domains0.odg,
+	doc/Implementation_Notes/figures/domains1.eps,
+	doc/Implementation_Notes/figures/domains1.odg,
+	doc/Implementation_Notes/figures/domains2.eps,
+	doc/Implementation_Notes/figures/domains2.odg,
+	doc/Implementation_Notes/figures/geometry.eps,
+	doc/Implementation_Notes/figures/geometry.odg,
+	doc/Implementation_Notes/myabbrvnat.bst, doc/ToDo.md,
+	doc/figures/geometry.odg, doc/figures/geometry.png,
+	edp/Kantorovich.edp, edp/PWB.edp, edp/derivedParameters.edp,
+	edp/export2D.edp, edp/export2D_DDM.edp, edp/export3D.edp,
+	edp/export3D_DDM.edp, edp/generalParameters.edp,
+	edp/inputParameters.edp, edp/macros.edp, edp/mesh2D.edp,
+	edp/mesh2D_DDM.edp, edp/mesh3D.edp, edp/mesh3D_DDM.edp,
+	edp/postprocess2D.edp, edp/postprocess2D_DDM.edp,
+	edp/postprocess3D.edp, edp/postprocess3D_DDM.edp, m/Kantorovich.m,
+	m/PWB.m, m/derivedParameters.m, m/ffImportEnergyDensity2D.m,
+	m/ffImportEnergyDensity3D.m, m/ffImportEnergyDensityFlux2D.m,
+	m/ffImportEnergyDensityFlux3D.m, m/generalParameters.m,
+	m/inputParameters.m, m/macros.m, m/plot2D.m, m/plot3D.m,
+	m/postprocess2D.m, m/postprocess3D.m:
+	user: Ian Flintoft <ian.flintoft@googlemail.com> branch 'default'
+	added FEM_DDM_2D/Model1/Model1.m added
+	FEM_DDM_2D/Model1/Model1_EEBC.edp added
+	FEM_DDM_2D/Model1/Model1_FCBC.edp added
+	FEM_DDM_2D/Model1/Model1_Schwarz.edp added
+	FEM_DDM_2D/Model1/parameters.geo added
+	FEM_DDM_3D/Meshes/DDM_3D_1.geo added FEM_DDM_3D/Meshes/DDM_3D_2.geo
+	added FEM_DDM_3D/Meshes/cavity1.key added
+	FEM_DDM_3D/Meshes/cavity1.mesh added
+	FEM_DDM_3D/Meshes/cavity1_source.key added
+	FEM_DDM_3D/Meshes/cavity1_source.mesh added
+	FEM_DDM_3D/Meshes/cavity2.key added FEM_DDM_3D/Meshes/cavity2.mesh
+	added FEM_DDM_3D/Meshes/cavity2_cylinder.key added
+	FEM_DDM_3D/Meshes/cavity2_cylinder.mesh added
+	FEM_DDM_3D/Meshes/parameters.geo added FEM_DDM_3D/Model1/Model1.m
+	added FEM_DDM_3D/Model1/Model1_EEBC.edp added
+	FEM_DDM_3D/Model1/Model1_FCBC.edp added
+	FEM_DDM_3D/Model1/Model1_Schwarz.edp added
+	FEM_DDM_3D/Model1/parameters.geo added FEM_SDM_2D/Meshes/SDM_2D.geo
+	added FEM_SDM_2D/Meshes/parameters.geo added
+	FEM_SDM_2D/Model1/Model1.edp added FEM_SDM_2D/Model1/Model1.m added
+	FEM_SDM_2D/Model1/parameters.geo added FEM_SDM_3D/Meshes/SDM_3D.geo
+	added FEM_SDM_3D/Meshes/cavity.key added
+	FEM_SDM_3D/Meshes/cavity.mesh added
+	FEM_SDM_3D/Meshes/cavity_cylinder.key added
+	FEM_SDM_3D/Meshes/cavity_cylinder.mesh added
+	FEM_SDM_3D/Meshes/cavity_cylinder_source.key added
+	FEM_SDM_3D/Meshes/cavity_cylinder_source.mesh added
+	FEM_SDM_3D/Meshes/cavity_partition.key added
+	FEM_SDM_3D/Meshes/cavity_partition.mesh added
+	FEM_SDM_3D/Meshes/cavity_partition_cylinder.key added
+	FEM_SDM_3D/Meshes/cavity_partition_cylinder.mesh added
+	FEM_SDM_3D/Meshes/cavity_partition_cylinder_source.key added
+	FEM_SDM_3D/Meshes/cavity_partition_cylinder_source.mesh added
+	FEM_SDM_3D/Meshes/cavity_partition_source.key added
+	FEM_SDM_3D/Meshes/cavity_partition_source.mesh added
+	FEM_SDM_3D/Meshes/cavity_source.key added
+	FEM_SDM_3D/Meshes/cavity_source.mesh added
+	FEM_SDM_3D/Meshes/parameters.geo added FEM_SDM_3D/Model1/Model1.edp
+	added FEM_SDM_3D/Model1/Model1.m added
+	FEM_SDM_3D/Model1/parameters.geo added edp/Kantorovich.edp added
+	edp/PWB.edp added edp/derivedParameters.edp added edp/export2D.edp
+	added edp/export2D_DDM.edp added edp/export3D.edp added
+	edp/export3D_DDM.edp added edp/generalParameters.edp added
+	edp/inputParameters.edp added edp/macros.edp added edp/mesh2D.edp
+	added edp/mesh2D_DDM.edp added edp/mesh3D.edp added
+	edp/mesh3D_DDM.edp added edp/postprocess2D.edp added
+	edp/postprocess2D_DDM.edp added edp/postprocess3D.edp added
+	edp/postprocess3D_DDM.edp added m/Kantorovich.m added m/PWB.m added
+	m/derivedParameters.m added m/ffImportEnergyDensity2D.m added
+	m/ffImportEnergyDensity3D.m added m/ffImportEnergyDensityFlux2D.m
+	added m/ffImportEnergyDensityFlux3D.m added m/generalParameters.m
+	added m/inputParameters.m added m/macros.m added m/plot2D.m added
+	m/plot3D.m added m/postprocess2D.m added m/postprocess3D.m
+
+	 Added initial rationalised implementations.
+
+	changed doc/ToDo.md
+
+	 Updated.
+
+	removed doc/figures/geometry.odg removed doc/figures/geometry.png
+	added doc/Implementation_Notes/EDM_Implementation_Notes.bib added
+	doc/Implementation_Notes/EDM_Implementation_Notes.tex added
+	doc/Implementation_Notes/MathMacros.tex added
+	doc/Implementation_Notes/figures/domains0.eps added
+	doc/Implementation_Notes/figures/domains0.odg added
+	doc/Implementation_Notes/figures/domains1.eps added
+	doc/Implementation_Notes/figures/domains1.odg added
+	doc/Implementation_Notes/figures/domains2.eps added
+	doc/Implementation_Notes/figures/domains2.odg added
+	doc/Implementation_Notes/figures/geometry.eps added
+	doc/Implementation_Notes/figures/geometry.odg added
+	doc/Implementation_Notes/myabbrvnat.bst
+
+	 Added implementation notes.
+	[8c3c44cc5dcc]
+
+2017-06-01  Ian Flintoft  <ian.flintoft@googlemail.com>
+
+	* ReadMe.md, doc/ToDo.md, doc/Variables.md:
+	user: Ian Flintoft <ian.flintoft@googlemail.com> branch 'default'
+	changed ReadMe.md changed doc/ToDo.md changed doc/Variables.md
+
+	 Variable name changes.
+	[fdfa27d4fab3]
+
+	* doc/ToDo.md, doc/Variables.md:
+	user: Ian Flintoft <ian.flintoft@googlemail.com> branch 'default'
+	changed doc/ToDo.md changed doc/Variables.md
+
+	 Updated exchange coefficient names.
+	[d9202241393f]
+
+2017-05-31  Ian Flintoft  <ian.flintoft@googlemail.com>
+
+	* ReadMe.md, doc/ToDo.md:
+	user: Ian Flintoft <ian.flintoft@googlemail.com> branch 'default'
+	changed ReadMe.md changed doc/ToDo.md
+
+	 Added some documentation.
+	[813589007d47]
+
+2017-05-30  Ian Flintoft  <ian.flintoft@googlemail.com>
+
+	* ReadMe.md, doc/Variables.md, doc/figures/geometry.odg,
+	doc/figures/geometry.png:
+	user: Ian Flintoft <ian.flintoft@googlemail.com> branch 'default'
+	added doc/Variables.md added doc/figures/geometry.odg added
+	doc/figures/geometry.png changed ReadMe.md
+	[20471185339e]
+
+	* ReadMe.md, doc/Bugs.md, doc/ToDo.md, geo/macros.geo:
+	user: Ian Flintoft <ian.flintoft@googlemail.com> branch 'default'
+	added doc/Bugs.md added doc/ToDo.md added geo/macros.geo
+
+	changed ReadMe.md
+
+	 Add missing link.
+	[7e84127481b7]
+
+2017-05-29  Ian Flintoft  <ian.flintoft@googlemail.com>
+
+	* ReadMe.md:
+	user: Ian Flintoft <ian.flintoft@googlemail.com> branch 'default'
+	changed ReadMe.md
+
+	 Added background section.
+	[bd823ba6e4aa]
+
+	* ReadMe.md:
+	user: Ian Flintoft <ian.flintoft@googlemail.com> branch 'default'
+	changed ReadMe.md
+
+	 Fix image link.
+	[035f4475950b]
+
+	* Licence.txt, ReadMe.md:
+	user: Ian Flintoft <ian.flintoft@googlemail.com> branch 'default'
+	added Licence.txt added ReadMe.md
+
+	 Initial setup.
+	[8918544f9bfe]
+

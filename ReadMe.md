@@ -14,16 +14,16 @@ The power balance (PWB) method of estimating the average diffuse field in a syst
 coupled cavities, as implemented in [AEGPWB][], assumes that the energy density in each
 cavity is uniform ([Hill1994][],[Junqua2005][]). It therefore cannot account for the 
 inhomogeneity in the diffuse field arising from any loss in the cavity. The electromagnetic
-diffusion model (EDM) was proposed as a natural generalization of the PWB method that is
-able to predict such inhomogeneity ([Flintoft2017][]). The EDM is a straightforward 
-translation of the acoustic diffusion model (ADM) into the electromagnetic domain
-([Navarro2015][],[Savioja2015][]); the differences between the EDM and ADM are essentially 
-confined to the auxiliary calculations of the 
-absorption and transmission efficiencies of surface and apertures respectively.
-However, the validity and accuracy of the EDM must still be established independently
-of the ADM since the realms of application are significantly different and the electromagnetic
-field is polarised. A suite of canonical test cases was therefore created into order 
-to explore the realm of validity of the EDM.
+diffusion model (EDM), another statistical energy analysis (SEA) method, was proposed as 
+a natural generalization of the PWB method that is able to predict such inhomogeneity 
+([Flintoft2017][]). The EDM is a straightforward translation of the acoustic diffusion 
+model (ADM) into the electromagnetic domain ([Navarro2015][],[Savioja2015][]); the 
+differences between the EDM and ADM are essentially confined to the auxiliary calculations 
+of the absorption and transmission efficiencies of surface and apertures respectively. 
+However, the validity and accuracy of the EDM must still be established independently of 
+the ADM since the realms of application are significantly different and the 
+electromagnetic field is polarized. A suite of canonical test cases was therefore 
+created into order to explore the realm of validity of the EDM.
 
 Preliminary results for the canonical test cases obtained using two-dimensional models 
 were reported in ([Flintoft2017][]). Initial three-dimensional models will be presented 
@@ -35,13 +35,13 @@ The test cases include:
 
 * Absorption in cavity walls;
 
-* Absorption in a volumetric lossy object.
+* Absorption in volumetric lossy objects.
 
 * Transmission through electrically small and large apertures.
 
 * Excitation by point and surface sources.
 
-* Sabine ([Sabine1922][]) and Jing and Xiang ([Jing2008][]) exchange coefficinet
+* Sabine ([Sabine1922][]) and Jing and Xiang ([Jing2008][]) exchange coefficient
   absorption models.
 
 ## Requirements
@@ -54,13 +54,14 @@ The test-cases are implemented using a combination of [Open Source][] tools:
 2. [FreeFEM++][]: The solutions are implemented using the Finite Element Method [FEM][]
    with the [FreeFEM++][] package ([Geuzaine2009][]).
 
-3. [GNU][] [Octave][] or [MATLAB][]: Most of the post-processing is implemented in a portable 
-   subset of GNU [Octave][] / [MATLAB][]. 
+3. [GNU][] [Octave][] or [MATLAB][]: Most of the post-processing is implemented in 
+   a portable subset of [GNU][] [Octave][] / [MATLAB][]. Version 4.0 of [Octave][] or above
+   is required. 
 
 4. [cquiver][]: Vector field plots in [Octave][] / [MATLAB][] require the cquiver function.
    
 The test cases have been primarily developed using GNU [Octave][] on Linux platforms, 
-but should run under both GNU [Octave][] and [MATLAB][] on Linux and Windows systems.
+but should run under both [GNU][] [Octave][] and [MATLAB][] on Linux and Windows systems.
 
 ## Documentation
 
@@ -116,12 +117,12 @@ The outline work-flow is
 * The plots are currently of limited quality with [Octave][] version 4.0.3.
 
 * The [FreeFEM++][] and [Octave][] code is modular in the sense that it is split
-  into different files; however, the namespace is global so care must be taken
+  into different files; however, the name-space is global so care must be taken
   regarding variable name clashes.
 
 * Beware the scoping rules in FreeFEM++. Certain entities are implemented as
-  "macros" and cannot be declared and defined seperately. This mean that 
-  sometimes code has to be repeated in differnet blocks.
+  "macros" and cannot be declared and defined separately. This mean that 
+  sometimes code has to be repeated in different blocks.
 
 * The same `parameters.geo` is read by the Gmsh, FreeFEM++ and Octave scripts.
 
@@ -236,6 +237,7 @@ modeling techniques”, J. Acoust. Soc. Am., vol. 138, no .2, pp. 708–730, 201
 [University of York]: http://www.york.ac.uk
 [Department of Electronics]: http://www.elec.york.ac.uk
 [Open Source]: http://opensource.org
+[GNU]: http://www.gnu.org
 [GPL3]: http://www.gnu.org/copyleft/gpl.html
 [GNU]: https://www.gnu.org/home.en.html
 [EMC]: http://www.york.ac.uk/electronics/research/physlayer/appliedem/emc/

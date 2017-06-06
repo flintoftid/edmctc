@@ -239,9 +239,9 @@ value?}
 
 {\color{red} Question: How do we determine the diffusivity in cases with complex topology such as
 the test case with the cylinder? Empirically it appears the diffusivity is about one quarter of that
-of the empty sub-cavity in the dutal cavity case. In the single cavity case the effect is not
-noticable. The fitting method of determining fittingMFP = 4S/fittingS does not appear to be
-appropriate for single contents which significiantly perturb the cavity shape.}
+of the empty sub-cavity in the dual cavity case. In the single cavity case the effect is not
+noticeable. The fitting method of determining fittingMFP = 4S/fittingS does not appear to be
+appropriate for single contents which significantly perturb the cavity shape.}
 
 \subsection[Absorption in the cavity walls]{Absorption in the cavity walls}
 \label{sc:sum:abs}
@@ -557,7 +557,7 @@ and the inner product is
 = \iiint_{\Omega} u\pr v\pr \dif{V}.
 \end{align}
 
-The above developement is sufficient to implement a numerical solution in FreeFEM++; for 
+The above development is sufficient to implement a numerical solution in FreeFEM++; for 
 time-independent problems the essence of this implementation is:
 \begin{verbatim}
    problem EDM( w , u ) 
@@ -586,7 +586,7 @@ using $n_\rT$ elements $T_k$ with characteristics dimension $h$:
 \begin{align}
 T_h = \left\{T_k:k=1,{\dots},n_\rT\right\}.
 \end{align}
-The elements are typically triangles in 2D or tetrahdera in 3D.
+The elements are typically triangles in 2D or tetrahedra in 3D.
 The number of vertices in the mesh is denoted by $n_\rv$ and the boundary of the
 discrete domain is denoted by $\partial\Omega\approx\partial\Omega_h$. The finite element
 space on $T_h$, is denoted by $V_h\left(T_h,X\right)$:
@@ -659,7 +659,7 @@ This reduces to a linear algebraic system
 \left( \mD +\Lambda_V \mM + \mH \right) \vec{w} - \left( \vec{J}^\rs + \vec{P} \right) = \vzero
 \end{align}
 for time-independent problems. Time dependent systems can be solved by applied a finite difference
-scheme to the time derative.
+scheme to the time derivative.
 
 \subsection[Coupled domains]{Coupled domains}
 \label{sc:fem:coup}
@@ -734,14 +734,14 @@ J^{n+1}_{12}\prt &= \beta J^n_{12}\prt + ( 1 - \beta) h_{12}\pr \left[ w^n_2\prt
 As described in Section~\ref{sc:sum:coup} the energy exchange BC and flux continuity BC approaches 
 are equivalent in the case of a lossless aperture. 
 
-Continuity of both the energy density and flux can be enforced using a Schwarz domain decompostion
+Continuity of both the energy density and flux can be enforced using a Schwarz domain decomposition
 method. The weak forms are the same as for the FCBC method, however the net flux is updated using
 \begin{align}
 J^0_{21}\prt &= 0 \\
 J^{n+1}_{21}\prt &= J^n_{21}\prt + \beta h_{21}\pr \left[ w^n_1\prt - w^n_2\prt \right] \\
 J^{n+1}_{12}\prt &= -J^{n+1}_{21}\prt ,
 \end{align}
-where the signe and magnitude of $\beta$ are chosen to give a stable scheme. This Schwarz approach
+where the sign and magnitude of $\beta$ are chosen to give a stable scheme. This Schwarz approach
 is equivalent to using a single domain method.
 
 \subsection[Two dimensional FEM solution]{Two dimensional FEM solution}
