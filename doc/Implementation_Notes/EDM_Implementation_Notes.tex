@@ -18,10 +18,12 @@
 \usepackage{natbib}
 \setcitestyle{authoryear,open={(},close={)}}
 %\usepackage{times}
-%\usepackage{fancyhdr}
+\usepackage{fancyhdr}
 \usepackage[reqno]{empheq}
 %\usepackage{txfonts}
 \usepackage{doi}
+\usepackage[nodayofweek,level]{datetime}
+\newcommand{\mydate}{\formatdate{3}{6}{2017}}
 %
 \include{MathMacros}
 \numberwithin{equation}{section}
@@ -43,22 +45,31 @@
 \title{Implementation of electromagnetic diffusion model canonical test cases using FreeFEM++}
 \author{Ian Flintoft}
 \date{2017-02-04}
+\renewcommand{\headrulewidth}{0.0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\lhead{}
+\chead{}
+\rhead{}
+\lfoot{Ian Flintoft \href{mailto:ian.flintoft@googlemail.com}{<ian.flintoft@googlemail.com>}}
+\rfoot{\mydate}
+\pagestyle{fancy}
 %
 \begin{document}
 \clearpage\setcounter{page}{1}{\centering
 \textbf{\Large Implementation of electromagnetic diffusion model canonical test cases using FreeFEM++}
 \par}
 \vspace{5mm}
+\thispagestyle{plain}
 {\centering\large 
 Ian Flintoft\footnote{ Email: \href{mailto:ian.flintoft@googlemail.com}{ian.flintoft@googlemail.com}; 
 Web: \url{https://idflintoft.bitbucket.io}}, University of York
 \par}
 \vspace{5mm}
 {\centering
-04 February 2017
+\mydate
 \par}
 \vspace{5mm}
-\textbf{\textit{Abstract}}\textit{ -- These notes provide details of the implementation of the 
+\textbf{\textit{Abstract}}\textit{ -- These informal notes provide details of the implementation of the 
 electromagnetic diffusion model of some canonical test cases using the finite element method
 with FreeFEM++. The treatment is terse and no attempt has been made to motivate the methods used or to provide
 comprehensive background and references. 
@@ -68,9 +79,10 @@ comprehensive background and references.
 \renewcommand\contentsname{Contents}
 \tableofcontents
 %
+\newpage
 
-\section*{Glossary and symbols}
-\label{sc:gloss}
+\section*{Abbreviations}
+\label{sc:abbrev}
 
 \begin{supertabular}{m{2cm}l}
 ACS              & (Average) Absorption Cross-Section  \\
@@ -91,48 +103,54 @@ PWB              &Power Balance                        \\
 TCS              &(Average) Transmission Cross-Section \\
 TE               &(Average) Transmission Efficiency    \\
 \end{supertabular}
-\vspace{5mm}
+
+\newpage
+\section*{Symbols}
+\label{sc:symbols}
 
 \begin{center}
 \begin{supertabular}{|c|c|c|l|}
 \hline
-\textbf{Symbol}     &\textbf{Unit}   &\textbf{Variable}    &\textbf{Definition} \\
+\textbf{Symbol}     &\textbf{Unit}   &\textbf{Variable}           &\textbf{Definition} \\
 \hline
-$w\prt$             &J\,m$^{-3}$     &\texttt{w}           &Spatial and temporal average energy density in cavity \\
-$D\pr$              &m$^2$\,s$^{-1}$ &\texttt{D}           &Diffusivity \\
-$\Lambda _V$        &s$^{-1}$        &-                    &Volumetric absorption loss rate \\
-$p\prt$             &W\,m$^{-3}$     &~                    &Volumetric power density source \\
-$\rc_0$             &m\,s${-1}$      &\texttt{c0}          &Speed of light in free-space \\
-$\lambda$           &m               &\texttt{MFP}         &Mean free path \\
-$\vJ\prt$           &W\,m$^{-2}$     &\texttt{J}           &Fickian energy density flux \\
-$V$                 &m$^3$           &\texttt{V}           &Domain volume \\
-$S$                 &m$^2$           &\texttt{S}           &Domain surface area \\
-$\kappa$            &-               &\texttt{specularity} &Empirical specular correction factor for diffusivity \\
-$h\pr$              &m\,s$^{-1}$     &\texttt{EC}          &Energy exchange coefficient of domain boundary \\
-$\alpha\pr$         &-               &\texttt{AE}          &Average absorption efficiency of domain boundary \\
-$\uvn$              &-               &-                    &Outward unit normal vector for domain \\
-$\lambda_\rw$       &m               &\texttt{wallMFP}     &Mean free path for wall scattering \\
-$D_\rw$             &m$^2$\,s$^{-1}$ &\texttt{wallD}       &Diffusivity for wall scattering \\
-$\alpha_\rw\pr$     &~               &\texttt{wallAE}      &Average absorption efficiency of walls \\
-$h_\rw\pr$          &m\,s$^{-1}$     &\texttt{wallEC}      &Energy exchange coefficient of walls \\
-$\lambda _\rf$      &m               &\texttt{fittingMFP}  &Mean free path for fitting scattering \\
-$D_\rf$             &m$^2$\,s$^{-1}$ &\texttt{fittingD}    &Diffusivity path for fitting scattering \\
-$\alpha_\rf\pr$     &-               &\texttt{fittingAE}   &Average absorption efficiency of fittings \\
-$\sigma_\rf^\rs$    &m$^2$           &\texttt{fittingSCS}  &Average scattering cross-section of fittings \\
-$h_\rf\pr$          &m\,s$^{-1}$     &\texttt{fittingEC}   &Energy exchange coefficient of fittings \\
-$n_V^\rf$           &m$^{-3}$        &~                    &Volumetric number density of fittings \\
-$\Lambda_V^\rf$     &s$^{-1}$        &~                    &Volumetric absorption loss rate due to fittings \\
-$P^\rt$             &W               &\texttt{TRP}         &Source total (isotropic) radiated power \\
-$V_\rs$             &m$^3$           &\texttt{srcVolume}   &Volume source volume \\
-$S_\rs$             &m$^2$           &\texttt{srcArea}     &Surface source surface area \\
-$J_\rs$             &W\,m$^{-2}$     &\texttt{srcExitance} &Surface source exitance \\
-$\tau$              &-               &\texttt{TE}          &Average transmission efficiency of lossless aperture \\
-$w_\rr\prt$         &J\,m$^{-3}$     &\texttt{wr}          &Average reverberant energy density in cavity \\
-$J_\rr\prt$         &W\,m$^{-2}$     &\texttt{Jr}          &Reverberant energy density flux \\
-$S\prt$             &W\,m$^{-2}$     &\texttt{S}           &Average scalar power density \\
+$w\prt$             &J\,m$^{-3}$     &\texttt{w}                  &Average energy density in cavity \\
+$D\pr$              &m$^2$\,s$^{-1}$ &\texttt{D}                  &Diffusivity (Diffusion Coefficient) \\
+$\Lambda _V$        &s$^{-1}$        &\texttt{volLossrate}        &Volumetric absorption loss rate \\
+$p\prt$             &W\,m$^{-3}$     &\texttt{volSrcDensity}      &Volumetric power density source \\
+$\rc_0$             &m\,s${-1}$      &\texttt{c0}                 &Speed of light in free-space \\
+$\lambda$           &m               &\texttt{MFP}                &Mean free path \\
+$\vJ\prt$           &W\,m$^{-2}$     &\texttt{Jx, Jy, Jz}         &Fickian energy density flux \\
+$V$                 &m$^3$           &\texttt{cavityVolume}       &Domain volume \\
+$S$                 &m$^2$           &\texttt{cavityArea}         &Domain surface area \\
+$\kappa$            &-               &\texttt{specularity}        &Empirical specular correction factor for diffusivity \\
+$h\pr$              &m\,s$^{-1}$     &\texttt{EC}                 &Energy exchange coefficient of domain boundary \\
+$\alpha\pr$         &-               &\texttt{AE}                 &Average absorption efficiency of domain boundary \\
+$\uvn$              &-               &-                           &Outward unit normal vector for domain \\
+$\lambda_\rw$       &m               &\texttt{wallMFP}            &Mean free path for wall scattering \\
+$D_\rw$             &m$^2$\,s$^{-1}$ &\texttt{wallD}              &Diffusivity for wall scattering \\
+$\alpha_\rw\pr$     &~               &\texttt{wallAE}             &Average absorption efficiency of walls \\
+$h_\rw\pr$          &m\,s$^{-1}$     &\texttt{wallEC}             &Energy exchange coefficient of walls \\
+$\lambda _\rf$      &m               &\texttt{fittingMFP}         &Mean free path for fitting scattering \\
+$D_\rf$             &m$^2$\,s$^{-1}$ &\texttt{fittingD}           &Diffusivity path for fitting scattering \\
+$\alpha_\rf\pr$     &-               &\texttt{fittingAE}          &Average absorption efficiency of fittings \\
+$\sigma_\rf^\rs$    &m$^2$           &\texttt{fittingSCS}         &Average scattering cross-section of fittings \\
+$h_\rf\pr$          &m\,s$^{-1}$     &\texttt{fittingEC}          &Energy exchange coefficient of fittings \\
+$n_V^\rf$           &m$^{-3}$        &\texttt{fittingConc}        &Volumetric number density of fittings \\
+$\Lambda_V^\rf$     &s$^{-1}$        &\texttt{fittingVolLossRate} &Volumetric absorption loss rate due to fittings \\
+$P^\rt$             &W               &\texttt{TsrcRP}             &Source total (isotropic) radiated power \\
+$V_\rs$             &m$^3$           &\texttt{srcVolume}          &Volume source volume \\
+$S_\rs$             &m$^2$           &\texttt{srcArea}            &Surface source surface area \\
+$J_\rs$             &W\,m$^{-2}$     &\texttt{srcSurfaceExitance} &Surface source exitance \\
+$J_\rs$             &W\,m$^{-2}$     &\texttt{srcLineExitance}    &Contour source line exitance \\
+$\tau$              &-               &\texttt{TE}                 &Average transmission efficiency of lossless aperture \\
+$w_\rr\prt$         &J\,m$^{-3}$     &\texttt{wr}                 &Average reverberant energy density in cavity \\
+$\vJ_\rr\prt$       &W\,m$^{-2}$     &\texttt{Jrx, Jyx, Jrz}      &Reverberant energy density flux \\
+$S\prt$             &W\,m$^{-2}$     &\texttt{S}                  &Average scalar power density \\
 \hline
 \end{supertabular}
 \end{center}
+
+\newpage
 
 \section[Summary of the model]{Summary of the model}
 \label{sc:sum}
@@ -148,19 +166,19 @@ domain $\Omega$ is assumed to satisfy the diffusion equation
 \frac{\partial w\prt}{\partial t} - \vnabla\vcdot\left[D\pr \vnabla w\prt \right] + \Lambda_V w\prt = p\prt &\vr\in\Omega 
 \end{matrix}
 \end{align}
-where $D\prt$ is the potentially inhomogeneous diffusivity, $\Lambda_V$ is an 
-overall volumetric absorption loss rate and  $p\prt$ is the volume power density 
-of any sources. This is a second order parabolic partial differential equation (PDE).
+where $D\pr$ is the potentially inhomogeneous diffusivity, $\Lambda_V$ is an 
+average volumetric absorption loss rate and  $p\prt$ is the volume power density 
+of any sources~\citep{Picaut1999,Valeau2006,Navarro2015,Savioja2015}. This is a second order parabolic partial differential equation (PDE).
 For time dependent problems the initial value of the energy density must be
-prescribed over the volume
+prescribed over the whole domain
 \begin{align}
 \begin{matrix}
 \left.w\prt\right|_{t_0} = w_0\pr &\vr\in\Omega
 \end{matrix}
 \end{align}
 The diffusivity accounts for the scattering within the cavity. To first
-approximation it may be regarded as constant and is related to the
-mean-free-path (MFP) between scattering events, $\lambda$, by
+approximation in a large sparsely populated domain it may be regarded as constant and 
+is related to the mean-free-path (MFP) between scattering events, $\lambda$, by
 \begin{align}
 D = \frac{1}{3}\rc_0\lambda 
 \end{align}
@@ -177,13 +195,13 @@ The diffusion equation can therefore be interpreted as an equation of continuity
 \frac{\partial w\prt}{\partial t} +\vJ\prt + \Lambda_V w\prt= p\prt &\vr{\in}\Omega
 \end{matrix}
 \end{align}
-for diffuse energy ``flow''.
+for a flow of diffuse energy carried by pseudo-particles.
 
 \subsection[Scattering from the cavity walls]{Scattering from the cavity walls}
 \label{sc:sum:walls}
 
 For an empty cavity without a strong aspect ratio (i.e. one that is approximately cubic) 
-the MFP for scattering from the walls is given by
+the MFP for scattering from the walls is given by~\citep{Navarro2015}
 \begin{align}
 \lambda_\rw = \frac{4V}{S},
 \end{align}
@@ -194,7 +212,7 @@ V &= \iiint_{\Omega }\dif{V} \\
 S &= \oiint_{\partial\Omega }\dif{S} .
 \end{align}
 For cavities with one dimension much greater than the others a better estimate
-of the mean-free-path is given by
+of the mean-free-path is given by~\citep{Visentin2012}
 \begin{align}
 \lambda_\rw = \sqrt{\frac{S}{4\pi}} .
 \end{align}
@@ -210,13 +228,13 @@ mean of the MFP of the walls and fittings,
 \begin{align}
 \frac{1}{\lambda} = \frac{1}{\lambda_\rw} + \frac{1}{\lambda_\rf},
 \end{align}
-as is the corresponding overall diffusivity
+as is the corresponding overall diffusivity~\citep{Valeau2007}
 \begin{align}
-\frac{1}{D} = \frac{1}{D_\rw} + \frac{1}{D_\rf},
+\frac{1}{D} = \frac{1}{D_\rw} + \frac{1}{D_\rf}.
 \end{align}
 The diffusivity is therefore dominated by the shortest MFP. The MFP for
 scattering with identical fittings of surface area $S_\rf$ and volumetric
-concentration $n_V^\rf=N_\rf/V$ can be estimated as
+concentration $n_V^\rf=N_\rf/V$ can be estimated as~\citep{Valeau2007}
 \begin{align}
 \lambda_\rf = \frac{1}{\sigma_\rf^\rs n_V^\rf} = \frac{4V}{S_\rf N_\rf},
 \end{align}
@@ -234,7 +252,7 @@ introducing an empirical factor, ${\kappa}$, into the diffusivity
 \begin{align}
 D \rightarrow \kappa D
 \end{align}
-with $1\leq\kappa\lesssim 5$. 
+with $1\leq\kappa\lesssim 5$~\citep{Foy2009}. 
 
 {\color{red} Question: How strong is evidence for this and what is guidance on choosing the
 value?}
@@ -252,32 +270,33 @@ Absorption in the domain boundary is described by inhomogeneous Robin (also
 called Fourier or Type 3) boundary conditions:
 \begin{align}
 \begin{matrix}
-\uvn\vcdot\left[D\pr\vnabla w\prt\right] + h\pr w\prt + J_\mathrm{out}\prt - J_\mathrm{in}\prt = 0 &\vr\in\partial\Omega
+\uvn\vcdot\left[D\pr\vnabla w\prt\right] + h\pr w\prt + J_\mathrm{in}\prt - J_\mathrm{out}\prt = 0 &\vr\in\partial\Omega
 \end{matrix}
 \end{align}
 where $\uvn$ is an outward normal vector to the domain and 
-$h\pr$ is an energy exchange coefficient (EC). $J_\mathrm{out}\prt$ and
-$J_\mathrm{in}\prt$ represent an in-flux and out-flux (exitance) of energy density respectively and
-can be used to model sources and energy exchange boundary conditions (EEBCs) as noted below.
+$h\pr$ is an energy exchange coefficient (EC). $J_\mathrm{in}\prt$ and
+$J_\mathrm{out}\prt$ represent an in-flux and out-flux (exitance) of energy density to/from the surface 
+respectively and can be used to model sources and energy exchange boundary conditions (EEBCs) as noted below.
 Various models have been used in the acoustics literature to related the exchange coefficient to the
-average absorption efficiency of the domain boundary, $\alpha\pr$. The
-simplest uses the Sabine estimate of reverberation time giving
+average absorption efficiency of the domain boundary, $\alpha\pr$~\citep{Jing2008,Xiang2009}. The
+simplest is based on Sabine's estimate of the reverberation time~\citep{Sabine1922}
 \begin{align}
 \begin{matrix}
 h\pr = \frac{1}{4}\rc_0\alpha \left(r\right)&0\leq\alpha\lesssim 0.2
 \end{matrix}
 \end{align}
-and is regarded in acoustics as accurate only for low absorption $\alpha\lesssim 0.2$. 
-A modified form based on the Eyring reverberation time has also been applied:
+and is regarded in acoustics as only accurate for low absorption $\alpha\lesssim 0.2$. 
+A modified form
 \begin{align}
 \begin{matrix}
 h\pr = -\rc_0\frac{\log_{10}\left(1-\alpha\pr\right)}{4} &0\leq\alpha< 1
 \end{matrix}.
 \end{align}
+based on the Eyring reverberation time has also been applied~\citep{Eyring1930}.
 This empirically provides better results for moderate absorption, $\alpha\lesssim 0.5$, 
 but becomes singular for $\alpha=1$. More recently a relation based on
 a radiative transport model has been proposed which appears to give good
-results over the full range of absorption efficiency:
+results over the full range of absorption efficiency~\citep{Jing2008}:
 \begin{align}
 \begin{matrix}
 h\pr =\rc_0\frac{\alpha\pr}{2\left(2-\alpha\pr\right)} & 0\leq\alpha\leq 1 .
@@ -294,25 +313,26 @@ $\alpha_\rf\pr$ and $h_\rf\pr$ respectively.
 \label{sc:sum:src}
 
 A point source of instantaneous total radiated power (TRP) $P^\rt(t)$
-located at $\vr_\rs$ can be implemented as
+located at $\vr_\rs$ can be implemented as a power density
 \begin{align}
 p\prt = P^\rt(t) \delta^{(3)}\left(\vr-\vr_\rs\right).
 \end{align}
 The energy density near such a source contains a spurious direct term that can
-be subtract to give the reverberant energy density; in 3D this correction is:
+be subtract to give the reverberant energy density~\citep{Visentin2012}; in 3D this correction is:
 \begin{align}
 w_\rr\pr = w\pr - \frac{P^\rt}{4\pi D\left|\vr-\vr_\rs\right|}.
 \end{align}
-The true direct energy density is
+The true direct energy density is given by the inverse-square-law for the
+isotropic spreading of the power from the source:
 \begin{align}
-w_\rd\pr = \frac{P^\rt}{4\pi\rc_0\left|\vr-\vr_\rs\right|^2}
+w_\rd\pr = \frac{P^\rt}{4\pi\rc_0\left|\vr-\vr_\rs\right|^2}.
 \end{align}
-and the reverberant energy density flux is
+The corresponding reverberant energy density flux is
 \begin{align}
 \vJ_\rr\prt = -D\vnabla w_\rr\pr = \vJ\prt - \frac{P^\rt}{4\pi\left|\vr-\vr_\rs\right|^3}\left(\vr-\vr_\rs\right).
 \end{align}
 
-A uniform volumetric source over a sub-domain $\Omega _s$ can be implemented
+A uniform volumetric source over a sub-volume of the domain $\Omega_s$ can be implemented
 using
 \begin{align}
 \begin{matrix} 
@@ -339,7 +359,7 @@ S_\rs &= \oiint_{\partial\Omega_\rs}\dif{S} .
 \subsection[Coupled domains]{Coupled domains}
 \label{sc:sum:coup}
 
-Consider the case of two cavities of domains $\Omega_1$ and $\Omega_2$ with
+Consider the case of two cavities forming domains $\Omega_1$ and $\Omega_2$ with
 diffusivities $D_1\pr$ and $D_2\pr$ coupled by a translucent part of their 
 shared boundary; the domain 1 side of the shared boundary is denoted by 
 ${\partial}\Omega_{12}$ and the domain 2 side by ${\partial}\Omega_{21}$.
@@ -366,7 +386,7 @@ apply
 \end{align}
 where  $\widehat  n_1$ and  $\widehat  n_2$ are outward normal vectors in their
 respective domains. On the shared wall an energy exchange boundary condition is
-applied
+applied~\citep{Billon2008}
 \begin{align}
 \begin{matrix}
 \uvn_1{\vcdot}\left[D_1\pr{\vnabla}w_1\prt\right]+h_{11}\pr w_1\prt-h_{12}\pr w_2\prt = 0 &\vr\in\partial\Omega_{12}
@@ -412,11 +432,14 @@ $J_{\mathit{ij}}\prt$ these can also be written
 \end{matrix}\\
 \begin{matrix}
 \uvn_2{\vcdot}\left[D_2\pr{\vnabla}w_2\prt\right]-J_{21}\prt=0 &\vr\in\partial\Omega_{21}
-\end{matrix}\\
+\end{matrix}
+\end{align}
+with
+\begin{align}
 J_{12}\prt = -J_{21}\prt = \frac{1}{4}\rc_0\tau\left[w_2\prt-w_1\prt\right].
 \end{align}
 Adding these and noting $\uvn_1=-\uvn_2$ we find an energy density flux continuity
-boundary condition (FCBC) through the aperture:
+boundary condition (FCBC) through the aperture~\citep{Billon2008}:
 \begin{align}
 \begin{matrix}
 \uvn_1{\vcdot}\left[D_1\pr{\vnabla}w_1\prt-D_2\pr{\vnabla}w_2\prt\right]=0 &\vr\in\partial\Omega_{12}
@@ -434,7 +457,7 @@ where $h_{11},h_{22}>\frac{1}{4}\rc_0\tau$.
 
 Systematic reduction from 3D to 2D can be made via the Kantorovich dimensional
 reduction approach for domains with a uniform cross-section in one direction,
-here taken to be the $z$-direction. This separates the energy density into
+here taken to be the $z$-direction~\citep{Sequeira2012}. This separates the energy density into
 \begin{align}
 w\prt = W(x,y,t)Z(z),
 \end{align}
@@ -451,7 +474,7 @@ where
 \xi &= \frac{h_\rw} D.
 \end{align}
 Using the Kantorovich dimensional reduction approach shows that the energy
-density in the other two dimensions satisfies the 2D diffusion problem
+density in the other two dimensions satisfies the 2D diffusion problem~\citep{Kantorovich1964}
 \begin{align}
 \begin{matrix}
 \frac{{\partial}W\left(x,y,t\right)}{{\partial}t}
@@ -483,12 +506,13 @@ If the $z=0$ and $z=L_z$ faces have the same uniform ECs then
 \label{sc:fem}
 
 The diffusion equation can be solved numerical using a number of methods
-including the finite element method (FEM).
+including the finite element method (FEM). In this section we outline the FEM 
+solution and its implementation using FreeFEM++~\citep{Hecht2013,Hecht2017}.
 
 \subsection[Weak form of the diffusion problem]{Weak form of the diffusion problem}
 \label{sc:fem:weak}
 
-To derive the weak formulation we start from the PDE
+To derive the weak formulation of the EDM we start from the PDE
 \begin{align}
 \begin{matrix}
 \frac{{\partial}w\prt}{{\partial}t}-{\vnabla}{\vcdot}\left[D\pr{\vnabla}w\prt\right]+\Lambda_V w\prt=p\prt &\vr\in\Omega 
@@ -520,7 +544,7 @@ Now letting $\varphi\pr=u\pr$, $\gamma\pr=D\pr$ and $\psi=w\prt$ we have
 \begin{align}
 \iiint_{\Omega} u{\vnabla}{\vcdot}\left[D{\vnabla}w\right]\dif{V}
 =\oiint_{\partial\Omega } uD{\vnabla}w{\vcdot}\dif{\vS}
--\iiint_{\Omega} D{\vnabla}w{\vcdot}{\vnabla}u\dif{V}
+-\iiint_{\Omega} D{\vnabla}w{\vcdot}{\vnabla}u\dif{V},
 \end{align}
 which can be used to reduce the second order derivative term in the integral form above to obtain
 \begin{align}
@@ -530,7 +554,7 @@ which can be used to reduce the second order derivative term in the integral for
 &+\Lambda_V \iiint_{\Omega} u\pr w\prt\dif{V}
 =\iiint_{\Omega} u\pr p\prt\dif{V}.
 \end{align}
-The most general form of the Robin boundary condition
+The most general form of the Robin BC
 \begin{align}
 D\pr\uvn{\vcdot}{\vnabla} w\prt +h\pr w\prt-J_\rs\prt=0
 \end{align}
@@ -590,7 +614,8 @@ using $n_\rT$ elements $T_k$ with characteristics dimension $h$:
 \begin{align}
 T_h = \left\{T_k:k=1,{\dots},n_\rT\right\}.
 \end{align}
-The elements are typically triangles in 2D or tetrahedra in 3D.
+The elements are typically triangles in 2D or tetrahedra in 3D. The maximum edge size 
+in the mesh for an accurate approximate solution is determined by the MFP in the EDM: $h\lesssim\lambda/10$.
 The number of vertices in the mesh is denoted by $n_\rv$ and the boundary of the
 discrete domain is denoted by $\partial\Omega\approx\partial\Omega_h$. The finite element
 space on $T_h$, is denoted by $V_h\left(T_h,X\right)$:
@@ -664,8 +689,49 @@ This reduces to a linear algebraic system
 \begin{align}
 \left( \mD +\Lambda_V \mM + \mH \right) \vec{w} - \left( \vec{J}^\rs + \vec{P} \right) = \vzero
 \end{align}
-for time-independent problems. Time dependent systems can be solved by applying a finite difference
-scheme to the time derivative.
+for time-independent problems. 
+
+Time dependent systems can be solved by applying a finite difference
+scheme to the time derivative. Sampling $w\prt=w(\vr,\Delta t)=w^n\pr$
+and applying a Euler backward difference approximation the time
+derivative term is
+\begin{align}
+\langle \dot{w},u \rangle \approx
+\left\langle \frac{w^n-w^{n-1}}{\Delta t},u \right\rangle
+=\iiint_{\Omega} u\pr  \frac{w^n\pr-w^{n-1}\pr}{\Delta t} \dif{V}
+\end{align}
+The weak variational problem
+\begin{align}
+\left\langle \frac{w^n-w^{n-1}}{\Delta t},u \right\rangle
++ a(w,u) - \langle J_\rs+p ,u \rangle = 0,
+\end{align}
+can then be solved implicitly for the solution $w^n\pr$ at time step $n$
+using the known solution $w^{n-1}\pr$ at the previous time-step. This 
+leads to the FreeFEM++ time-stepping implementation:
+\begin{verbatim}
+
+   real dt = meshSize * meshSize / 2 / D;
+   Vh w , wold = wpwb , u;
+
+   problem EDM( w , u ) 
+    = int3d(Omega)       ( w / dt * u )
+    - int3d(Omega)       ( wold / dt * u )
+    + int3d(Omega)       ( D * ( dx(w) * dx(u) + dy(w) * dy(u) + dz(w) * dz(u) ) )
+    + int3d(Omega)       ( w * v * LambdaV )
+    + int2d(Omega,dOmega)( w * u * h )   
+    - int2d(Omega,dOmega)( u * Js )
+    - int3d(Omega)       ( u * p );
+    
+   for( real t = 0 ; t < maxTime ; t += dt ) {
+     wold = w;
+     EDM;
+   }
+
+\end{verbatim}
+This implicit scheme is unconditionally stable and so the stability criterion 
+$\Delta t \leq h^2/2D$, where $h$ is the smallest edge length in the mesh, 
+that applied to explicit finite-difference approximations of
+the diffusion equations does not have to be satisfied.
 
 \subsection[Iterative methods for coupled domains]{Iterative methods for coupled domains}
 \label{sc:fem:coup}
@@ -739,7 +805,7 @@ J^{n+1}_{12}\prt &= \beta J^n_{12}\prt + ( 1 - \beta) h_{12}\pr \left[ w^n_2\prt
 As described in Section~\ref{sc:sum:coup} the EEBC and FCBC are equivalent in the case of a lossless aperture. 
 
 Continuity of both the energy density and its flux can be enforced using a Schwarz domain decomposition
-method. The weak forms are the same as for the FCBC method, however the net flux is updated using
+method~\citep{Lions1990}. The weak forms are the same as for the FCBC method, however the net flux is updated using
 \begin{align}
 J^0_{21}\prt &= 0 \\
 J^{n+1}_{21}\prt &= J^n_{21}\prt + \beta h_{21}\pr \left[ w^n_1\prt - w^n_2\prt \right] \\
@@ -797,12 +863,12 @@ $w_\mathrm{hole}$ with the full height of the cavity located in the region
 $L_y-w_\mathrm{hole} \leq y \leq L_y$, $0 \leq z \leq L_z$ of the shared 
 $x=x_\mathrm{part}$ wall. The hole was chosen to span the whole cavity so that the 
 dimensional reduction technique is applicable and it was located along the edge of the 
-partition for experimental convenience in the validation measurements described in~\cite{Flintoft2017b}.
+partition for experimental convenience in the validation measurements.
 The thickness of the partition is denoted $t_\mathrm{part}$.
 
 The values of the parameters are given in Table~\ref{tb:tcparam}. The wall and cylinder
 absorption efficiencies were chosen to match those of the physical cavity and
-cylinder used for the validation measurements described in~\cite{Flintoft2017b}.
+cylinder used for the validation measurements described in~\citep{Flintoft2017b}.
 
 \begin{figure}[ht]
 \begin{center}
@@ -819,6 +885,8 @@ The small black dots represent the probe locations in the z=h plane used for the
 \hline
 \textbf{Parameter}     &\textbf{Variable}      & \textbf{Value} \\
 \hline
+\multicolumn{3}{|c|}{\textbf{Geometrical}} \\
+\hline
 $L_x$                  &\texttt{Lx}            &0.90\,m \\
 $L_y$                  &\texttt{Ly}            &0.45\,m \\
 $L_z$                  &\texttt{Lz}            &0.45\,m \\
@@ -834,7 +902,9 @@ $y_\mathrm{cyl}$       &\texttt{cylY}          &0.225\,m \\
 $z_\mathrm{cyl}$       &\texttt{cylZ}          &0.225\,m \\
 $a_\mathrm{cyl}$       &\texttt{cylRadius}     &0.05\,m \\
 \hline
-$P^\rt_\mathrm{src}$   &\texttt{TRP}           &1\,W \\
+\multicolumn{3}{|c|}{\textbf{Electromagnetic}} \\
+\hline
+$P^\rt_\mathrm{src}$   &\texttt{srcTRP}        &1\,W \\
 $\alpha_\mathrm{wall}$ &\texttt{wallAE}        &0.0027 \\
 $\alpha_\mathrm{part}$ &\texttt{partAE}        &0.0027 \\
 $\alpha_\mathrm{cyl}$  &\texttt{cylAE}         &0.95 \\
@@ -843,6 +913,19 @@ $\alpha_\mathrm{cyl}$  &\texttt{cylAE}         &0.95 \\
 \end{center}
 \caption{\label{tb:tcparam} Primary parameters and variable names for the test cases.}
 \end{table}
+
+\subsection[CAD and mesh generation]{CAD and mesh generation}
+\label{sc:tcs:cadmesh}
+
+Use Gmsh~\citep{Geuzaine2009}.
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.8\linewidth]{figures/gmshdualmesh}
+\vspace{-4mm}
+\caption{\label{fg:tcgeom} Tetrahedral mesh of the coupled cavities test-case containing the lossy cylinder.}
+\end{center}
+\end{figure}
 
 \subsection[Empty unpartitioned cavity]{Empty unpartitioned cavity}
 \label{sc:tcs:emptyunpart}
@@ -883,6 +966,7 @@ a inhomogeneous diffusivity.}
 \label{sc:tcs:cylpart}
 
 \bibliographystyle{myabbrvnat}
+%\bibliographystyle{abbrvnat}
 \bibliography{EDM_Implementation_Notes}
 
 \end{document}
