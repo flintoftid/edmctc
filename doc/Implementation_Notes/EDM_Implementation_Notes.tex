@@ -141,7 +141,7 @@ $P^\rt$             &W               &\texttt{TsrcRP}             &Source total 
 $V_\rs$             &m$^3$           &\texttt{srcVolume}          &Volume source volume \\
 $S_\rs$             &m$^2$           &\texttt{srcArea}            &Surface source surface area \\
 $J_\rs$             &W\,m$^{-2}$     &\texttt{srcSurfaceExitance} &Surface source exitance \\
-$J_\rs$             &W\,m$^{-2}$     &\texttt{srcLineExitance}    &Contour source line exitance \\
+$J_\rc$             &W\,m$^{-1}$     &\texttt{srcLineExitance}    &Contour source line exitance \\
 $\tau$              &-               &\texttt{TE}                 &Average transmission efficiency of lossless aperture \\
 $w_\rr\prt$         &J\,m$^{-3}$     &\texttt{wr}                 &Average reverberant energy density in cavity \\
 $\vJ_\rr\prt$       &W\,m$^{-2}$     &\texttt{Jrx, Jyx, Jrz}      &Reverberant energy density flux \\
@@ -241,11 +241,12 @@ concentration $n_V^\rf=N_\rf/V$ can be estimated as~\citep{Valeau2007}
 where $\sigma_\rf^s=S_\rf/4$ is the average scattering cross-section of the
 fittings. If the fittings are lossy then a term
 \begin{align}
-\Lambda_V^\rf = \frac{\rc_0\alpha_\rf}{\lambda_\rf}
+\Lambda_V^\rf = \frac{\rc_0\alpha_\rf}{\lambda_\rf} = \rc_0 n_V^\rf \sigma_\rf^\ra
 \end{align}
 must also be added to the volumetric scattering rate $\Lambda_V$ that accounts
 for volumetric absorption processes. Here $\alpha_\rf$ is the average
-absorption efficiency of the fittings.
+absorption efficiency of the fittings and $\sigma_\rf^\ra=\alpha_\rf S_\rf/4$ the
+average absorption cross-section.
 
 Attempts have also been made to include the effects of specular reflections by
 introducing an empirical factor, ${\kappa}$, into the diffusivity 
@@ -260,7 +261,7 @@ value?}
 {\color{red} Question: How do we determine the diffusivity in cases with complex topology such as
 the test case with the cylinder? Empirically it appears the diffusivity is about one quarter of that
 of the empty sub-cavity in the dual cavity case. In the single cavity case the effect is not
-noticeable. The fitting method of determining fittingMFP = 4S/fittingS does not appear to be
+noticeable. The fitting method of determining $\lambda_\rf = 4V/S_\rf$ does not appear to be
 appropriate for single contents which significantly perturb the cavity shape.}
 
 \subsection[Absorption in the cavity walls]{Absorption in the cavity walls}
@@ -572,7 +573,7 @@ This can be written more concisely as
 \begin{align}
 \langle \dot{w},u \rangle + a(w,u) - \langle J_\rs+p ,u \rangle = 0,
 \end{align}
-where $a(w,u)$ is the bilinear form
+where $a(w,u)$ is the variational bilinear form
 \begin{align}
 a(w,u)
 =\iiint_{\Omega} D\pr{\vnabla}w\prt{\vcdot}{\vnabla}u\pr\dif{V}
@@ -675,10 +676,10 @@ this can be written as
 $D_{ij}$ is the stiffness matrix, $M_{ij}$ is the mass
 matrix and $\Lambda_V M_{ij}+H_{ij}$ is a dissipation matrix. This can be written in matrix form as
 \begin{align}
-\vec{u}^\rT \mM \dot{\vec{w}} + \vec{u}^\rT\mD \vec{w} +\Lambda_V \vec{u}^\rT\mM \vec{w}+ \vec{u}^\rT\mH \vec{w}
--\vec{u}^\rT\vec{J}^\rs -\vec{u}^\rT\vec{P} = 0,
+\vec{u}^\intercal \mM \dot{\vec{w}} + \vec{u}^\intercal\mD \vec{w} +\Lambda_V \vec{u}^\intercal\mM \vec{w}+ \vec{u}^\intercal\mH \vec{w}
+-\vec{u}^\intercal\vec{J}^\rs -\vec{u}^\intercal\vec{P} = 0,
 \end{align}
-where $vec{u}$ and $\vec{w}$ of vectors containing the DOFs and ${}^\rT$ denoted the transpose. 
+where $\vec{u}$ and $\vec{w}$ are column vectors containing the DOFs and ${}^\intercal$ denotes the transpose. 
 Since the system is linear it can be solved be testing with each basis function separately and so it is
 equivalent to the linear system of ordinary differential equations (ODEs)
 \begin{align}
@@ -698,7 +699,7 @@ derivative term is
 \begin{align}
 \langle \dot{w},u \rangle \approx
 \left\langle \frac{w^n-w^{n-1}}{\Delta t},u \right\rangle
-=\iiint_{\Omega} u\pr  \frac{w^n\pr-w^{n-1}\pr}{\Delta t} \dif{V}
+=\iiint_{\Omega} u\pr  \frac{w^n\pr-w^{n-1}\pr}{\Delta t} \dif{V}.
 \end{align}
 The weak variational problem
 \begin{align}
@@ -730,8 +731,12 @@ leads to the FreeFEM++ time-stepping implementation:
 \end{verbatim}
 This implicit scheme is unconditionally stable and so the stability criterion 
 $\Delta t \leq h^2/2D$, where $h$ is the smallest edge length in the mesh, 
-that applied to explicit finite-difference approximations of
-the diffusion equations does not have to be satisfied.
+that applies to explicit finite-difference approximations of
+the diffusion equations does not have to be satisfied. A large time-steps still
+has an impact on the accuracy of the solution. It appears that a value of
+$\Delta t \lesssim {\Delta t}_\mathrm{ref} / 10$, where ${\Delta t}_\mathrm{ref}=L_x^2/2D$
+is the characteristic diffusion time across the cavity gives a reasonable trade-off between accuracy
+and computation time for the cases studied here.
 
 \subsection[Iterative methods for coupled domains]{Iterative methods for coupled domains}
 \label{sc:fem:coup}
@@ -771,45 +776,61 @@ J_{12}\prt = h_{12}\pr w_2\prt &\vr\in\partial\Omega_{12}
 J_{21}\prt = h_{21}\pr w_1\prt &\vr\in\partial\Omega_{21}
 \end{matrix}
 \end{align}
-The system can be solved using a Robin-Robin iterative algorithm. We first initialise
+The system can be solved using a Robin-Robin iterative algorithm~\citep{Discacciati2007}. We first initialise
 $J_{12}\prt$ using the homogeneous power balance (PWB) solution, $w_{2;\rh}$,  in $\Omega_2$
 \begin{align}
 \begin{matrix}
-J^0_{12}\prt = h_{12}\pr w_{2;\rh} &\vr\in\partial\Omega_{12}
+J_{12}\prt = h_{12}\pr w_{2;\rh} &\vr\in\partial\Omega_{12}
 \end{matrix}
 \end{align}
 and then solve the FE system~(\ref{eq:wf:coup1}) in domain $\Omega_1$ using
-this value to give $w_1^0\prt$. $J^0_{21}\prt$ can then be calculated from~(\ref{eq:wf:coup:J21}),
-$J_{21}^0\prt = h_{21}\pr w^0_1\prt$, and hence the FE system~(\ref{eq:wf:coup2}) in domain $\Omega_2$ 
-can be  solved for $w_2^0\prt$. 
-This process is repeated until the solution has converged; this typically only 
-requires a handful of iterations.
+this value to give $w_1\prt$. $J_{21}\prt$ can then be calculated from~(\ref{eq:wf:coup:J21}),
+and hence the FE system~(\ref{eq:wf:coup2}) in domain $\Omega_2$ 
+can be  solved for $w_2^\prt$. This process is repeated until the solution has converged; this typically only 
+requires a handful of iterations: The complete iteration algorithm is:
+\begin{align}
+\mathrm{Initialise} &: J_{12}\prt = h_{12}\pr w_{2;\rh} \nonumber \\
+\mathrm{(\ast)\,Solve\,\,for}\,\,w_1 &: \langle w_1,u_1 \rangle + a(w_1,u_1) - \langle u_1 , J_{12} \rangle - \langle u_1 , p_1 \rangle = 0 \nonumber \\
+\mathrm{Update} &: J_{21}\prt = h_{21}\pr w_1 \nonumber \\
+\mathrm{Solve\,\,for}\,\,w_2 &: \langle w_2,u_2 \rangle + a(w_2,u_2) - \langle u_2 , J_{21} \rangle - \langle u_2 , p_1 \rangle = 0 \nonumber \\
+\mathrm{Update} &: J_{12}\prt = h_{12}\pr w_2 \nonumber \\
+\mathrm{Repeat} &: \mathrm{from}\,\,(\ast) \nonumber
+\end{align}
+
 
 For a FCBC
 \begin{align}
 \uvn_1{\vcdot}\left[D_1\pr{\vnabla}w_1\prt-D_2\pr{\vnabla}w_2\prt\right]=0
 \end{align}
 an iterative scheme can be also be applied. The weak forms are as in~(\ref{eq:wf:coup1}) 
-and~(\ref{eq:wf:coup2}), but with the $h_{11}\pr$ and $h_{22}\pr$ terms omitted. Robin BCs 
-are enforced on each side of the boundary 
+and~(\ref{eq:wf:coup2}), but with the $h_{11}\pr$ and $h_{22}\pr$ terms omitted - the 
+corresponding bilinear terms are denoted by $\tilde{a}(w_1,u_1)$ and $\tilde{a}(w_2,u_2)$ 
+respectively. Robin BCs are enforced on each side of the boundary 
 \begin{align}
 \uvn_1{\vcdot}D_1\pr{\vnabla}w_1\prt+J_{21}\prt &=0 \\
 \uvn_2{\vcdot}D_2\pr{\vnabla}w_2\prt-J_{21}\prt &=0
 \end{align}
-in terms of the net energy flux $J_{21}$ from domain 1 into domain 2. At each iteration, $n$, this can be
-updated using a relaxation approach with relaxation parameter $\beta\sim 0.1$:
+in terms of the net energy flux $J_{21}$ from domain 1 into domain 2. At each iteration this can be
+updated using a relaxation scheme with relaxation parameter $\beta\sim 0.1$~\citep{}:
 \begin{align}
-J^{n+1}_{21}\prt &= \beta J^n_{21}\prt + ( 1 - \beta) h_{21}\pr \left[ w^n_1\prt - w^n_2\prt \right] \\
-J^{n+1}_{12}\prt &= \beta J^n_{12}\prt + ( 1 - \beta) h_{12}\pr \left[ w^n_2\prt - w^n_1\prt \right].
+\mathrm{Initialise} &: J_{12}\prt = J_{21}\prt = 0 \nonumber \\
+\mathrm{(\ast)\,Solve\,\,for}\,\,w_1 &: \langle w_1,u_1 \rangle + \tilde{a}(w_1,u_1) - \langle u_1 , J_{12} \rangle - \langle u_1 , p_1 \rangle = 0 \nonumber \\
+\mathrm{Solve\,\,for}\,\,w_2 &: \langle w_2,u_2 \rangle + \tilde{a}(w_2,u_2) - \langle u_2 , J_{21} \rangle - \langle u_2 , p_1 \rangle = 0 \nonumber \\
+\mathrm{Update} &: J_{21}\prt = \beta J_{21}\prt + ( 1 - \beta) h_{21}\pr \left[ w_1\prt - w_2\prt \right] \nonumber \\
+\mathrm{Update} &: J_{12}\prt = \beta J_{12}\prt + ( 1 - \beta) h_{12}\pr \left[ w_2\prt - w_1\prt \right] \nonumber \\
+\mathrm{Repeat} &: \mathrm{from}\,\,(\ast) \nonumber
 \end{align}
 As described in Section~\ref{sc:sum:coup} the EEBC and FCBC are equivalent in the case of a lossless aperture. 
 
 Continuity of both the energy density and its flux can be enforced using a Schwarz domain decomposition
 method~\citep{Lions1990}. The weak forms are the same as for the FCBC method, however the net flux is updated using
 \begin{align}
-J^0_{21}\prt &= 0 \\
-J^{n+1}_{21}\prt &= J^n_{21}\prt + \beta h_{21}\pr \left[ w^n_1\prt - w^n_2\prt \right] \\
-J^{n+1}_{12}\prt &= -J^{n+1}_{21}\prt ,
+\mathrm{Initialise} &: J_{12}\prt = J_{21}\prt = 0 \nonumber \\
+\mathrm{(\ast)\,Solve\,\,for}\,\,w_1 &: \langle w_1,u_1 \rangle + \tilde{a}(w_1,u_1) - \langle u_1 , J_{12} \rangle - \langle u_1 , p_1 \rangle = 0 \nonumber \\
+\mathrm{Solve\,\,for}\,\,w_2 &: \langle w_2,u_2 \rangle + \tilde{a}(w_2,u_2) - \langle u_2 , J_{21} \rangle - \langle u_2 , p_1 \rangle = 0 \nonumber \\
+\mathrm{Update} &: J_{21}\prt = J_{21}\prt + \beta h_{21}\pr \left[ w_1\prt - w_2\prt \right] \nonumber \\
+\mathrm{Update} &: J_{12}\prt = -J_{21}\prt \nonumber \\
+\mathrm{Repeat} &: \mathrm{from}\,\,(\ast) \nonumber
 \end{align}
 where the sign and magnitude of $\beta$ are chosen to give a stable scheme. This Schwarz approach
 is equivalent to using a single domain method. Convergence is typically slower than for the 
@@ -914,6 +935,9 @@ $\alpha_\mathrm{cyl}$  &\texttt{cylAE}         &0.95 \\
 \caption{\label{tb:tcparam} Primary parameters and variable names for the test cases.}
 \end{table}
 
+\subsection[Overall solution work-flow]{Overall solution work-flow}
+\label{sc:tcs:workflow}
+
 \subsection[CAD and mesh generation]{CAD and mesh generation}
 \label{sc:tcs:cadmesh}
 
@@ -923,7 +947,7 @@ Use Gmsh~\citep{Geuzaine2009}.
 \begin{center}
 \includegraphics[width=0.8\linewidth]{figures/gmshdualmesh}
 \vspace{-4mm}
-\caption{\label{fg:tcgeom} Tetrahedral mesh of the coupled cavities test-case containing the lossy cylinder.}
+\caption{\label{fg:tcdualmesh} Tetrahedral mesh of the coupled cavities test-case containing the lossy cylinder.}
 \end{center}
 \end{figure}
 
@@ -964,6 +988,14 @@ a inhomogeneous diffusivity.}
 
 \subsection[Partitioned cavity with a cylinder]{Partitioned cavity with a cylinder}
 \label{sc:tcs:cylpart}
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.8\linewidth]{figures/2D_SDM_w_map}
+\vspace{-4mm}
+\caption{\label{fg:dcsdmpd} Power density in $z$-normal plane at the half-height of the partitioned cavity test-case with the cylinder predicted by the 2D single domain method.}
+\end{center}
+\end{figure}
 
 \bibliographystyle{myabbrvnat}
 %\bibliographystyle{abbrvnat}

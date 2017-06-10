@@ -149,11 +149,7 @@ Srange = linspace( Smin , Smax , 10 );
 %Srange = roundsf( Srange , 2 );
 
 figure();
-if( isOctave() )
-  colormap( 'jet' );
-else
-  colormap( 'parula' );
-end % if
+colormap( 'virdis' );
 pcolor( x_2D , y_2D , SrdB_2D );
 hold on;
 shading interp;
@@ -192,11 +188,7 @@ Drange = linspace( Dmin ,  Dmax , 10 );
 %Drange = roundsf( Drange , 2 );
 
 figure();
-if( isOctave() )
-  colormap( 'jet' );
-else
-  colormap( 'parula' );
-end % if
+colormap( 'virdis' );
 pcolor( x_2D , y_2D , DeltadB_2D );
 hold on;
 shading interp;
@@ -236,11 +228,7 @@ Jrange = linspace( Jmin ,  Jmax , 10 );
 %Jrange = roundsf( Jrange , 2 );
 
 figure();
-if( isOctave() )
-  colormap( 'jet' );
-else
-  colormap( 'parula' );
-end % if
+colormap( 'virdis' );
 pcolor( x_2D , y_2D , JdB_2D );
 hold on;
 shading interp;
@@ -279,11 +267,7 @@ Urange = linspace( Umin ,  Umax , 10 );
 %Urange = roundsf( Urange , 2 );
 
 figure();
-if( isOctave() )
-  colormap( 'jet' );
-else
-  colormap( 'parula' );
-end % if
+colormap( 'virdis' );
 pcolor( x_2D , y_2D , UpsilondB_2D );
 hold on;
 shading interp;

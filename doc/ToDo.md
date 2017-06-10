@@ -1,5 +1,7 @@
 # EDM Canonical Test Cases: To-Do List
 
+* Update variables - geometry, SEA, ....
+
 * Determine domain volumes and surface areas from the mesh 
   so get more accurate PWB calculation when mesh density is low.
   

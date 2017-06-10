@@ -39,10 +39,11 @@ The test cases include:
 
 * Transmission through electrically small and large apertures.
 
-* Excitation by point and surface sources.
+* Excitation by point, surface and volume sources.
 
-* Sabine ([Sabine1922][]) and Jing and Xiang ([Jing2008][]) exchange coefficient
-  absorption models.
+* A range of boundary exchange coefficient absorption models.
+
+* Time dependent and steady-state solutions.
 
 ## Requirements
 
@@ -54,16 +55,20 @@ The test-cases are implemented using a combination of [Open Source][] tools:
 2. [FreeFEM++][]: The solutions are implemented using the Finite Element Method [FEM][]
    with the [FreeFEM++][] package ([Geuzaine2009][]).
 
-3. [GNU][] [Octave][] or [MATLAB][]: Most of the post-processing is implemented in 
-   a portable subset of [GNU][] [Octave][] / [MATLAB][]. Version 4.0 of [Octave][] or above
-   is required. 
+3. [GNU][] [Octave][]: Most of the post-processing is implemented in [Octave][]. Version 4.0 
+   of [Octave][] or above is required. 
 
-4. [cquiver][]: Vector field plots in [Octave][] / [MATLAB][] require the cquiver function.
+4. [Gnuplot][]: Vector field, contour and heat plots are generated using [Gnuplot][]. Version
+   5 patch level 6 or above is required.
    
-The test cases have been primarily developed using GNU [Octave][] on Linux platforms, 
-but should run under both [GNU][] [Octave][] and [MATLAB][] on Linux and Windows systems.
+The test cases have been primarily developed using [GNU][] [Octave][] on [Ubuntu][] Linux platforms, 
+but should run on other Linux and Windows systems.
 
 ## Documentation
+
+The implementation of the test cases is detailed in the [LaTeX][] report in
+doc/Implementation_Notes in the source tree. A [PDF][] version is available on 
+the wiki: [EDM Implementation Notes][].
 
 There are four implementations of the test cases:
 
@@ -84,37 +89,38 @@ There are four implementations of the test cases:
 
 There is a list and description of the main variables in doc/[Variables.md][].
 
-The outline work-flow is
+The outline work-flow is as follows. First set the input parameters in 
+the `parameters.geo` file. The mesh is then created the if required using Gmsh. 
+This must be done interactively via the GUI. The mesh must be saved in the 
+[INRIA Medit][] mesh format, choosing the export option "physical entities". 
+The normal vectors for all surfaces enclosing a cavity must be pointing outwards.
+ 
+    $ gmsh SDM_2D.geo
 
-1. Set the input parameters in the `parameters.geo` file.
+      Mesh -> 2D
+      Mesh -> 3D
+      Save As -> INRA Mesh -> physical entities -> model.mesh
 
-2. Create the mesh if required using Gmsh. This must be done interactively via
-   the GUI. The mesh must be saved in the INRA Mesh format, choosing the export
-   option "physical entities". The normal vectors for all surfaces enclosing a 
-   cavity must be pointing outwards.
-
-    $ Gmsh SDM_2D.geo
-
-    Mesh -> 2D
-    Mesh -> 3D
-    Save As -> INRA Mesh -> physical entities -> model.mesh
-
-3. Solve the problem using [FreeFEM++][]:
+The problem is then solved using [FreeFEM++][]:
 
     $ FreeFem++ Model1.edp
 
-   This should create ASCII data files `w.dat`, `wr.dat`, `J.dat` and `Jr.dat` 
-   containing the energy density, reverberant energy density, energy density
-   flux and reverberant energy density flux fields respectively.
+This should create ASCII data files `w.dat`, `wr.dat`, `J.dat` and `Jr.dat` containing 
+the energy density, reverberant energy density, energy density
+flux and reverberant energy density flux fields respectively. These are
+post-processed using [Octave][]:
 
-4. Post-process the fields using GNU [Octave][] or [MATLAB][]:
-
-    $ octave 
+    $ octave
+    
     octave> Model1
+
+![[Figure: Power density heat and contour map for the partitioned cavity](https://bitbucket.org/uoyaeg/edmctc/doc/Implementation_Notes/figures/2D_SDM_w_map.png)
 
 ## Notes
 
-* The plots are currently of limited quality with [Octave][] version 4.0.3.
+* Native plots are currently of limited quality with [Octave][] version 4.0.3.
+  Hence functions have been provided to hand-off the plotting of hybrid
+  heat and contuor and heat and vector plots to [Gnuplot][].
 
 * The [FreeFEM++][] and [Octave][] code is modular in the sense that it is split
   into different files; however, the name-space is global so care must be taken
@@ -131,7 +137,7 @@ The outline work-flow is
 The test case implementation is still under development and no doubt will contain 
 many bugs. Known significant bugs are listed in the file doc/[Bugs.md][] in the 
 source code. 
-
+    
 Please report bugs using the bitbucket issue tracker at 
 <https://bitbucket.org/uoyaeg/edmctc/issues> or by email to 
 <ian.flintoft@googlemail.com>.
@@ -207,11 +213,6 @@ and R. T. Johnk, "Aperture excitation of electrically large, lossy cavities",
 IEEE Transactions on Electromagnetic Compatibility, vol. 36, no. 3, pp. 169-178, 
 Aug 1994.
 
-[Jing2008]: https://doi.org/10.1121/1.3008066
-
-([Jing2008][]) Y. Jing and N. Xiang, “Visualizations of sound energy across coupled 
-rooms using a diffusion equation model”, J. Acoust. Soc. Am., vol. 124, pp. EL360–EL365, Nov. 2008.
-
 [Junqua2005]: http://www.tandfonline.com/doi/abs/10.1080/02726340500214845
 
 ([Junqua2005]) I. Junqua, J.-P. Parmantier and F. Issac,
@@ -223,10 +224,6 @@ Electromagnetics, vol. 25 , no. 7-8, pp. 603-622, 2005.
 ([Navarro2015][]) J. M. Navarro and J. Escolano, “Simulation of building indoor acoustics 
 using an acoustic diffusion equation model”, Journal of Building Performance Simulation, 
 vol. 8, no. 1, pp. 3-14, 2015.
-
-[Sabine1922]: https://archive.org/details/collectedpaperso00sabi
-
-([Sabine1922][]) W. C. Sabine, Collected Papers on Acoustics, Harvard University Press, 1922
 
 [Savioja2015]: http://dx.doi.org/10.1121/1.4926438
 
@@ -242,9 +239,8 @@ modeling techniques”, J. Acoust. Soc. Am., vol. 138, no .2, pp. 708–730, 201
 [GNU]: https://www.gnu.org/home.en.html
 [EMC]: http://www.york.ac.uk/electronics/research/physlayer/appliedem/emc/
 [FEM]: https://en.wikipedia.org/wiki/Finite_element_method
+[Ubuntu]: https://www.ubuntu.com
 
-[Install.md]: https://bitbucket.org/uoyaeg/edmctc/src/tip/Install.md
-[tutorial]: https://bitbucket.org/uoyaeg/edmctc/src/tip/tutorial/Tutorial.md
 [Bugs.md]: https://bitbucket.org/uoyaeg/edmctc/src/tip/doc/Bugs.md
 [ToDo.md]: https://bitbucket.org/uoyaeg/edmctc/src/tip/doc/ToDo.md
 [Variables.md]: https://bitbucket.org/uoyaeg/edmctc/src/tip/doc/Variables.md
@@ -253,12 +249,14 @@ modeling techniques”, J. Acoust. Soc. Am., vol. 138, no .2, pp. 708–730, 201
 [FEM_DDM_2D]: https://bitbucket.org/uoyaeg/edmctc/src/tip/FEM_DDM_2D
 [FEM_SDM_3D]: https://bitbucket.org/uoyaeg/edmctc/src/tip/FEM_SDM_3D
 [FEM_DDM_3D]: https://bitbucket.org/uoyaeg/edmctc/src/tip/FEM_DDM_3D
+[EDM Implementation Notes]: https://bitbucket.org/uoyaeg/edmctc/wiki/EDM_Implementation_Notes.pdf
 
 [Gmsh]: http://gmsh.info
 [FreeFEM++]: http://www.freefem.org
 [Octave]: http://www.gnu.org/software/octave
-[MATLAB]: http://www.mathworks.co.uk/products/matlab
+[Gnuplot]: http://www.gnuplot.info
 [Mercurial]: https://www.mercurial-scm.org
 [AEGPWB]: https://bitbucket.org/uoyaeg/aegpwb
-[cquiver]: http://uk.mathworks.com/matlabcentral/fileexchange/29487-2d-vector-field-visualization
-
+[LaTeX]: https://www.latex-project.org/about
+[PDF]: https://en.wikipedia.org/wiki/Portable_Document_Format
+[INRIA Medit]: https://www.ljll.math.upmc.fr/frey/software.html

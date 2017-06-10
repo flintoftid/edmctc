@@ -42,48 +42,49 @@ srcTRP          |  W   | >0           | Total radiated power of source
 
 ## Derived parameters
 
-Variable        | Unit  | Description
-:---------------|-------|--------------------------------------------------------
-srcArea         | m^2   | Surface source surface area
-srcVolume       | m^3   | Surface source volume
-srcExitance     | W/m^2 | Surface source exitance
-wallEC          |  m/s  | Wall exchange coefficient
-partEC          |  m/s  | Partition exchange coefficient
-cylEC           |  m/s  | Cylinder exchange coefficient
-holeArea        |  m^2  | hole area
-holeTCS         |  m^2  | hole average transmission cross-section
-holeEC11        |  m/s  | hole exchange coefficient - aborption in sub-cavity 1
-holeEC12        |  m/s  | hole exchange coefficient - transmission into sub-cavity 1
-holeEC21        |  m/s  | hole exchange coefficient - tranmisssion into sub-cavity 2
-holeEC22        |  m/s  | hole exchange coefficient - aborption in sub-cavity 2
-cylXSArea       |  m^2  | cylinder cross-sectional area
-cylArea         |  m^2  | cylinder surface area
-cylVolume       |  m^3  | Cylinder volume
-partArea        |  m^2  | Partition total surface area
-partVolume      |  m^3  | Partition volume
-wallArea        |  m^2  | Single cavity wall area
-wallMFP         |  m    | Single cavity wall scattering mean-free-path
-wallD           | m^2/s | Single cavity wall diffusivity
-wallACS         |  m^2  | Single cavity wall average absorption cross-section
-Lx1             |   m   | Length in x-direction of sub-cavity 1
-wallArea1       |  m^2  | Sub-cavity 1 wall area
-partArea1       |  m^2  | Area of partition in sub-cavity 1
-Lx2             |   m   | Length in x-direction of sub-cavity 2
-wallArea2       |  m^2  | Sub-cavity 2 wall area
-partArea2       |  m^2  | Area of partition in sub-cavity 2
-wallMFP1        |   m   | Sub-cavity 1 wall scattering mean-free-path
-wallD1          | m^2/s | Sub-cavity 1 wall diffusivity
-wallACS1        |  m^2  | Sub-cavity 1 wall average absorption cross-section
-wallMFP2        |   m   | Sub-cavity 2 wall scattering mean-free-path
-wallD2          | m^2/s | Sub-cavity 2 wall diffusivity
-wallACS2        |  m^2  | Sub-cavity 2 wall average absorption cross-section
-partACS1        |  m^2  | Sub-cavity 1 partition average absorption cross-section
-partACS2        |  m^2  | Sub-cavity 2 partition average absorption cross-section
-cylACS          |  m^2  | Cylinder average absorption cross-section
-cylMFP          |   m   | Cylinder scattering mean-free-path [1]
-cylD            | m^2/s | Cylinder diffusivity
-D1              | m^2/s | Overall diffusivity for x <= partX [2]
-D2              | m^2/s | Overall diffusivity for > partX [2]
+Variable           | Unit  | Description
+:------------------|-------|--------------------------------------------------------
+srcArea            | m^2   | Surface source surface area
+srcVolume          | m^3   | Surface source volume
+srcSurfaceExitance | W/m^2 | Surface source exitance
+wallEC             |  m/s  | Wall exchange coefficient
+partEC             |  m/s  | Partition exchange coefficient
+cylEC              |  m/s  | Cylinder exchange coefficient
+holeArea           |  m^2  | hole area
+holeTCS            |  m^2  | hole average transmission cross-section
+holeEC11           |  m/s  | hole exchange coefficient - aborption in sub-cavity 1
+holeEC12           |  m/s  | hole exchange coefficient - transmission into sub-cavity 1
+holeEC21           |  m/s  | hole exchange coefficient - tranmisssion into sub-cavity 2
+holeEC22           |  m/s  | hole exchange coefficient - aborption in sub-cavity 2
+cylXSArea          |  m^2  | cylinder cross-sectional area
+cylArea            |  m^2  | cylinder surface area
+cylVolume          |  m^3  | Cylinder volume
+partArea           |  m^2  | Partition total surface area
+partVolume         |  m^3  | Partition volume
+wallArea           |  m^2  | Single cavity wall area
+wallMFP            |  m    | Single cavity wall scattering mean-free-path
+wallD              | m^2/s | Single cavity wall diffusivity
+wallACS            |  m^2  | Single cavity wall average absorption cross-section
+Lx1                |   m   | Length in x-direction of sub-cavity 1
+wallArea1          |  m^2  | Sub-cavity 1 wall area
+partArea1          |  m^2  | Area of partition in sub-cavity 1
+Lx2                |   m   | Length in x-direction of sub-cavity 2
+wallArea2          |  m^2  | Sub-cavity 2 wall area
+partArea2          |  m^2  | Area of partition in sub-cavity 2
+wallMFP1           |   m   | Sub-cavity 1 wall scattering mean-free-path
+wallD1             | m^2/s | Sub-cavity 1 wall diffusivity
+wallACS1           |  m^2  | Sub-cavity 1 wall average absorption cross-section
+wallMFP2           |   m   | Sub-cavity 2 wall scattering mean-free-path
+wallD2             | m^2/s | Sub-cavity 2 wall diffusivity
+wallACS2           |  m^2  | Sub-cavity 2 wall average absorption cross-section
+partACS1           |  m^2  | Sub-cavity 1 partition average absorption cross-section
+partACS2           |  m^2  | Sub-cavity 2 partition average absorption cross-section
+cylACS             |  m^2  | Cylinder average absorption cross-section
+cylMFP             |   m   | Cylinder scattering mean-free-path [1]
+cylD0              | m^2/s | Cylinder diffusivity in single cavity
+cylD2              | m^2/s | Cylinder diffusivity in dual cavity
+D1                 | m^2/s | Overall diffusivity for x <= partX [2]
+D2                 | m^2/s | Overall diffusivity for > partX [2]
 
 [1] Changes depending on whether partition is present or not.
 [2] Valid in all cases whether partition is present or not
@@ -95,7 +96,7 @@ Variable        | Unit  | Description
 zetaz1          |  /m   | Vertical profile coefficient in sub-cavity 1
 intZSquared1    |   m   | Integral of Z(z)^2 in sub-cavity 1
 intZ1           |   m   | Integral of Z(z) in sub-cavoty 1
-d2Zdz21         |  /m   | Integral of d^2Z/dz^2 in sub-cavity 1
+intZ2ndDerivZ1  |  /m   | Integral of d^2Z/dz^2 in sub-cavity 1
 ZHalfHeight1    |   -   | Z(z) at half height of sub-cavity 1
 redD1           |  m/s  | Sub-cavity 1 reduced diffusivity
 arealLossRate1  |  /s   | Sub-cavity 1 reduced energy loss rate
@@ -104,7 +105,7 @@ redPartEC1      | m^2/s | Sub-cavity 1 reduced partition exchange coefficient
 zetaz2          |  /m   | Vertical profile coefficient in sub-cavity 2
 intZSquared2    |   m   | Integral of Z(z)^2 in sub-cavity 2
 intZ2           |   m   | Integral of Z(z) in sub-cavoty 2
-d2Zdz22         |  /m   | Integral of d^2Z/dz^2 in sub-cavity 2
+intZ2ndDerivZ2  |  /m   | Integral of d^2Z/dz^2 in sub-cavity 2
 ZHalfHeight2    |   -   | Z(z) at half height of sub-cavity 2
 redD2           |  m/s  | Sub-cavity 2 reduced diffusivity
 arealLossRate2  |  /s   | Sub-cavity 2 reduced energy loss rate
@@ -120,9 +121,9 @@ redHoleEC22     | m^2/s | reduced hole exchange coefficient
 
 Variable        | Unit  | Description
 :---------------|-------|--------------------------------------------------------
-ACS             |  m^2  | Single cavity total average absorption cross-section
-Spwb            | W/m^2 | Single cavity average scalar power density
-wpwb            | J/m^3 | Single cavity average volume energy density
+ACS0            |  m^2  | Single cavity total average absorption cross-section
+S0pwb           | W/m^2 | Single cavity average scalar power density
+w0pwb           | J/m^3 | Single cavity average volume energy density
 ACS1            |  m^2  | Sub-cavity 1 total average absorption cross-section
 ACS2            |  m^2  | Sub-cavity 2 total average absorption cross-section
 S1pwb           | W/m^2 | Sub-cavity 1 average scalar power density
