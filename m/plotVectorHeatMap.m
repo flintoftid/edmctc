@@ -13,6 +13,7 @@ function plotVectorHeatMap( x , y, Vx , Vy , xMin , xMax , xLabel , yMin , yMax 
   stepY = floor( Ny / ( Ly / dl ) );
   
   hf = figure();
+  colormap( edmcolormap );
   pcolor( x , y , 10 .* log10( Vx.^2 + Vy.^2 ) );
   hold on;
   shading interp;

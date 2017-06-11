@@ -39,15 +39,15 @@ db10 = @(x) 10 .* log10( x );
 if( isPart )
 
   [ nn , aa ] = hist( S2r(idx1) );
-  plotBarChart( aa , nn ./ trapz( aa , nn ) , [] , [] , 'Average power density (W/m^2)' , [] , [] , 'Probability density (m^2/W)' , [] , 'PowerDensityPDF1' );
+  gnpBarChart( aa , nn ./ trapz( aa , nn ) , [] , [] , 'Average power density (W/m^2)' , [] , [] , 'Probability density (m^2/W)' , [] , 'PowerDensityPDF1' );
    
   [ nn , aa ] = hist( S2r(idx2) );
-  plotBarChart( aa , nn ./ trapz( aa , nn ) , [] , [] , 'Average power density (W/m^2)' , [] , [] , 'Probability density (m^2/W)' , [] , 'PowerDensityPDF2' );
+  gnpBarChart( aa , nn ./ trapz( aa , nn ) , [] , [] , 'Average power density (W/m^2)' , [] , [] , 'Probability density (m^2/W)' , [] , 'PowerDensityPDF2' );
     
 else
 
   [ nn , aa ] = hist( S2r );
-  plotBarChart( aa , nn ./ trapz( aa , nn ) , [] , [] , 'Average power density (W/m^2)' , [] , [] , 'Probability density (m^2/W)' , [] , 'PowerDensityPDF' );
+  gnpBarChart( aa , nn ./ trapz( aa , nn ) , [] , [] , 'Average power density (W/m^2)' , [] , [] , 'Probability density (m^2/W)' , [] , 'PowerDensityPDF' );
 
 end % if
 
@@ -56,7 +56,7 @@ clear lines labels
 lines{1} = [ zz(1:2:end)' , db10( squeeze( Z(90,25,1:2:end) ./ Z(90,25,25) ) ) ];
 labels{1} = 'Kantorovich anztaz';
 
-plotLineGraph( lines , labels , 0.0 , 0.45 , '{/Helvetica-Italic z} (m)' , [] , [] , '{/Helvetica-Italic S}({/Helvetica-Italic L_x}/2,{/Helvetica-Italic L_y}/2,{/Helvetica-Italic z}) (dB W/m^2)' , 'PowerDensityProfileZ' );
+gnpLineGraph( lines , labels , 0.0 , 0.45 , '{/Helvetica-Italic z} (m)' , [] , [] , '{/Helvetica-Italic S}({/Helvetica-Italic L_x}/2,{/Helvetica-Italic L_y}/2,{/Helvetica-Italic z}) (dB W/m^2)' , 'PowerDensityProfileZ' );
 
 % Profiles of power density along x.
 if( isPart )
@@ -77,7 +77,7 @@ labels{3} = sprintf( 'x = %.2f m' , yy(15) );
 labels{4} = sprintf( 'x = %.2f m' , yy(20) );
 labels{5} = 'PWB';
 
-plotLineGraph( lines , labels , 0.0 , 0.9 , '{/Helvetica-Italic x} (m)' , [] , [] , '{/Helvetica-Italic S}({/Helvetica-Italic x},{/Helvetica-Italic L_y}/2,{/Helvetica-Italic L_z}/2) (dB W/m^2)' , 'PowerDensityProfileX' );
+gnpLineGraph( lines , labels , 0.0 , 0.9 , '{/Helvetica-Italic x} (m)' , [] , [] , '{/Helvetica-Italic S}({/Helvetica-Italic x},{/Helvetica-Italic L_y}/2,{/Helvetica-Italic L_z}/2) (dB W/m^2)' , 'PowerDensityProfileX' );
 
 % Power density map in plane z = Lz / 2.
 x_2D = x2;
@@ -89,10 +89,10 @@ SrdB_2D_max = nanmax( SrdB_2D(idxNotSrc) );
 SrdB_2D_cont = linspace( SrdB_2D_min , SrdB_2D_max , 10 );
 SrdB_2D_cont = roundsf( SrdB_2D_cont , 2 );
 
-plotContourHeatMap( x_2D , y_2D, SrdB_2D , ...
-                    0.0 , 0.9 , '{/Helvetica-Italic x} (m)' , ...
-                    0.0 , 0.45 , '{/Helvetica-Italic y} (m)' , ...
-                    SrdB_2D_min , SrdB_2D_max , 'Power density, {/Helvetica-Italic S} (dB W/m^2)' , SrdB_2D_cont , 'PowerDensityMap' );
+gnpContourHeatMap( x_2D , y_2D, SrdB_2D , ...
+                   0.0 , 0.9 , '{/Helvetica-Italic x} (m)' , ...
+                   0.0 , 0.45 , '{/Helvetica-Italic y} (m)' , ...
+                   SrdB_2D_min , SrdB_2D_max , 'Power density, {/Helvetica-Italic S} (dB W/m^2)' , SrdB_2D_cont , 'PowerDensityMap' );
 
 % Uniformity map in plane z = Lz / 2.
 x_2D = squeeze( x2(:,:) );
@@ -104,10 +104,10 @@ DeltadB_2D_max = nanmax( DeltadB_2D(idxNotSrc) );
 DeltadB_2D_cont = linspace( DeltadB_2D_min , DeltadB_2D_max , 10 );
 DeltadB_2D_cont = roundsf( DeltadB_2D_cont , 2 );
 
-plotContourHeatMap( x_2D , y_2D, DeltadB_2D , ...
-                    0.0 , 0.9 , '{/Helvetica-Italic x} (m)' , ...
-                    0.0 , 0.45 , '{/Helvetica-Italic y} (m)' , ...
-                    DeltadB_2D_min , DeltadB_2D_max , 'Uniformity (dB)' ,DeltadB_2D_cont , 'EnergyDensityUniformityMap' );
+gnpContourHeatMap( x_2D , y_2D, DeltadB_2D , ...
+                   0.0 , 0.9 , '{/Helvetica-Italic x} (m)' , ...
+                   0.0 , 0.45 , '{/Helvetica-Italic y} (m)' , ...
+                   DeltadB_2D_min , DeltadB_2D_max , 'Uniformity (dB)' ,DeltadB_2D_cont , 'EnergyDensityUniformityMap' );
 
 % Energy density flux map in plane z = Lz / 2.
 x_2D = squeeze( x2J(:,:) );
@@ -121,10 +121,10 @@ JdB_2D_max = nanmax( JdB_2D(idxNotSrc) );
 JdB_2D_cont = linspace( JdB_2D_min ,  JdB_2D_max , 10 );
 JdB_2D_cont = roundsf( JdB_2D_cont , 2 );
 
-plotVectorHeatMap( x_2D , y_2D, Jx_2D , Jy_2D , ...
-                   0.0 , 0.9 , '{/Helvetica-Italic x} (m)' , ...
-                   0.0 , 0.45 , '{/Helvetica-Italic y} (m)' , ...
-                   [] , [] , 'Energy density flux, |{/Helvetica-Bold-Italic J}| (dB W/m^2)' , 'EnergyDensityFluxMap' );
+gnpVectorHeatMap( x_2D , y_2D, Jx_2D , Jy_2D , ...
+                  0.0 , 0.9 , '{/Helvetica-Italic x} (m)' , ...
+                  0.0 , 0.45 , '{/Helvetica-Italic y} (m)' , ...
+                  [] , [] , 'Energy density flux, |{/Helvetica-Bold-Italic J}| (dB W/m^2)' , 'EnergyDensityFluxMap' );
 
 % Anisotropy map in plane z = Lz / 2.
 x_2D = squeeze( x2J(:,:) );
@@ -136,8 +136,8 @@ UpsilondB_2D_max = nanmax( UpsilondB_2D(idxNotSrc) );
 UpsilondB_2D_cont = linspace( UpsilondB_2D_min , UpsilondB_2D_max , 10 );
 UpsilondB_2D_cont = roundsf( UpsilondB_2D_cont , 2 );
 
-
-plotContourHeatMap( x_2D , y_2D, UpsilondB_2D , ...
-                    0.0 , 0.9 , '{/Helvetica-Italic x} (m)' , ...
-                    0.0 , 0.45 , '{/Helvetica-Italic y} (m)' , ...
-                    UpsilondB_2D_min , UpsilondB_2D_max , 'Anisotropy (dB)' , UpsilondB_2D_cont , 'EnergyDensityAnisotropyMap' );
+gnpContourHeatMap( x_2D , y_2D, UpsilondB_2D , ...
+                   0.0 , 0.9 , '{/Helvetica-Italic x} (m)' , ...
+                   0.0 , 0.45 , '{/Helvetica-Italic y} (m)' , ...
+                   UpsilondB_2D_min , UpsilondB_2D_max , 'Anisotropy (dB)' , UpsilondB_2D_cont , 'EnergyDensityAnisotropyMap' );
+                

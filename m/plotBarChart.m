@@ -1,13 +1,11 @@
-function [ hf ] = plotHeatMap( x , y , v , xMin , xMax , xLabel , yMin , yMax , yLabel , vMin , vMax , vLabel , tag )
-
+function [ hf ] = plotBarChart( x , y , xMin , xMax , xLabel , yMin , yMax , yLabel , tLabel , tag )
+  
+  baseName = fileparts( which( mfilename ) );
   pngFileName = [ tag , '.png' ];
 
   hf = figure();
   colormap( edmcolormap );
-  pcolor( x , y , v );
-  hold on;
-  shading interp;
-  axis( 'equal' );
+  bar( x , y );
   xlabel( xLabel );
   ylabel( yLabel );
   if( ~isempty( xMin ) && ~isempty( xMax ) )
@@ -16,13 +14,10 @@ function [ hf ] = plotHeatMap( x , y , v , xMin , xMax , xLabel , yMin , yMax , 
   if( ~isempty( yMin ) && ~isempty( yMax ) )
     ylim( [ yMin , yMax ] );
   end % if
-  if( ~isempty( vMin ) && ~isempty( vMax ) )
-    set( gca , 'CLim' , [ vMin , vMax ] );
+  if( ~isempty( tLabel ) )
+    title( tLabel );
   end % if
-  hb = colorbar( 'southoutside' );
-  ylabel( hb , vLabel );
   print( '-dpng' , '-r360' , pngFileName );
   hold off;
-  
-end % function
 
+end % function

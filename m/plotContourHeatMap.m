@@ -3,6 +3,7 @@ function [ hf ] = plotContourHeatMap( x , y , v , xMin , xMax , xLabel , yMin , 
   pngFileName = [ tag , '.png' ];
 
   hf = figure();
+  colormap( edmcolormap );
   pcolor( x , y , v );
   hold on;
   shading interp;

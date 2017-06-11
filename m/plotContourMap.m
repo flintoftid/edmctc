@@ -3,6 +3,7 @@ function [ hf ] = plotContourMap( x , y , v , xMin , xMax , xLabel , yMin , yMax
   pngFileName = [ tag , '.png' ];
 
   hf = figure();
+  colormap( edmcolormap );
   if( isempty( vCont ) )
     [ C , h ] = contour( x , y , v , 10 , 'lineColor' , 'k' );
   else

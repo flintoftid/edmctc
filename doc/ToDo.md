@@ -2,6 +2,11 @@
 
 * Update variables - geometry, SEA, ....
 
+* Add exporting of w/wr/J/Jr at subset of time-steps to
+  time domain soltion.
+
+* Add 3D surface plot to Octave and gnuplot postprocessing.
+
 * Determine domain volumes and surface areas from the mesh 
   so get more accurate PWB calculation when mesh density is low.
   

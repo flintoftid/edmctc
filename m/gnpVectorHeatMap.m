@@ -4,7 +4,7 @@ function gnpVectorHeatMap( x , y, Vx , Vy , xMin , xMax , xLabel , yMin , yMax ,
   pngFileName = [ tag , '.png' ];
   gnpFileName = [ tag , '.gnp' ];
   datFileName = [ tag , '.dat' ];
-  styleFileName = [ baseName , '/palette.gnp' ];
+  styleFileName = [ baseName , '/edmcolormap.pal' ];
 
   Nx = size( x , 1 );
   Ny = size( y , 2 );

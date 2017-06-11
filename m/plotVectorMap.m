@@ -13,6 +13,7 @@ function plotVectorMap( x , y, Vx , Vy , xMin , xMax , xLabel , yMin , yMax , yL
   stepY = floor( Ny / ( Ly / dl ) );
   
   hf = figure();
+  colormap( edmcolormap );
   shading interp;
   axis( 'equal' );
   xlabel( xLabel );

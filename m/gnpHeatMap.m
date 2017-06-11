@@ -4,7 +4,7 @@ function gnpHeatMap( x , y, v , xMin , xMax , xLabel , yMin , yMax , yLabel , vM
   pngFileName = [ tag , '.png' ];
   gnpFileName = [ tag , '.gnp' ];
   datFileName = [ tag , '.dat' ];
-  styleFileName = [ baseName , '/palette.gnp' ];
+  styleFileName = [ baseName , '/edmcolormap.pal' ];
   
   Nx = size( x , 1 );
   Ny = size( y , 2 );
@@ -23,8 +23,8 @@ function gnpHeatMap( x , y, v , xMin , xMax , xLabel , yMin , yMax , yLabel , vM
   fprintf( fp , 'set terminal pngcairo enhanced fontscale 1.8 size 1280 , 700\n' );
   fprintf( fp , 'set output "%s"\n' , pngFileName );
   fprintf( fp , 'set size ratio -1\n' );
-  fprintf( fp , 'set lmargin at screen 0.1\n' );
-  fprintf( fp , 'set rmargin at screen 0.88\n' );
+  %fprintf( fp , 'set lmargin at screen 0.1\n' );
+  %fprintf( fp , 'set rmargin at screen 0.88\n' );
   fprintf( fp , 'set xlabel "%s"\n' , xLabel );
   fprintf( fp , 'set ylabel "%s"\n' , yLabel );
   fprintf( fp , 'set cblabel "%s" offset 0.4\n' , vLabel );

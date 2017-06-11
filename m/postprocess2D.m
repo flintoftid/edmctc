@@ -85,25 +85,63 @@ Delta2dB = 10.0 .* log10( Delta2 );
 J2dB = 10.0 .* log10( J2mag );
 Upsilon2dB = 10.0 .* log10( Upsilon2 );
 
-% Report.
+% Report statistics.
+fp = fopen( 'postprocess2D.dat' , 'w' );
 if( isPart )
-  ic1 = floor( partX / Lx / 2 * Nx );
-  ic2 = floor( Nx - ( Lx - partX ) / Lx / 2 * Nx );
-  jc = floor( Ny / 2 );
-  fprintf( 'EDM power density at centre of sub-cavity 1: %g W/m^2 = %g dB W/m^2\n' , S2(ic1,jc) , db10( S2(ic1,jc) ) );
-  fprintf( 'EDM power density at centre of sub-cavity 2: %g W/m^2 = %g dB W/m^2\n' , S2(ic2,jc) , db10( S2(ic2,jc) ) ); 
-  idx1 = find( ( x2(:) <= partX ) & ~isnan( S2r(:) ) );
-  idx2 = find( ( x2(:) > partX ) & ~isnan( S2r(:) ) );
-  fprintf( 'Average EDM power density in sub-cavity 1: %g W/m^2 = %g dB W/m^2\n'  , nanmean( S2(idx1) ) , db10( nanmean( S2(idx1) ) ) );
-  fprintf( 'Average EDM power density in sub-cavity 2: %g W/m^2 = %g dB W/m^2\n'  , nanmean( S2(idx2) ) , db10( nanmean( S2(idx2) ) ) );
-  fprintf( 'Average EDM reverberant power density in sub-cavity 1: %g W/m^2 = %g dB W/m^2\n'  , nanmean( S2r(idx1) ) , db10( nanmean( S2r(idx1) ) ) );
-  fprintf( 'Average EDM reverberant power density in sub-cavity 2: %g W/m^2 = %g dB W/m^2\n'  , nanmean( S2r(idx2) ) , db10( nanmean( S2r(idx2) ) ) );
-else
-  ic = floor( Nx / 2 );
-  jc = floor( Ny / 2 );
-  fprintf( 'EDM power density at centre of cavity: %g W/m^2 = %g dB W/m^2\n' , c0 .* w2(ic,jc) , db10( c0 .* w2(ic,jc) ) );  
-  idx = find( ~isnan( S2r(:) ) );
-  fprintf( 'Average EDM power density: %g W/m^2 = %g dB W/m^2\n' , nanmean( S2(idx) ) , db10( nanmean( S2(idx) ) ) );
-  fprintf( 'Average EDM reverberant power density: %g W/m^2 = %g dB W/m^2\n' , nanmean( S2r(idx) ) , db10( nanmean( S2r(idx) ) ) ); 
-end % if
 
+  idx1 = find( ( x2(:) <= partX ) & ~isnan( S2r(:) ) );
+  idxObsX1 = find( xx >= obsX1 , 1 );
+  idxObsY1 = find( yy >= obsY1 , 1 );
+  obsSr1 = S2r(idxObsX1,idxObsY1);  
+  meanSr1 = nanmean( S2r(idx1) );
+  minSr1 = nanmin( S2r(idx1) );
+  maxSr1 = nanmax( S2r(idx1) );   
+  stdSr1 = nanstd( S2r(idx1) );
+  covSr1 = stdSr1 ./ meanSr1;
+  
+  idx2 = find( ( x2(:) > partX ) & ~isnan( S2r(:) ) );
+  idxObsX2 = find( xx >= obsX2 , 1 );
+  idxObsY2 = find( yy >= obsY2 , 1 );
+  obsSr2 = S2r(idxObsX2,idxObsY2);  
+  meanSr2 = nanmean( S2r(idx2) );
+  minSr2 = nanmin( S2r(idx2) );
+  maxSr2 = nanmax( S2r(idx2) );   
+  stdSr2 = nanstd( S2r(idx2) );
+  covSr2 = stdSr2 ./ meanSr2;
+  
+  fprintf( fp , 'PWB power density in sub-cavity 1: %g W/m^2 = %g dB W/m^2\n' , S1pwb , db10( S1pwb ) );
+  fprintf( fp , 'EDM power density at observation point of sub-cavity 1: %g W/m^2 = %g dB W/m^2\n' , obsSr1 , db10( obsSr1 ) );
+  fprintf( fp , 'EDM mean power density in sub-cavity 1: %g W/m^2 = %g dB W/m^2\n' , meanSr1 , db10( meanSr1 ) );
+  fprintf( fp , 'EDM minimum power density in sub-cavity 1: %g W/m^2 = %g dB W/m^2\n' , minSr1 , db10( minSr1 ) );
+  fprintf( fp , 'EDM maximum power density in sub-cavity 1: %g W/m^2 = %g dB W/m^2\n' , maxSr1 , db10( maxSr1 ) );
+  fprintf( fp , 'EDM standard deviation of power density in sub-cavity 1: %g W/m^2 = %g dB W/m^2\n' , stdSr1 , db10( stdSr1 ) );
+  fprintf( fp , 'EDM coefficient of variation of power density in sub-cavity 1: %g = %g %%\n' , covSr1 , 100 * covSr1 );  
+  fprintf( fp , 'PWB power density in sub-cavity 2: %g W/m^2 = %g dB W/m^2\n' , S2pwb , db10( S2pwb ) );
+  fprintf( fp , 'EDM power density at observation point of sub-cavity 2: %g W/m^2 = %g dB W/m^2\n' , obsSr2 , db10( obsSr2 ) );
+  fprintf( fp , 'EDM mean power density in sub-cavity 2: %g W/m^2 = %g dB W/m^2\n' , meanSr2 , db10( meanSr2 ) );
+  fprintf( fp , 'EDM minimum power density in sub-cavity 2: %g W/m^2 = %g dB W/m^2\n' , minSr2 , db10( minSr2 ) );
+  fprintf( fp , 'EDM maximum power density in sub-cavity 2: %g W/m^2 = %g dB W/m^2\n' , maxSr2 , db10( maxSr2 ) );  
+  fprintf( fp , 'EDM standard deviation of power density in sub-cavity 2: %g W/m^2 = %g dB W/m^2\n' , stdSr2 , db10( stdSr2 ) );
+  fprintf( fp , 'EDM coefficient of variation of power density in sub-cavity 2: %g = %g %%\n' , covSr2 , 100 * covSr2 );  
+  
+else
+
+  idxObsX0 = find( xx >= obsX0 , 1 );
+  idxObsY0 = find( yy >= obsY0 , 1 );
+  obsSr0 = S2r(idxObsX0,idxObsY0);  
+  meanSr0 = nanmean( S2r );
+  minSr0 = nanmin( S2r );
+  maxSr0 = nanmax( S2r );   
+  stdSr0 = nanstd( S2r );
+  covSr0 = stdSr0 ./ meanSr0;
+  
+  fprintf( fp , 'PWB power density in cavity: %g W/m^2 = %g dB W/m^2\n' , S0pwb , db10( S0pwb ) );
+  fprintf( fp , 'EDM power density at observation point of cavity 2: %g W/m^2 = %g dB W/m^2\n' , obsSr0 , db10( obsSr0 ) );
+  fprintf( fp , 'EDM mean power density in cavity: %g W/m^2 = %g dB W/m^2\n' , meanSr0 , db10( meanSr0 ) );
+  fprintf( fp , 'EDM minimum power density in cavity: %g W/m^2 = %g dB W/m^2\n' , minSr0 , db10( minSr0 ) );
+  fprintf( fp , 'EDM maximum power density in cavity: %g W/m^2 = %g dB W/m^2\n' , maxSr0 , db10( maxSr0 ) );  
+  fprintf( fp , 'EDM standard deviation of power density in cavity: %g W/m^2 = %g dB W/m^2\n' , stdSr0 , db10( stdSr0 ) );
+  fprintf( fp , 'EDM coefficient of variation of power density in cavity: %g = %g %%\n' , covSr0 , 100 * covSr0 );  
+  
+end % if
+fclose( fp );
