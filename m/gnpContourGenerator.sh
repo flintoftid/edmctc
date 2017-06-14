@@ -1,4 +1,14 @@
 #!/bin/bash
+# gnpContourGenerator.sh - generator contours and labels for gnuplot.
+#
+# "Gnuplotter's" gawk script from:
+#
+# http://gnuplot-tricks.blogspot.co.uk/2009/07/maps-contour-plots-with-labels.html
+#
+# based on Petr Mikulik's (http://www.sci.muni.cz/~mikulik/english.html) gawk script from:
+#
+# http://www.gnuplot.info/scripts/files/label_contours.awk
+#
 
 gawk -v d=$2 -v w=$3 -v os=$4 'function abs(x) { return (x>=0?x:-x) }
     {
@@ -14,4 +24,3 @@ gawk -v d=$2 -v w=$3 -v os=$4 'function abs(x) { return (x>=0?x:-x) }
                     printf "set label %d \"%g\" at %g, %g centre front rotate by %d font \",8\"\n", j, c[j], a[j], b[j], r[j]
             }
     }' $1
-

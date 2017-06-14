@@ -129,10 +129,10 @@ else
   idxObsX0 = find( xx >= obsX0 , 1 );
   idxObsY0 = find( yy >= obsY0 , 1 );
   obsSr0 = S2r(idxObsX0,idxObsY0);  
-  meanSr0 = nanmean( S2r );
-  minSr0 = nanmin( S2r );
-  maxSr0 = nanmax( S2r );   
-  stdSr0 = nanstd( S2r );
+  meanSr0 = nanmean( S2r(:) );
+  minSr0 = nanmin( S2r(:) );
+  maxSr0 = nanmax( S2r(:) );   
+  stdSr0 = nanstd( S2r(:) );
   covSr0 = stdSr0 ./ meanSr0;
   
   fprintf( fp , 'PWB power density in cavity: %g W/m^2 = %g dB W/m^2\n' , S0pwb , db10( S0pwb ) );

@@ -1,5 +1,28 @@
 function gnpVectorHeatMap( x , y, Vx , Vy , xMin , xMax , xLabel , yMin , yMax , yLabel , vMin , vMax , vLabel , tag )
-  
+%gnpVectorHeatMap - plot hybrid "velocity" and heat map of 2D vector field
+% using gnuplot.
+%
+% (c) 2016-2017, Ian D. Flintoft <ian.flintoft@googlemail.com>
+%
+% This file is part of the Electromagnetic Diffusion Model (EDM) 
+% Canonical Example Suite [Flintoft2017,flintoft2017b].
+%
+% The EDM Canonical Example Suite is free software: you can 
+% redistribute it and/or modify it under the terms of the GNU 
+% General Public License as published by the Free Software 
+% Foundation, either version 3 of the License, or (at your option) 
+% any later version.
+%
+% The EDM Canonical Example Suite is distributed in the hope that 
+% it will be useful, but WITHOUT ANY WARRANTY; without even the 
+% implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+% PURPOSE.  See the GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with  The EDM Canonical Example Suite.  If not, 
+% see <http://www.gnu.org/licenses/>.
+%
+
   baseName = fileparts( which( mfilename ) );
   pngFileName = [ tag , '.png' ];
   gnpFileName = [ tag , '.gnp' ];
@@ -19,12 +42,10 @@ function gnpVectorHeatMap( x , y, Vx , Vy , xMin , xMax , xLabel , yMin , yMax ,
   Vmag = sqrt( Vx.^2 + Vy.^2 );
   Varg = atan2( Vy , Vx );
   
-  fp = fopen( datFileName , 'w' );
-  for i = 1:Nx
-    dlmwrite( fp , [ x(i,:)' , y(i,:)' , Vmag(i,:)' , Varg(i,:)' ] , ' ' , 'precision' , 12 );
-    fprintf( fp , '\n' );
+  dlmwrite( datFileName , [ x(1,:)' , y(1,:)' , Vmag(1,:)' , Varg(1,:)' ] , 'delimiter' , ' ' , 'roffset' , 1 , 'precision' , 12 );
+  for i = 2:Nx
+    dlmwrite( datFileName , [ x(i,:)' , y(i,:)' , Vmag(i,:)' , Varg(i,:)' ] , '-append' , 'delimiter' , ' ' , 'roffset' , 1 , 'precision' , 12 );
   end % for
-  fclose( fp );
 
   fp = fopen( gnpFileName , 'w' );
   

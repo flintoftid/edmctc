@@ -1,5 +1,27 @@
 function gnpContourMap2( x , y, v , xMin , xMax , xLabel , yMin , yMax , yLabel , vMin , vMax , vLabel , vCont , tag )
-  
+%gnpContourMap2 - plot contour map of 2D scalar field using gnuplot.
+%
+% (c) 2016-2017, Ian D. Flintoft <ian.flintoft@googlemail.com>
+%
+% This file is part of the Electromagnetic Diffusion Model (EDM) 
+% Canonical Example Suite [Flintoft2017,flintoft2017b].
+%
+% The EDM Canonical Example Suite is free software: you can 
+% redistribute it and/or modify it under the terms of the GNU 
+% General Public License as published by the Free Software 
+% Foundation, either version 3 of the License, or (at your option) 
+% any later version.
+%
+% The EDM Canonical Example Suite is distributed in the hope that 
+% it will be useful, but WITHOUT ANY WARRANTY; without even the 
+% implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+% PURPOSE.  See the GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with  The EDM Canonical Example Suite.  If not, 
+% see <http://www.gnu.org/licenses/>.
+%
+
   baseName = fileparts( which( mfilename ) );
   pngFileName = [ tag , '.png' ];
   gnpFileName = [ tag , '.gnp' ];
@@ -9,12 +31,10 @@ function gnpContourMap2( x , y, v , xMin , xMax , xLabel , yMin , yMax , yLabel 
   Nx = size( x , 1 );
   Ny = size( y , 2 );
 
-  fp = fopen( datFileName , 'w' );
-  for i = 1:Nx
-    dlmwrite( fp , [ x(i,:)' , y(i,:)' , v(i,:)' ] , ' ' , 'precision' , 12 );
-    fprintf( fp , '\n' );
+  dlmwrite( datFileName , [ x(1,:)' , y(1,:)' , v(1,:)' ] , 'delimiter' , ' ' , 'roffset' , 1 , 'precision' , 12 );
+  for i = 2:Nx
+    dlmwrite( datFileName , [ x(i,:)' , y(i,:)' , v(i,:)' ] , '-append' , 'delimiter' , ' ' , 'roffset' , 1 , 'precision' , 12 );
   end % for
-  fclose( fp );
 
   fp = fopen( gnpFileName , 'w' );
 

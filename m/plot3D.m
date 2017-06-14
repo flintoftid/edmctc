@@ -46,7 +46,7 @@ if( isPart )
     
 else
 
-  [ nn , aa ] = hist( Sr );
+  [ nn , aa ] = hist( Sr(:) );
   plotBarChart( aa , nn ./ trapz( aa , nn ) , [] , [] , 'Average power density (W/m^2)' , [] , [] , 'Probability density (m^2/W)' , [] , 'PowerDensityPDF' );
 
 end % if
@@ -66,7 +66,7 @@ labels{4} = sprintf( 'x = %.2f m' , xx(40) );
 labels{5} = sprintf( 'x = %.2f m' , xx(30) );
 labels{6} = sprintf( 'x = %.2f m' , xx(20) );
 
-plotLineGraph( lines , labels , 0.0 , 0.45 , '{/Helvetica-Italic z} (m)' , [] , [] , '{/Helvetica-Italic S}({/Helvetica-Italic L_x}/2,{/Helvetica-Italic L_y}/2,{/Helvetica-Italic z}) (dB W/m^2)' , 'PowerDensityProfileZ' );
+plotLineGraph( lines , labels , 0.0 , 0.45 , 'z (m)' , [] , [] , 'S(L_x/2,L_y/2,z) (dB W/m^2)' , 'PowerDensityProfileZ' );
 
 % Profiles of power density along x.
 if( isPart )
@@ -87,7 +87,7 @@ labels{3} = sprintf( 'x = %.2f m' , yy(15) );
 labels{4} = sprintf( 'x = %.2f m' , yy(20) );
 labels{5} = 'PWB';
 
-plotLineGraph( lines , labels , 0.0 , 0.9 , '{/Helvetica-Italic x} (m)' , [] , [] , '{/Helvetica-Italic S}({/Helvetica-Italic x},{/Helvetica-Italic L_y}/2,{/Helvetica-Italic L_z}/2) (dB W/m^2)' , 'PowerDensityProfileX' );
+plotLineGraph( lines , labels , 0.0 , 0.9 , 'x (m)' , [] , [] , 'S(x,L_y/2,L_z/2) (dB W/m^2)' , 'PowerDensityProfileX' );
 
 % Power density map in plane z = Lz / 2.
 kc = floor( Nz / 2 );
@@ -101,9 +101,9 @@ SrdB_2D_cont = linspace( SrdB_2D_min , SrdB_2D_max , 10 );
 SrdB_2D_cont = roundsf( SrdB_2D_cont , 2 );
 
 plotContourHeatMap( x_2D , y_2D, SrdB_2D , ...
-                    0.0 , 0.9 , '{/Helvetica-Italic x} (m)' , ...
-                    0.0 , 0.45 , '{/Helvetica-Italic y} (m)' , ...
-                    SrdB_2D_min , SrdB_2D_max , 'Power density, {/Helvetica-Italic S} (dB W/m^2)' , SrdB_2D_cont , 'PowerDensityMap' );
+                    0.0 , 0.9 , 'x (m)' , ...
+                    0.0 , 0.45 , 'y (m)' , ...
+                    SrdB_2D_min , SrdB_2D_max , 'Power density (dB W/m^2)' , SrdB_2D_cont , 'PowerDensityMap' );
 
 % Uniformity map in plane z = Lz / 2.
 kc = floor( Nz / 2 );
@@ -117,8 +117,8 @@ DeltadB_2D_cont = linspace( DeltadB_2D_min , DeltadB_2D_max , 10 );
 DeltadB_2D_cont = roundsf( DeltadB_2D_cont , 2 );
 
 plotContourHeatMap( x_2D , y_2D, DeltadB_2D , ...
-                    0.0 , 0.9 , '{/Helvetica-Italic x} (m)' , ...
-                    0.0 , 0.45 , '{/Helvetica-Italic y} (m)' , ...
+                    0.0 , 0.9 , 'x (m)' , ...
+                    0.0 , 0.45 , 'y (m)' , ...
                     DeltadB_2D_min , DeltadB_2D_max , 'Uniformity (dB)' ,DeltadB_2D_cont , 'EnergyDensityUniformityMap' );
 
 % Energy density flux map in plane z = Lz / 2.
@@ -135,9 +135,9 @@ JdB_2D_cont = linspace( JdB_2D_min ,  JdB_2D_max , 10 );
 JdB_2D_cont = roundsf( JdB_2D_cont , 2 );
 
 plotVectorHeatMap( x_2D , y_2D, Jx_2D , Jy_2D , ...
-                   0.0 , 0.9 , '{/Helvetica-Italic x} (m)' , ...
-                   0.0 , 0.45 , '{/Helvetica-Italic y} (m)' , ...
-                   [] , [] , 'Energy density flux, |{/Helvetica-Bold-Italic J}| (dB W/m^2)' , 'EnergyDensityFluxMap' );
+                   0.0 , 0.9 , 'x (m)' , ...
+                   0.0 , 0.45 , 'y (m)' , ...
+                   [] , [] , 'Energy density flux (dB W/m^2)' , 'EnergyDensityFluxMap' );
 
 % Anisotropy map in plane z = Lz / 2.
 kc = floor( Nz / 2 );
@@ -151,6 +151,6 @@ UpsilondB_2D_cont = linspace( UpsilondB_2D_min , UpsilondB_2D_max , 10 );
 UpsilondB_2D_cont = roundsf( UpsilondB_2D_cont , 2 );
 
 plotContourHeatMap( x_2D , y_2D, UpsilondB_2D , ...
-                    0.0 , 0.9 , '{/Helvetica-Italic x} (m)' , ...
-                    0.0 , 0.45 , '{/Helvetica-Italic y} (m)' , ...
+                    0.0 , 0.9 , 'x (m)' , ...
+                    0.0 , 0.45 , 'y (m)' , ...
                     UpsilondB_min , UpsilondB_max , 'Anisotropy (dB)' , UpsilondB_cont , 'EnergyDensityAnisotropyMap' );

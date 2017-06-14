@@ -46,7 +46,7 @@ if( isPart )
     
 else
 
-  [ nn , aa ] = hist( S2r );
+  [ nn , aa ] = hist( S2r(:) );
   gnpBarChart( aa , nn ./ trapz( aa , nn ) , [] , [] , 'Average power density (W/m^2)' , [] , [] , 'Probability density (m^2/W)' , [] , 'PowerDensityPDF' );
 
 end % if
@@ -92,7 +92,7 @@ SrdB_2D_cont = roundsf( SrdB_2D_cont , 2 );
 gnpContourHeatMap( x_2D , y_2D, SrdB_2D , ...
                    0.0 , 0.9 , '{/Helvetica-Italic x} (m)' , ...
                    0.0 , 0.45 , '{/Helvetica-Italic y} (m)' , ...
-                   SrdB_2D_min , SrdB_2D_max , 'Power density, {/Helvetica-Italic S} (dB W/m^2)' , SrdB_2D_cont , 'PowerDensityMap' );
+                   SrdB_2D_min , SrdB_2D_max , 'Power density (dB W/m^2)' , SrdB_2D_cont , 'PowerDensityMap' );
 
 % Uniformity map in plane z = Lz / 2.
 x_2D = squeeze( x2(:,:) );
@@ -124,7 +124,7 @@ JdB_2D_cont = roundsf( JdB_2D_cont , 2 );
 gnpVectorHeatMap( x_2D , y_2D, Jx_2D , Jy_2D , ...
                   0.0 , 0.9 , '{/Helvetica-Italic x} (m)' , ...
                   0.0 , 0.45 , '{/Helvetica-Italic y} (m)' , ...
-                  [] , [] , 'Energy density flux, |{/Helvetica-Bold-Italic J}| (dB W/m^2)' , 'EnergyDensityFluxMap' );
+                  [] , [] , 'Energy density flux (dB W/m^2)' , 'EnergyDensityFluxMap' );
 
 % Anisotropy map in plane z = Lz / 2.
 x_2D = squeeze( x2J(:,:) );
