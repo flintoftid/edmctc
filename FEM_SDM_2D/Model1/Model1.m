@@ -80,7 +80,7 @@ x = repmat( xxx , [ 1 , Ny , Nz ] );
 yyy(1,:,1) = yy;
 y = repmat( yyy , [ Nx , 1 , Nz ] );
 
-zz = linspace( 0 , Lz , Nz );
+zz = linspace( 0 , Lz , Nz )';
 zzz(1,1,:) = zz;
 z = repmat( zzz , [ Nx , Ny , 1 ] );
 
@@ -111,6 +111,6 @@ postprocess2D;
 %postprocess3D;
 
 % Plots
-plot2D;
-%plot3D;
+plot2D_gnp;
+%plot3D_gnp;
 

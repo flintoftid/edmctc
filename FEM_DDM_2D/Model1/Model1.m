@@ -80,7 +80,7 @@ x = repmat( xxx , [ 1 , Ny , Nz ] );
 yyy(1,:,1) = yy;
 y = repmat( yyy , [ Nx , 1 , Nz ] );
 
-zz = linspace( 0 , Lz , Nz );
+zz = linspace( 0 , Lz , Nz )';
 zzz(1,1,:) = zz;
 z = repmat( zzz , [ Nx , Ny , 1 ] );
 
@@ -107,9 +107,9 @@ Jy = J2y0 .* Z;
 Jz = -( D1 .* ( x <= partX ) + D2 .* ( x > partX ) ) .* w20 .* dZdz;
 
 % Post-processing.
-postprocess2D;
-%postprocess3D;
+%postprocess2D;
+postprocess3D;
 
 % Plots
-plot2D;
-%plot3D;
+%plot2D_gnp;
+plot3D_gnp;

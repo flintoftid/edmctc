@@ -97,5 +97,5 @@ D = D1 .* ( x <= partX ) + D2 .* ( x > partX );
 postprocess3D;
 
 % Plots
-plot3D;
+plot3D_gnp;
 

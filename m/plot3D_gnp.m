@@ -72,7 +72,7 @@ gnpLineGraph( lines , labels , 0.0 , 0.45 , '{/Helvetica-Italic z} (m)' , [] , [
 if( isPart )
   SS = S1pwb .* ( xx <= partX ) + S2pwb .* ( xx > partX );   
 else
-  SS = Spwb .* ones( size( xx ) );    
+  SS = S0pwb .* ones( size( xx ) );    
 end % if
 
 clear lines labels

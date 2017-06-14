@@ -72,7 +72,7 @@ plotLineGraph( lines , labels , 0.0 , 0.45 , 'z (m)' , [] , [] , 'S(L_x/2,L_y/2,
 if( isPart )
   SS = S1pwb .* ( xx <= partX ) + S2pwb .* ( xx > partX );   
 else
-  SS = Spwb .* ones( size( xx ) );    
+  SS = S0pwb .* ones( size( xx ) );    
 end % if
 
 clear lines labels

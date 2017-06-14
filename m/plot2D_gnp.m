@@ -53,7 +53,7 @@ end % if
 
 % Profiles of power density along z. 
 clear lines labels
-lines{1} = [ zz(1:2:end)' , db10( squeeze( Z(90,25,1:2:end) ./ Z(90,25,25) ) ) ];
+lines{1} = [ zz(1:2:end) , db10( squeeze( Z(90,25,1:2:end) ./ Z(90,25,25) ) ) ];
 labels{1} = 'Kantorovich anztaz';
 
 gnpLineGraph( lines , labels , 0.0 , 0.45 , '{/Helvetica-Italic z} (m)' , [] , [] , '{/Helvetica-Italic S}({/Helvetica-Italic L_x}/2,{/Helvetica-Italic L_y}/2,{/Helvetica-Italic z}) (dB W/m^2)' , 'PowerDensityProfileZ' );
