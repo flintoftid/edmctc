@@ -53,8 +53,8 @@ function gnpVectorMap( x , y, Vx , Vy , xMin , xMax , xLabel , yMin , yMax , yLa
   fprintf( fp , 'set terminal pngcairo enhanced fontscale 1.8 size 1280 , 700\n' );
   fprintf( fp , 'set output "%s"\n' , pngFileName );
   fprintf( fp , 'set size ratio -1\n' );
-  fprintf( fp , 'set lmargin at screen 0.1\n' );
-  fprintf( fp , 'set rmargin at screen 0.88\n' );
+  fprintf( fp , 'set lmargin at screen 0.09\n' );
+  fprintf( fp , 'set rmargin at screen 0.85\n' );
   fprintf( fp , 'set xlabel "%s"\n' , xLabel );
   fprintf( fp , 'set ylabel "%s"\n' , yLabel );
   fprintf( fp , 'set cblabel "%s" offset 0.4\n' , vLabel );  
@@ -77,7 +77,7 @@ function gnpVectorMap( x , y, Vx , Vy , xMin , xMax , xLabel , yMin , yMax , yLa
   fprintf( fp , 'h = %g\n' , 0.6 * ( x(stepX,1) - x(1,1) ) );
   fprintf( fp , 'xf(phi) = h*cos(phi)\n' );
   fprintf( fp , 'yf(phi) = h*sin(phi)\n' );
-  fprintf( fp , 'splot "%s" every %d:%d using ($1-xf($4)):($2-yf($4)):(0):(2*xf($4)):(2*yf($4)):(0.0) ti "" with vectors head size 0.05,10,30 filled lc "black"\n' , datFileName , stepX , stepY );
+  fprintf( fp , 'splot "%s" every %d:%d using ($1-xf($4)):($2-yf($4)):(0):(2*xf($4)):(2*yf($4)):(0.0) ti "" with vectors head size 0.05,5,20 filled lc "black"\n' , datFileName , stepX , stepY );
   fclose( fp );
   
   [ status , output ] = system( [ 'gnuplot' , ' ' , gnpFileName ] );

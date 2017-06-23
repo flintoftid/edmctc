@@ -56,7 +56,7 @@ clear lines labels
 lines{1} = [ zz(1:2:end)' , db10( squeeze( Z(90,25,1:2:end) ./ Z(90,25,25) ) ) ];
 labels{1} = 'Kantorovich anztaz';
 
-plotLineGraph( lines , labels , 0.0 , 0.45 , 'z (m)' , [] , [] , 'S(L_x/2,L_y/2,z) (dB W/m^2)' , 'PowerDensityProfileZ' );
+plotLineGraph( lines , labels , 0.0 , 0.45 , 'z (m)' , [] , [] , 'S(L_x/2,L_y/2,z) (dB W/m^2) / S(L_x/2,L_y/2,L_z/2) (dB)' , 'PowerDensityProfileZ' );
 
 % Profiles of power density along x.
 if( isPart )

@@ -62,14 +62,6 @@
   wallPerimeter = int1d(Th,Gwall) ( 1.0 );
   wallArea =  Lz * wallPerimeter;
 
-* Verfiy the 2D spurious direct solution. The 2D Green's function is 
-  
-    -1 / ( 2 * pi * D ) * log(|r-r0|)
-  
-  rather than the 3D Green's function 
-  
-    1 / ( 4 * pi * D * | r - r0 | )
-
 * Is the calculation and subtraction of the direct energy 
   density correct in high loss cases. Since EDM isn't really valid 
   in this then maybe it is not an issue.

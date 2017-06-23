@@ -66,7 +66,7 @@ labels{4} = sprintf( 'x = %.2f m' , xx(40) );
 labels{5} = sprintf( 'x = %.2f m' , xx(30) );
 labels{6} = sprintf( 'x = %.2f m' , xx(20) );
 
-plotLineGraph( lines , labels , 0.0 , 0.45 , 'z (m)' , [] , [] , 'S(L_x/2,L_y/2,z) (dB W/m^2)' , 'PowerDensityProfileZ' );
+plotLineGraph( lines , labels , 0.0 , 0.45 , 'z (m)' , [] , [] , 'S(L_x/2,L_y/2,z) (dB W/m^2) / S(L_x/2,L_y/2,L_z/2) (dB)' , 'PowerDensityProfileZ' );
 
 % Profiles of power density along x.
 if( isPart )

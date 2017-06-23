@@ -43,10 +43,11 @@ function gnpContourMap2( x , y, v , xMin , xMax , xLabel , yMin , yMax , yLabel 
   fprintf( fp , 'set terminal pngcairo enhanced fontscale 1.8 size 1280 , 700\n' );
   fprintf( fp , 'set output "%s"\n' , pngFileName );
   fprintf( fp , 'set size ratio -1\n' );
-  %fprintf( fp , 'set lmargin at screen 0.1\n' );
-  %fprintf( fp , 'set rmargin at screen 0.88\n' );
+  fprintf( fp , 'set lmargin at screen 0.09\n' );
+  fprintf( fp , 'set rmargin at screen 0.85\n' );
   fprintf( fp , 'set xlabel "%s"\n' , xLabel );
   fprintf( fp , 'set ylabel "%s"\n' , yLabel );
+  fprintf( fp , 'set samples 150, 150\n' );  
   fprintf( fp , 'set isosamples 150, 150\n' );  
   fprintf( fp , 'set xyplane relative 0\n' );
   fprintf( fp , 'set style data lines\n' );
@@ -61,7 +62,7 @@ function gnpContourMap2( x , y, v , xMin , xMax , xLabel , yMin , yMax , yLabel 
     end % if
    fprintf( fp , '\n' );
   end % if
-  fprintf( fp , 'set cntrlabel onecolor format "%%8.3g" font ",7" start 2 interval 200\n' ); 
+  fprintf( fp , 'set cntrlabel onecolor format "%%8.3g" font ",8" start 2 interval 200\n' ); 
   fprintf( fp , 'set style textbox opaque margins  0.5,  0.5 noborder\n' );
   fprintf( fp , 'set hidden3d back offset 1 trianglepattern 3 undefined 1 altdiagonal bentover\n' );
   fprintf( fp , 'unset ztic\n' , vLabel );  

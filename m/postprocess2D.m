@@ -35,11 +35,11 @@
 
 % Spurious direct energy density.
 if( isPart )
-  w2ds = srcTRP ./ ( 4.0 .* pi .* D .* sqrt( ( x2 - srcX ).^2 + ( y2 - srcY ).^2 ) ) .* ( x2 <= partX ) + 0.0 .* ( x2 > partX ); 
-  %w2ds = -srcTRP ./ ( 2.0 .* pi .* D ) .* log( sqrt( ( x2 - srcX ).^2 + ( y2 - srcY ).^2 ) ) .* ( x2 <= partX ) + 0.0 .* ( x2 > partX ); 
+  %w2ds = srcTRP ./ ( 4.0 .* pi .* D .* sqrt( ( x2 - srcX ).^2 + ( y2 - srcY ).^2 ) ) .* ( x2 <= partX ) + 0.0 .* ( x2 > partX ); 
+  w2ds = -srcTRP ./ ( 2.0 .* pi .* D ) .* log( sqrt( ( x2 - srcX ).^2 + ( y2 - srcY ).^2 ) ) .* ( x2 <= partX ) + 0.0 .* ( x2 > partX ); 
 else
-  w2ds = srcTRP ./ ( 4.0 .* pi .* D .* sqrt( ( x2 - srcX ).^2 + ( y2 - srcY ).^2 ) );
-  %w2ds = -srcTRP ./ ( 2.0 .* pi .* D ) .* log( sqrt( ( x2 - srcX ).^2 + ( y2 - srcY ).^2 ) );
+  %w2ds = srcTRP ./ ( 4.0 .* pi .* D .* sqrt( ( x2 - srcX ).^2 + ( y2 - srcY ).^2 ) );
+  w2ds = -srcTRP ./ ( 2.0 .* pi .* D ) .* log( sqrt( ( x2 - srcX ).^2 + ( y2 - srcY ).^2 ) );
 end % if
 
 % Reverberant energy density.
