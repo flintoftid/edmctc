@@ -114,7 +114,7 @@ post-processed using [Octave][]:
     
     octave> Model1
 
-![[Figure: Power density heat and contour map for the partitioned cavity](https://bitbucket.org/uoyaeg/edmctc/doc/Implementation_Notes/figures/2D_SDM_w_map.png)
+![Figure: Power density flux map for the partitioned cavity with cylinder](https://bitbucket.org/uoyaeg/edmctc/wiki/fluxmap.jpg )
 
 ## Notes
 
