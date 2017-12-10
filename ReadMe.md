@@ -5,8 +5,8 @@
 This suite of software and models provides a set of canonical test cases for
 electromagnetic diffusion models of the average energy density in highly 
 reverberant environments in which the field is diffuse. It was developed in
-the [Department of Electronics][] at the [University of York][] for research 
-in electromagnetic compatibility ([EMC][]) applications.
+the [Department of Electronic Engineering][] at the [University of York][] for 
+research in electromagnetic compatibility ([EMC][]) applications.
 
 ## The electromagnetic diffusion model
 
@@ -230,9 +230,10 @@ vol. 8, no. 1, pp. 3-14, 2015.
 ([Savioja2015][]) L. Savioja and U. Peter Svensson, “Overview of geometrical room acoustic 
 modeling techniques”, J. Acoust. Soc. Am., vol. 138, no .2, pp. 708–730, 2015.
 
-[Dr Ian Flintoft]: https://idflintoft.bitbucket.io
 [University of York]: http://www.york.ac.uk
-[Department of Electronics]: http://www.elec.york.ac.uk
+[Department of Electronic Engineering]: https://www.york.ac.uk/electronic-engineering
+[AEG]: https://www.york.ac.uk/electronic-engineering/research/communication-technologies/applied-electromagnetics-devices
+[Dr Ian Flintoft]: https://idflintoft.bitbucket.io
 [Open Source]: http://opensource.org
 [GNU]: http://www.gnu.org
 [GPL3]: http://www.gnu.org/copyleft/gpl.html

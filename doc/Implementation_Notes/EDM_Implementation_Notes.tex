@@ -211,14 +211,13 @@ walls:
 V &= \iiint_{\Omega }\dif{V} \\
 S &= \oiint_{\partial\Omega }\dif{S} .
 \end{align}
-For cavities with one dimension much greater than the others a better estimate
-of the mean-free-path is given by~\citep{Visentin2012}
+For cavities with one dimension much greater than the others the diffusivity becomes inhomogeneous, 
+depending on the location of the source and the disposition of lossses in the cavity~\citep{Visentin2012,Visentin2015}.
+For long cavities with relatively low loss a better estimate of the mean-free-path may be given by
 \begin{align}
-\lambda_\rw = \sqrt{\frac{S}{4\pi}} .
+\lambda_\rw = \sqrt{\frac{S}{4\pi}} ;
 \end{align}
-
-{\color{red}Question: Is there any guidance as to when the aspect ratio is large enough that
-this model is better?}
+however, this is a gross approximation which may be of limited scope and accuracy.
 
 \subsection[Scattering and absorption from fittings]{Scattering and absorption from fittings}
 \label{sc:sum:fit}
@@ -243,26 +242,24 @@ fittings. If the fittings are lossy then a term
 \begin{align}
 \Lambda_V^\rf = \frac{\rc_0\alpha_\rf}{\lambda_\rf} = \rc_0 n_V^\rf \sigma_\rf^\ra
 \end{align}
-must also be added to the volumetric scattering rate $\Lambda_V$ that accounts
+must also be added to the volumetric scattering rate, $\Lambda_V$, that accounts
 for volumetric absorption processes. Here $\alpha_\rf$ is the average
 absorption efficiency of the fittings and $\sigma_\rf^\ra=\alpha_\rf S_\rf/4$ the
 average absorption cross-section.
 
 Attempts have also been made to include the effects of specular reflections by
-introducing an empirical factor, ${\kappa}$, into the diffusivity 
+introducing an empirical factor, ${\kappa}$, into the diffusivity~\citep{Foy2009} 
 \begin{align}
-D \rightarrow \kappa D
+D \rightarrow \kappa D .
 \end{align}
-with $1\leq\kappa\lesssim 5$~\citep{Foy2009}. 
-
-{\color{red} Question: How strong is evidence for this and what is guidance on choosing the
-value?}
-
-{\color{red} Question: How do we determine the diffusivity in cases with complex topology such as
-the test case with the cylinder? Empirically it appears the diffusivity is about one quarter of that
-of the empty sub-cavity in the dual cavity case. In the single cavity case the effect is not
-noticeable. The fitting method of determining $\lambda_\rf = 4V/S_\rf$ does not appear to be
-appropriate for single contents which significantly perturb the cavity shape.}
+Empirically it is found that $1\leq\kappa\lesssim 5$ and that $\kappa$ depends on the 
+scattering coefficient of the cavity walls, $s$, which is defined as the fraction
+of energy reflected diffusely ($0 \leq s \leq 1$). A simple empirical model was proposed
+in ~\citep{Foy2009}:
+\begin{align}
+\kappa(s) = -2.238\log_\re(s) + 1.549 \,\,\,\,\,\,s\in [10^{-3},1],
+\end{align}
+though it was noted that the reverberation time was is only accurate for $s>0.4$.
 
 \subsection[Absorption in the cavity walls]{Absorption in the cavity walls}
 \label{sc:sum:abs}
@@ -278,10 +275,11 @@ where $\uvn$ is an outward normal vector to the domain and
 $h\pr$ is an energy exchange coefficient (EC). $J_\mathrm{in}\prt$ and
 $J_\mathrm{out}\prt$ represent an in-flux and out-flux (exitance) of energy density to/from the surface 
 respectively and can be used to model sources and energy exchange boundary conditions (EEBCs) as noted below.
-Various models have been used in the acoustics literature to related the exchange coefficient to the
+Various models have been used in the acoustics literature to relate the exchange coefficient to the
 average absorption efficiency of the domain boundary, $\alpha\pr$~\citep{Jing2008,Xiang2009}. The
 simplest is based on Sabine's estimate of the reverberation time~\citep{Sabine1922}
 \begin{align}
+\label{eq:ecsabine}
 \begin{matrix}
 h\pr = \frac{1}{4}\rc_0\alpha \left(r\right)&0\leq\alpha\lesssim 0.2
 \end{matrix}
@@ -291,14 +289,15 @@ A modified form
 \begin{align}
 \begin{matrix}
 h\pr = -\rc_0\frac{\log_{10}\left(1-\alpha\pr\right)}{4} &0\leq\alpha< 1
-\end{matrix}.
+\end{matrix}
 \end{align}
 based on the Eyring reverberation time has also been applied~\citep{Eyring1930}.
 This empirically provides better results for moderate absorption, $\alpha\lesssim 0.5$, 
-but becomes singular for $\alpha=1$. More recently a relation based on
+but becomes singular for $\alpha=1$. More recently, a relation based on
 a radiative transport model has been proposed which appears to give good
 results over the full range of absorption efficiency~\citep{Jing2008}:
 \begin{align}
+\label{eq:ecjing}
 \begin{matrix}
 h\pr =\rc_0\frac{\alpha\pr}{2\left(2-\alpha\pr\right)} & 0\leq\alpha\leq 1 .
 \end{matrix}
@@ -345,7 +344,7 @@ The spurious direct energy density from such source is less than for point
 sources.
 
 A portion of the domain boundary $\partial\Omega_\rs$ can also be used as a
-surface source by introducing a source terms into the Robin BC:
+surface source by introducing a source term into the Robin BC:
 \begin{align}
 \begin{matrix}
 \uvn\vcdot\left[D\pr\vnabla w\prt\right] - J_\rs\prt = 0 &\vr\in\partial\Omega_\rs.
@@ -414,19 +413,19 @@ and
 \uvn_2{\vcdot}\left[D_2\pr{\vnabla}w_2\prt\right]+\frac{1}{4}\rc_0\tau\left[w_2\prt-w_1\prt\right]=0 &\vr\in\partial\Omega_{21}
 \end{matrix}
 \end{align}
-{\color{red}
-Question: Should we use
+In the geometric optics regime the energy lost through an aperture is indistinguishable from that
+absorbed in a perfect absorber of the same area; it can therefore be argued that the energy
+exchanged coefficient for an aperture should be given by
 \begin{align}
 \begin{matrix}
 h_{ij}\pr = \rc_0\frac{\tau}{2\left(2-\tau\right)} &0\leq\tau\leq 1
 \end{matrix}
 \end{align}
-for apertures to be consistent with the Jing and Xiang exchange coefficient for
-absorption? 
-}
+in order to be consistent with the Jing and Xiang exchange coefficient for
+absorption~(\ref{eq:ecjing}).
 
 Denoting the net energy flux from domain $j$ into domain $i$ by 
-$J_{\mathit{ij}}\prt$ these can also be written
+$J_{\mathit{ij}}\prt$ these boundary conditions can also be written
 \begin{align}
 \begin{matrix}
 \uvn_1{\vcdot}\left[D_1\pr{\vnabla}w_1\prt\right]-J_{12}\prt=0 &\vr\in\partial\Omega_{12}
@@ -649,7 +648,7 @@ with
 \begin{equation*}
 \sum_{i=1}^{n_\rrm} \lambda _i^k=1
 \end{equation*}
-where $\vr_i$ are the $n_\rrm$ vertices of $T_k$. {\color{red} The restriction of $\phi_i$ on $T_k$ is then $\lambda_i^k$.}
+where $\vr_i$ are the $n_\rrm$ vertices of $T_k$. The restriction of $\phi_i$ on $T_k$ is then $\lambda_i^k$.
 
 Now using the Galerkin method we approximate both the energy density and test function using
 the same FE space
@@ -692,7 +691,7 @@ matrix and $\Lambda_V M_{ij}+H_{ij}$ is a dissipation matrix. This can be writte
 -\vec{u}^\intercal\vec{J}^\rs -\vec{u}^\intercal\vec{P} = 0,
 \end{align}
 where $\vec{u}$ and $\vec{w}$ are column vectors containing the DOFs and ${}^\intercal$ denotes the transpose. 
-Since the system is linear it can be solved be testing with each basis function separately and so it is
+Since the system is linear it can be solved by testing with each basis function separately and so it is
 equivalent to the linear system of ordinary differential equations (ODEs)
 \begin{align}
 \mM \dot{\vec{w}} + \mD \vec{w} +\Lambda_V \mM \vec{w}+ \mH \vec{w}
@@ -744,7 +743,7 @@ leads to the FreeFEM++ time-stepping implementation:
 This implicit scheme is unconditionally stable and so the stability criterion 
 $\Delta t \leq h^2/2D$, where $h$ is the smallest edge length in the mesh, 
 that applies to explicit finite-difference approximations of
-the diffusion equations does not have to be satisfied. A large time-steps still
+the diffusion equations does not have to be satisfied. A large time-step still
 has an impact on the accuracy of the solution. It appears that a value of
 $\Delta t \lesssim {\Delta t}_\mathrm{ref} / 10$, where ${\Delta t}_\mathrm{ref}=L_x^2/2D$
 is the characteristic diffusion time across the cavity gives a reasonable trade-off between accuracy
@@ -809,7 +808,6 @@ requires a handful of iterations: The complete iteration algorithm is:
 \mathrm{Repeat} &: \mathrm{from}\,\,(\ast) \nonumber
 \end{align}
 
-
 For a FCBC
 \begin{align}
 \uvn_1{\vcdot}\left[D_1\pr{\vnabla}w_1\prt-D_2\pr{\vnabla}w_2\prt\right]=0
@@ -864,11 +862,11 @@ where
 \begin{align}
 p_\rs^\prime\left(x,y\right)=\int_0^{L_z}Z(z)p\left(x,y,z,t\right)\dif{z}.
 \end{align}
+Note that this implicitly replaces the point source by a line source with the same TRP, which 
+will cause errors in the vicinity of the source; these errors will increase with increasing
+loss in the cavity.
 
-{\color{red} Question: Is there a more robust way to deal with the 3D point source in the 2D model? Does
-the above implicitly assume that $p\pr=p(x,y)Z(z)$?}
-
-For time-independent problems the FreeFEM++ implementation is 
+For time-independent problems the 2D FreeFEM++ implementation is 
 \begin{verbatim}
    problem EDM( W , U ) 
     = int2d(Omega)       ( D * ( dx(W) * dx(U) + dy(W) * dy(U) ) )
@@ -950,10 +948,60 @@ $\alpha_\mathrm{cyl}$  &\texttt{cylAE}         &0.95 \\
 \subsection[Overall solution work-flow]{Overall solution work-flow}
 \label{sc:tcs:workflow}
 
-\subsection[CAD and mesh generation]{CAD and mesh generation}
-\label{sc:tcs:cadmesh}
+The overall solution of the EDM is implemented using a combination of Open Source tools: 
+\begin{enumerate}
+ \item \textbf{Gmsh}: For 3D solutions a parametric CAD model of the geometry is created using 
+ Gmsh~\citep{Geuzaine2009}. Gmsh is then used to created a tetrahedral mesh from this CAD model, which 
+ is then exported using the INRIA Medit format.
+ \item \textbf{FreeFEM++}: The FEM solution is determined using FreeFEM++~\citep{Hecht2013}. For 2D
+ solutions the mesh is created directly within FreeFEM++, while for 3D solutions the mesh is imported in INRIA
+ Medit format. The resulting energy density and energy density flux are exported in sampled form to ASCII files. 
+ \item \textbf{Octave}: Post-processing is carried out by importing the sampled energy density and energy density 
+ flux into GNU Octave.
+\end{enumerate}
+The input for Gmsh, FreeFEM++ and Octave is all taken from the same ASCII text file \texttt{parameters.geo}, which
+is in Gmsh's ``geo'' format. The file contains a series of lines, each of which assigns a value to a variable:
+{\small
+\begin{verbatim}
+isSrc = 0;             // Whether to mesh the source as a spherical surface [0/1].
+isCyl = 1;             // Whether to include the cylinder [0/1].
+isPart = 1;            // Whether to include the partition [0/1].
+isSabine = 1;          // Whether to use Sabine or Jing & Xiang absorption factor model [0/1].
+Lx = 0.9;              // Cavity size in x-direction [m].
+Ly = 0.45;             // Cavity size in y-direction [m].
+Lz = 0.45;             // Cavity size in z-direction [m].
+wallAE = 0.0027;       // Absorption efficiency of walls [-].
+partX = 0.45;          // x-coordinate of partition [m].
+partThickness = 0.005; // Partition thickness [m].
+partAE = 0.0027;       // Absorption efficiency of partition [-].
+holeWidth = 0.04;      // Aperture width [m].
+holeTE = 1.0;          // transmission efficiency of hole [-].
+cylXWithPart = 0.675;  // x-coordinate of cylinder if partition is present [m].
+cylXWithoutPart = 0.7; // x-coordinate of cylinder if partition is not present [m].
+cylY = 0.225;          // y-coordinate of cylinder [m].
+cylRadius = 0.05;      // Cylinder radius [m].
+cylAE = 0.95;          // Absorption efficiency of cylinder [-].
+srcX = 0.05;           // x-coordinates of source [m].
+srcY = 0.225;          // y-coordinates of source [m].
+srcZ = 0.225;          // z-coordinates of source [m].
+srcRadius = 0.02;      // Source radius if meshed as sphere [m].
+srcTRP = 1;            // Total radiated power of source [W].
+\end{verbatim}}
+\noindent In order for FreeFEM++ and Octave to be able to parse the file correctly it is essential 
+that spaces are left on either side of the ``\texttt{=}'' sign. The order of the parameters is 
+not significant. In addition to the geometrical and electromagnetic parameters defined in Table~\ref{tb:tcparam} 
+four boolean parameters \texttt{isSrc}, \texttt{isCyl}, \texttt{isPart} and \texttt{isSabine} are 
+also used:
+\begin{itemize}
+ \item \textbf{\texttt{isSrc}}: If true, a small sphere is added to the mesh to represent the source using a surface,
+ otherwise an interpolated delta function source is applied;
+ \item \textbf{\texttt{isCyl}}: If true, the cylinder is included in the geometry;
+ \item \textbf{\texttt{isPart}}: If true, the partition is included;
+ \item \textbf{\texttt{isSabine}}: If true, the Sabine loss factor~(\ref{eq:ecsabine}) is used,
+ otherwise the Jing and Xiang loss factor~(\ref{eq:ecjing}) is used.
+\end{itemize}
 
-Use Gmsh~\citep{Geuzaine2009}.
+
 
 \begin{figure}[ht]
 \begin{center}
@@ -1265,6 +1313,15 @@ and energy density flux (bottom) in the $z$-normal plane at the half height of t
 with the SDM.}
 \end{center}
 \end{figure}
+
+\section[Conclusions]{Conclusions}
+\label{sc:conc}
+
+{\color{red} Question: How do we determine the diffusivity in cases with complex topology such as
+the test case with the cylinder? Empirically it appears the diffusivity is about one quarter of that
+of the empty sub-cavity in the dual cavity case. In the single cavity case the effect is not
+noticeable. The fitting method of determining $\lambda_\rf = 4V/S_\rf$ does not appear to be
+appropriate for single contents which significantly perturb the cavity shape.}
 
 \bibliographystyle{myabbrvnat}
 %\bibliographystyle{abbrvnat}
