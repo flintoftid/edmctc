@@ -54,7 +54,7 @@ srcXSArea = pi * srcRadius * srcRadius;               % Surface source cross-sec
 holeArea = holeWidth * Lz;                            % Hole area [m^2].
 
 % Partition.
-partArea = ( 2.0 * ( Ly - holeWidth ) + partThickness ) * Lz ;               
+partArea = 2.0 * ( Ly - holeWidth ) * Lz ;               
                                                       % Partition area [m^2].
 % Cylinder.
 cylPerimeter = 2.0 * pi * cylRadius;                  % Cylinder perimeter [m].
@@ -78,10 +78,9 @@ end % if
 
 % Partitioned cavity - sub-cavity 1.
 Lx1 = partX - 0.5 * partThickness;                    % Length of sub-cavity 1 [m].
-cavityVolume1 = Lx1 * Ly * Lz + 0.5 * partThickness * holeWidth * Lz;
+cavityVolume1 = Lx1 * Ly * Lz;
                                                       % Sub-cavity 1 volume [m^3].
-wallArea1 = 2.0 * ( Lx1 * Ly + Lz * Lx1 + 0.5 * partThickness * holeWidth ) + ...
-    Ly * Lz + 0.5 * partThickness * Lz;               % Area of sub-cavity 1 walls [m^2].
+wallArea1 = 2.0 * ( Lx1 * Ly + Lz * Lx1 ) + Ly * Lz;  % Area of sub-cavity 1 walls [m^2].
 partArea1 = 0.5 * partArea;                           % Area of partition in sub-cavity 1 [m^2].
 cavityArea1 = wallArea1 + partArea1 + holeArea;       % Total sub-cavity 1 boundary area [m^2].
 if( isSrc )
@@ -91,10 +90,8 @@ end % if
 
 % Partitioned cavity - sub-cavity 2.
 Lx2 = Lx - Lx1 - partThickness;                       % Length of sub-cavity 2 [m].
-cavityVolume2 = Lx2 * Ly * Lz + 0.5 * partThickness * holeWidth * Lz;
-                                                      % Sub-cavity 2 volume [m^3].
-wallArea2 = 2.0 * ( Lx2 * Ly + Lz * Lx2 + 0.5 * partThickness * holeWidth ) + ...
-    Ly * Lz + 0.5 * partThickness * Lz;               % Area of sub-cavity 2 walls [m^2].
+cavityVolume2 = Lx2 * Ly * Lz;                        % Sub-cavity 2 volume [m^3].
+wallArea2 = 2.0 * ( Lx2 * Ly + Lz * Lx2 ) + Ly * Lz;  % Area of sub-cavity 2 walls [m^2].
 partArea2 = 0.5 * partArea;                           % Area of partition in sub-cavity 2 [m^2].
 cavityArea2 = wallArea2 + partArea2 + holeArea;       % Total sub-cavity 2 boundary area [m^2].
 if( isCyl )

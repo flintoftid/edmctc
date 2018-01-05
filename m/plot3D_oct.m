@@ -66,7 +66,7 @@ labels{4} = sprintf( 'x = %.2f m' , xx(40) );
 labels{5} = sprintf( 'x = %.2f m' , xx(30) );
 labels{6} = sprintf( 'x = %.2f m' , xx(20) );
 
-plotLineGraph( lines , labels , 0.0 , 0.45 , 'z (m)' , [] , [] , 'S(L_x/2,L_y/2,z) (dB W/m^2) / S(L_x/2,L_y/2,L_z/2) (dB)' , 'PowerDensityProfileZ' );
+plotLineGraph( lines , labels , 0.0 , 0.45 , 'z (m)' , [] , [] , 'S(x,L_y/2,z) (dB W/m^2) / S(L_x/2,L_y/2,L_z/2) (dB)' , 'PowerDensityProfileZ' );
 
 % Profiles of power density along x.
 if( isPart )
@@ -76,18 +76,18 @@ else
 end % if
 
 clear lines labels
-lines{1} = [ xx(1:2:end) , db10( squeeze( Sr(1:2:end,5,25) ) ) ];
-lines{2} = [ xx(1:2:end) , db10( squeeze( Sr(1:2:end,10,25) ) ) ];
-lines{3} = [ xx(1:2:end) , db10( squeeze( Sr(1:2:end,15,25) ) ) ];
-lines{4} = [ xx(1:2:end) , db10( squeeze( Sr(1:2:end,20,25) ) ) ];
+lines{1} = [ xx(1:2:end) , db10( squeeze( Sr(1:2:end,10,25) ) ) ];
+lines{2} = [ xx(1:2:end) , db10( squeeze( Sr(1:2:end,20,25) ) ) ];
+lines{3} = [ xx(1:2:end) , db10( squeeze( Sr(1:2:end,30,25) ) ) ];
+lines{4} = [ xx(1:2:end) , db10( squeeze( Sr(1:2:end,40,25) ) ) ];
 lines{5} = [ xx(1:2:end) , db10( SS(1:2:end) ) ];
-labels{1} = sprintf( 'x = %.2f m' , yy(5) );
-labels{2} = sprintf( 'x = %.2f m' , yy(10) );
-labels{3} = sprintf( 'x = %.2f m' , yy(15) );
-labels{4} = sprintf( 'x = %.2f m' , yy(20) );
+labels{1} = sprintf( 'y = %.2f m' , yy(10) );
+labels{2} = sprintf( 'y = %.2f m' , yy(20) );
+labels{3} = sprintf( 'y = %.2f m' , yy(30) );
+labels{4} = sprintf( 'y = %.2f m' , yy(40) );
 labels{5} = 'PWB';
 
-plotLineGraph( lines , labels , 0.0 , 0.9 , 'x (m)' , [] , [] , 'S(x,L_y/2,L_z/2) (dB W/m^2)' , 'PowerDensityProfileX' );
+plotLineGraph( lines , labels , 0.0 , 0.9 , 'x (m)' , [] , [] , 'S(x,y,L_z/2) (dB W/m^2)' , 'PowerDensityProfileX' );
 
 % Power density map in plane z = Lz / 2.
 kc = floor( Nz / 2 );
@@ -153,4 +153,4 @@ UpsilondB_2D_cont = roundsf( UpsilondB_2D_cont , 2 );
 plotContourHeatMap( x_2D , y_2D, UpsilondB_2D , ...
                     0.0 , 0.9 , 'x (m)' , ...
                     0.0 , 0.45 , 'y (m)' , ...
-                    UpsilondB_min , UpsilondB_max , 'Anisotropy (dB)' , UpsilondB_cont , 'EnergyDensityAnisotropyMap' );
+                    UpsilondB_2D_min , UpsilondB_2D_max , 'Anisotropy (dB)' , UpsilondB_2D_cont , 'EnergyDensityAnisotropyMap' );

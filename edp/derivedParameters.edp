@@ -84,7 +84,7 @@ if( isSrc ) {
 real Lx1 = partX - 0.5 * partThickness;                    // Length of sub-cavity 1 [m].
 real cavityVolume1 = Lx1 * Ly * Lz + 0.5 * partThickness * holeWidth * Lz;
                                                            // Sub-cavity 1 volume [m^3].
-real wallArea1 = 2.0 * ( Lx1 * Ly + Ly * Lz + Lz * Lx1 ) + 0.5 * partThickness * Lz; 
+real wallArea1 = 2.0 * ( Lx1 * Ly + Lz * Lx1 + 0.5 * partThickness * holeWidth ) + Ly * Lz + 0.5 * partThickness * Lz;
                                                            // Area of sub-cavity 1 walls [m^2].
 real partArea1 = 0.5 * partArea;                           // Area of partition in sub-cavity 1 [m^2].
 real cavityArea1 = wallArea1 + partArea1 + holeArea;       // Total sub-cavity 1 boundary area [m^2].
@@ -97,7 +97,7 @@ if( isSrc ) {
 real Lx2 = Lx - Lx1 - partThickness;                       // Length of sub-cavity 2 [m].
 real cavityVolume2 = Lx2 * Ly * Lz + 0.5 * partThickness * holeWidth * Lz;
                                                            // Sub-cavity 2 volume [m^3].
-real wallArea2 = 2.0 * ( Lx2 * Ly + Ly * Lz + Lz * Lx2 ) + 0.5 * partThickness * Lz; 
+real wallArea2 =  2.0 * ( Lx2 * Ly + Lz * Lx2 + 0.5 * partThickness * holeWidth ) + Ly * Lz + 0.5 * partThickness * Lz;
                                                            // Area of sub-cavity 2 walls [m^2].
 real partArea2 = 0.5 * partArea;                           // Area of partition in sub-cavity 2 [m^2].
 real cavityArea2 = wallArea2 + partArea2 + holeArea;       // Total sub-cavity 2 boundary area [m^2].

@@ -111,6 +111,5 @@ postprocess2D;
 %postprocess3D;
 
 % Plots
-plot2D_gnp;
-%plot3D_gnp;
-
+plot2D_oct;
+%plot3D_oct;

@@ -66,18 +66,18 @@ else
 end % if
 
 clear lines labels
-lines{1} = [ xx(1:2:end) , db10( squeeze( S2r(1:2:end,5) ) ) ];
-lines{2} = [ xx(1:2:end) , db10( squeeze( S2r(1:2:end,10) ) ) ];
-lines{3} = [ xx(1:2:end) , db10( squeeze( S2r(1:2:end,15) ) ) ];
-lines{4} = [ xx(1:2:end) , db10( squeeze( S2r(1:2:end,20) ) ) ];
+lines{1} = [ xx(1:2:end) , db10( squeeze( S2r(1:2:end,10) ) ) ];
+lines{2} = [ xx(1:2:end) , db10( squeeze( S2r(1:2:end,20) ) ) ];
+lines{3} = [ xx(1:2:end) , db10( squeeze( S2r(1:2:end,30) ) ) ];
+lines{4} = [ xx(1:2:end) , db10( squeeze( S2r(1:2:end,40) ) ) ];
 lines{5} = [ xx(1:2:end) , db10( SS(1:2:end) ) ];
-labels{1} = sprintf( 'x = %.2f m' , yy(5) );
-labels{2} = sprintf( 'x = %.2f m' , yy(10) );
-labels{3} = sprintf( 'x = %.2f m' , yy(15) );
-labels{4} = sprintf( 'x = %.2f m' , yy(20) );
+labels{1} = sprintf( 'y = %.2f m' , yy(10) );
+labels{2} = sprintf( 'y = %.2f m' , yy(20) );
+labels{3} = sprintf( 'y = %.2f m' , yy(30) );
+labels{4} = sprintf( 'y = %.2f m' , yy(40) );
 labels{5} = 'PWB';
 
-gnpLineGraph( lines , labels , 0.0 , 0.9 , '{/Helvetica-Italic x} (m)' , [] , [] , '{/Helvetica-Italic S}({/Helvetica-Italic x},{/Helvetica-Italic L_y}/2,{/Helvetica-Italic L_z}/2) (dB W/m^2)' , 'PowerDensityProfileX' );
+gnpLineGraph( lines , labels , 0.0 , 0.9 , '{/Helvetica-Italic x} (m)' , [] , [] , '{/Helvetica-Italic S}({/Helvetica-Italic x},{/Helvetica-Italic y},{/Helvetica-Italic L_z}/2) (dB W/m^2)' , 'PowerDensityProfileX' );
 
 % Power density map in plane z = Lz / 2.
 x_2D = x2;

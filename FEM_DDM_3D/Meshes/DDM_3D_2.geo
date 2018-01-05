@@ -123,10 +123,16 @@ ps[] = Extrude{ 0 , 0 , Lz }{ Surface{S1}; };
 // Identify which surfaces belong to walls and cylinder.
 // Ensure outwards normal vector. Extrude always gives
 // flipped normal on floor compared to side and top.
-Physical Surface("hole2") = { ps[{2}] };
-Physical Surface("partition2") = { ps[{3}] };
-Physical Surface("walls2") = { -S1 , ps[{4:(#ps[]-5)}] , ps[0] };
-Physical Surface("cylinder") = { ps[{(#ps[]-4):(#ps[]-1)}] };
+If( isCyl == 1 )
+  Physical Surface("hole2") = { ps[{2}] };
+  Physical Surface("partition2") = { ps[{3}] };
+  Physical Surface("walls2") = { -S1 , ps[{4:(#ps[]-5)}] , ps[0] };
+  Physical Surface("cylinder") = { ps[{(#ps[]-4):(#ps[]-1)}] };
+Else
+  Physical Surface("hole2") = { ps[{2}] };
+  Physical Surface("partition2") = { ps[{3}] };
+  Physical Surface("walls2") = { -S1 , ps[{4:(#ps[]-1)}] , ps[0] };
+EndIf
 
 All[] += { -S1 , ps[{2:(#ps[]-1)}] , ps[0]  };
 

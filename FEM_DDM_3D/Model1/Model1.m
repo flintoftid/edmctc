@@ -45,7 +45,7 @@ generalParameters;
 inputParameters;
 
 % Derived parameters.
-derivedParameters;
+derivedParametersDDM;
 
 % SEA parameters.
 SEA;

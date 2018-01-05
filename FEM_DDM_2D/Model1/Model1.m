@@ -45,7 +45,7 @@ generalParameters;
 inputParameters;
 
 % Derived parameters.
-derivedParameters;
+derivedParametersDDM;
 
 % SEA parameters.
 SEA;
@@ -107,9 +107,9 @@ Jy = J2y0 .* Z;
 Jz = -( D1 .* ( x <= partX ) + D2 .* ( x > partX ) ) .* w20 .* dZdz;
 
 % Post-processing.
-%postprocess2D;
-postprocess3D;
+postprocess2D;
+%postprocess3D;
 
 % Plots
-%plot2D_gnp;
-plot3D_gnp;
+plot2D_oct;
+%plot3D_oct;

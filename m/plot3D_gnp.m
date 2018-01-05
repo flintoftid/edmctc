@@ -66,7 +66,7 @@ labels{4} = sprintf( 'x = %.2f m' , xx(40) );
 labels{5} = sprintf( 'x = %.2f m' , xx(30) );
 labels{6} = sprintf( 'x = %.2f m' , xx(20) );
 
-gnpLineGraph( lines , labels , 0.0 , 0.45 , '{/Helvetica-Italic z} (m)' , [] , [] , '{/Helvetica-Italic S}({/Helvetica-Italic L_x}/2,{/Helvetica-Italic L_y}/2,{/Helvetica-Italic z})/{/Helvetica-Italic S}({/Helvetica-Italic L_x}/2,{/Helvetica-Italic L_y}/2,{/Helvetica-Italic L_z}/2) (dB)' , 'PowerDensityProfileZ' );
+gnpLineGraph( lines , labels , 0.0 , 0.45 , '{/Helvetica-Italic z} (m)' , [] , [] , '{/Helvetica-Italic S}({/Helvetica-Italic x},{/Helvetica-Italic L_y}/2,{/Helvetica-Italic z})/{/Helvetica-Italic S}({/Helvetica-Italic L_x}/2,{/Helvetica-Italic L_y}/2,{/Helvetica-Italic L_z}/2) (dB)' , 'PowerDensityProfileZ' );
 
 % Profiles of power density along x.
 if( isPart )
@@ -76,18 +76,18 @@ else
 end % if
 
 clear lines labels
-lines{1} = [ xx(1:2:end) , db10( squeeze( Sr(1:2:end,5,25) ) ) ];
-lines{2} = [ xx(1:2:end) , db10( squeeze( Sr(1:2:end,10,25) ) ) ];
-lines{3} = [ xx(1:2:end) , db10( squeeze( Sr(1:2:end,15,25) ) ) ];
-lines{4} = [ xx(1:2:end) , db10( squeeze( Sr(1:2:end,20,25) ) ) ];
+lines{1} = [ xx(1:2:end) , db10( squeeze( Sr(1:2:end,10,25) ) ) ];
+lines{2} = [ xx(1:2:end) , db10( squeeze( Sr(1:2:end,20,25) ) ) ];
+lines{3} = [ xx(1:2:end) , db10( squeeze( Sr(1:2:end,30,25) ) ) ];
+lines{4} = [ xx(1:2:end) , db10( squeeze( Sr(1:2:end,40,25) ) ) ];
 lines{5} = [ xx(1:2:end) , db10( SS(1:2:end) ) ];
-labels{1} = sprintf( 'x = %.2f m' , yy(5) );
-labels{2} = sprintf( 'x = %.2f m' , yy(10) );
-labels{3} = sprintf( 'x = %.2f m' , yy(15) );
-labels{4} = sprintf( 'x = %.2f m' , yy(20) );
+labels{1} = sprintf( 'y = %.2f m' , yy(10) );
+labels{2} = sprintf( 'y = %.2f m' , yy(20) );
+labels{3} = sprintf( 'y = %.2f m' , yy(30) );
+labels{4} = sprintf( 'y = %.2f m' , yy(40) );
 labels{5} = 'PWB';
 
-gnpLineGraph( lines , labels , 0.0 , 0.9 , '{/Helvetica-Italic x} (m)' , [] , [] , '{/Helvetica-Italic S}({/Helvetica-Italic x},{/Helvetica-Italic L_y}/2,{/Helvetica-Italic L_z}/2) (dB W/m^2)' , 'PowerDensityProfileX' );
+gnpLineGraph( lines , labels , 0.0 , 0.9 , '{/Helvetica-Italic x} (m)' , [] , [] , '{/Helvetica-Italic S}({/Helvetica-Italic x},{/Helvetica-Italic y},{/Helvetica-Italic L_z}/2) (dB W/m^2)' , 'PowerDensityProfileX' );
 
 % Power density map in plane z = Lz / 2.
 kc = floor( Nz / 2 );
