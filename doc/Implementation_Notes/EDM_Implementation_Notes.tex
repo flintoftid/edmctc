@@ -70,7 +70,7 @@ Web: \url{https://idflintoft.bitbucket.io}}, University of York
 \par}
 \vspace{5mm}
 \textbf{\textit{Abstract}}\textit{ -- These informal notes provide details of the implementation of the 
-electromagnetic diffusion model of some canonical test cases using the finite element method
+electromagnetic diffusion model for some canonical test cases using the finite element method
 with FreeFEM++. The treatment is terse and no attempt has been made to motivate the methods used or to provide
 comprehensive background and references. 
 }
@@ -88,9 +88,10 @@ comprehensive background and references.
 ACS              & (Average) Absorption Cross-Section  \\
 AE               &(Average) Absorption Efficiency      \\
 BC               &Boundary Condition                   \\
+DDM              &Dual Domain Model                    \\
 DOF              &Degrees of Freedom                   \\
 EC               &(Energy) Exchange Coefficient        \\
-EDM              &Electromagnetic diffusion Model      \\
+EDM              &Electromagnetic Diffusion Model      \\
 EEBC             &Energy Exchange Boundary Condition   \\
 EM               &Electromagnetic                      \\
 FCBC             &Flux Continuity Boundary Condition   \\
@@ -100,6 +101,7 @@ MFP              &Mean-Free-Path                       \\
 ODE              &Ordinary Differential Equation       \\
 PDE              &Partial Differential Equation        \\
 PWB              &Power Balance                        \\
+SDM              &Single Domain Model                  \\
 TCS              &(Average) Transmission Cross-Section \\
 TE               &(Average) Transmission Efficiency    \\
 \end{supertabular}
@@ -115,7 +117,7 @@ TE               &(Average) Transmission Efficiency    \\
 \hline
 $w\prt$             &J\,m$^{-3}$     &\texttt{w}                  &Average energy density in cavity \\
 $D\pr$              &m$^2$\,s$^{-1}$ &\texttt{D}                  &Diffusivity (Diffusion Coefficient) \\
-$\Lambda _V$        &s$^{-1}$        &\texttt{volLossrate}        &Volumetric absorption loss rate \\
+$\Lambda _V$        &s$^{-1}$        &\texttt{volLossRate}        &Volumetric absorption loss rate \\
 $p\prt$             &W\,m$^{-3}$     &\texttt{volSrcDensity}      &Volumetric power density source \\
 $\rc_0$             &m\,s${-1}$      &\texttt{c0}                 &Speed of light in free-space \\
 $\lambda$           &m               &\texttt{MFP}                &Mean free path \\
@@ -131,13 +133,13 @@ $D_\rw$             &m$^2$\,s$^{-1}$ &\texttt{wallD}              &Diffusivity f
 $\alpha_\rw\pr$     &~               &\texttt{wallAE}             &Average absorption efficiency of walls \\
 $h_\rw\pr$          &m\,s$^{-1}$     &\texttt{wallEC}             &Energy exchange coefficient of walls \\
 $\lambda _\rf$      &m               &\texttt{fittingMFP}         &Mean free path for fitting scattering \\
-$D_\rf$             &m$^2$\,s$^{-1}$ &\texttt{fittingD}           &Diffusivity path for fitting scattering \\
+$D_\rf$             &m$^2$\,s$^{-1}$ &\texttt{fittingD}           &Diffusivity for fitting scattering \\
 $\alpha_\rf\pr$     &-               &\texttt{fittingAE}          &Average absorption efficiency of fittings \\
 $\sigma_\rf^\rs$    &m$^2$           &\texttt{fittingSCS}         &Average scattering cross-section of fittings \\
 $h_\rf\pr$          &m\,s$^{-1}$     &\texttt{fittingEC}          &Energy exchange coefficient of fittings \\
-$n_V^\rf$           &m$^{-3}$        &\texttt{fittingConc}        &Volumetric number density of fittings \\
+$n_V^\rf$           &m$^{-3}$        &\texttt{fittingConc}        &Volumetric number density (concentration) of fittings \\
 $\Lambda_V^\rf$     &s$^{-1}$        &\texttt{fittingVolLossRate} &Volumetric absorption loss rate due to fittings \\
-$P^\rt$             &W               &\texttt{TsrcRP}             &Source total (isotropic) radiated power \\
+$P^\rt$             &W               &\texttt{srcTRP}             &Source total (isotropic) radiated power \\
 $V_\rs$             &m$^3$           &\texttt{srcVolume}          &Volume source volume \\
 $S_\rs$             &m$^2$           &\texttt{srcArea}            &Surface source surface area \\
 $J_\rs$             &W\,m$^{-2}$     &\texttt{srcSurfaceExitance} &Surface source exitance \\
@@ -163,7 +165,7 @@ density, $w\prt$, at position $\vr$ and time $t$ in a closed
 domain $\Omega$ is assumed to satisfy the diffusion equation
 \begin{align}
 \begin{matrix}
-\frac{\partial w\prt}{\partial t} - \vnabla\vcdot\left[D\pr \vnabla w\prt \right] + \Lambda_V w\prt = p\prt &\vr\in\Omega 
+\frac{\partial w\prt}{\partial t} - \vnabla\vcdot\left[D\pr \vnabla w\prt \right] + \Lambda_V w\prt = p\prt &\vr\in\Omega\,, 
 \end{matrix}
 \end{align}
 where $D\pr$ is the potentially inhomogeneous diffusivity, $\Lambda_V$ is an 
@@ -173,14 +175,14 @@ For time dependent problems the initial value of the energy density must be
 prescribed over the whole domain
 \begin{align}
 \begin{matrix}
-\left.w\prt\right|_{t_0} = w_0\pr &\vr\in\Omega
+\left.w\prt\right|_{t_0} = w_0\pr &\vr\in\Omega\,.
 \end{matrix}
 \end{align}
 The diffusivity accounts for the scattering within the cavity. To first
 approximation in a large sparsely populated domain it may be regarded as constant and 
 is related to the mean-free-path (MFP) between scattering events, $\lambda$, by
 \begin{align}
-D = \frac{1}{3}\rc_0\lambda 
+D = \frac{1}{3}\rc_0\lambda\,,
 \end{align}
 where $\rc_0$ is the speed of light in free-space. 
 
@@ -206,16 +208,16 @@ the MFP for scattering from the walls is given by~\citep{Navarro2015}
 \lambda_\rw = \frac{4V}{S},
 \end{align}
 where $V$ and $S$ are the interior volume and surface area of the cavity
-walls:
+walls, which are given by
 \begin{align}
 V &= \iiint_{\Omega }\dif{V} \\
 S &= \oiint_{\partial\Omega }\dif{S} .
 \end{align}
 For cavities with one dimension much greater than the others the diffusivity becomes inhomogeneous, 
 depending on the location of the source and the disposition of lossses in the cavity~\citep{Visentin2012,Visentin2015}.
-For long cavities with relatively low loss a better estimate of the mean-free-path may be given by
+For long cavities with relatively low loss a better estimate of the MFP may be given by
 \begin{align}
-\lambda_\rw = \sqrt{\frac{S}{4\pi}} ;
+\lambda_\rw = \sqrt{\frac{S}{4\pi}}\,;
 \end{align}
 however, this is a gross approximation which may be of limited scope and accuracy.
 
@@ -225,6 +227,7 @@ however, this is a gross approximation which may be of limited scope and accurac
 If there are objects (fittings) in the cavity the overall MFP is the harmonic
 mean of the MFP of the walls and fittings,
 \begin{align}
+\label{eq:harmmean}
 \frac{1}{\lambda} = \frac{1}{\lambda_\rw} + \frac{1}{\lambda_\rf},
 \end{align}
 as is the corresponding overall diffusivity~\citep{Valeau2007}
@@ -244,12 +247,13 @@ fittings. If the fittings are lossy then a term
 \end{align}
 must also be added to the volumetric scattering rate, $\Lambda_V$, that accounts
 for volumetric absorption processes. Here $\alpha_\rf$ is the average
-absorption efficiency of the fittings and $\sigma_\rf^\ra=\alpha_\rf S_\rf/4$ the
+absorption efficiency of the fittings and $\sigma_\rf^\ra=\alpha_\rf S_\rf/4$ their
 average absorption cross-section.
 
 Attempts have also been made to include the effects of specular reflections by
 introducing an empirical factor, ${\kappa}$, into the diffusivity~\citep{Foy2009} 
 \begin{align}
+\label{eq:kappa}
 D \rightarrow \kappa D .
 \end{align}
 Empirically it is found that $1\leq\kappa\lesssim 5$ and that $\kappa$ depends on the 
@@ -265,16 +269,16 @@ though it was noted that the reverberation time was is only accurate for $s>0.4$
 \label{sc:sum:abs}
 
 Absorption in the domain boundary is described by inhomogeneous Robin (also
-called Fourier or Type 3) boundary conditions:
+called Fourier or Type 3) boundary conditions
 \begin{align}
 \begin{matrix}
-\uvn\vcdot\left[D\pr\vnabla w\prt\right] + h\pr w\prt + J_\mathrm{in}\prt - J_\mathrm{out}\prt = 0 &\vr\in\partial\Omega
+\uvn\vcdot\left[D\pr\vnabla w\prt\right] + h\pr w\prt + J_\mathrm{in}\prt - J_\mathrm{out}\prt = 0 &\vr\in\partial\Omega\,,
 \end{matrix}
 \end{align}
 where $\uvn$ is an outward normal vector to the domain and 
 $h\pr$ is an energy exchange coefficient (EC). $J_\mathrm{in}\prt$ and
 $J_\mathrm{out}\prt$ represent an in-flux and out-flux (exitance) of energy density to/from the surface 
-respectively and can be used to model sources and energy exchange boundary conditions (EEBCs) as noted below.
+respectively and can be used to model sources and energy exchange boundary conditions (EEBCs) as described below.
 Various models have been used in the acoustics literature to relate the exchange coefficient to the
 average absorption efficiency of the domain boundary, $\alpha\pr$~\citep{Jing2008,Xiang2009}. The
 simplest is based on Sabine's estimate of the reverberation time~\citep{Sabine1922}
@@ -305,9 +309,10 @@ h\pr =\rc_0\frac{\alpha\pr}{2\left(2-\alpha\pr\right)} & 0\leq\alpha\leq 1 .
 
 The absorption efficiencies and exchange coefficients for the walls are denoted 
 by $\alpha_\rw\pr$ and $h_\rw\pr$ respectively. Large fittings are more
-accurately modelled by including their surfaces in the domain boundary; in 
+accurately modelled by including their surfaces as part of the domain boundary; in 
 this case their absorption efficiencies and exchange coefficients are denoted by
-$\alpha_\rf\pr$ and $h_\rf\pr$ respectively.
+$\alpha_\rf\pr$ and $h_\rf\pr$ respectively and their losses are not included in the
+volumetric loss term.
 
 \subsection[Sources]{Sources}
 \label{sc:sum:src}
@@ -318,10 +323,15 @@ located at $\vr_\rs$ can be implemented as a power density
 p\prt = P^\rt(t) \delta^{(3)}\left(\vr-\vr_\rs\right).
 \end{align}
 The energy density near such a source contains a spurious direct term that can
-be subtract to give the reverberant energy density~\citep{Visentin2012}; in 3D this correction is:
+be subtract to give the reverberant energy density~\citep{Visentin2012}; in 3D this correction is
 \begin{align}
-w_\rr\pr = w\pr - \frac{P^\rt}{4\pi D\left|\vr-\vr_\rs\right|}.
+w_\rr\pr = w\pr - \frac{P^\rt}{4\pi D\left|\vr-\vr_\rs\right|}
 \end{align}
+while for 2D it is
+\begin{align}
+w_\rr\pr = w\pr - \frac{P^\rt}{2\pi D} \log \left|\vr-\vr_\rs\right|.
+\end{align}
+
 The true direct energy density is given by the inverse-square-law for the
 isotropic spreading of the power from the source:
 \begin{align}
@@ -340,8 +350,8 @@ p\prt = \frac{P^\rt(t)}{V_s} &\vr\in\Omega_\rs
 \end{matrix} \\
 V_s = \iiint_{\Omega_\rs}\dif{V}
 \end{align}
-The spurious direct energy density from such source is less than for point
-sources.
+The spurious direct energy density from such a source is reported to be less than for point
+sources~\citep{Visentin2012}.
 
 A portion of the domain boundary $\partial\Omega_\rs$ can also be used as a
 surface source by introducing a source term into the Robin BC:
@@ -385,7 +395,7 @@ apply
 \end{matrix}
 \end{align}
 where  $\widehat  n_1$ and  $\widehat  n_2$ are outward normal vectors in their
-respective domains. On the shared wall an energy exchange boundary condition is
+respective domains. On the shared wall an energy exchange boundary condition (EEBC) is
 applied~\citep{Billon2008}
 \begin{align}
 \begin{matrix}
@@ -465,7 +475,7 @@ here taken to be the $z$-direction~\citep{Sequeira2012}. This separates the ener
 w\prt = W(x,y,t)Z(z),
 \end{align}
 where the dimensionless function $Z(z)$ is assumed known a-priori
-(anzatz), for example, here it is assumed to be quadratic. This function must
+(i.e. an anzatz), for example, here it is assumed to be quadratic. This function must
 satisfy the Robin BCs applied on the  $z=0$ and  $z=L_z$ faces of the domain.
 If these upper and lower faces have the same uniform ECs $h_\rw$ and the
 diffusivity in the domain is also uniform then
@@ -505,14 +515,6 @@ If the $z=0$ and $z=L_z$ faces have the same uniform ECs then
 \int_0^{L_z} \left(Z\left(z\right)\frac{\rd^2Z\left(z\right)}{\rd z^2}\right)\dif{z} &=-\xi\left(2+\xi \frac{L_z} 3\right).
 \end{align}
 
-\subsection[Source in two dimensions]{Sources in two dimensions}
-\label{sc:Kant:src}
-
-Note that the spurious direct energy density in 2D is determined by the 2D 
-time independent Green's function so the reverberant energy density in 2D is
-\begin{align}
-w_\rr\pr = w\pr + \frac{P^\rt}{2\pi D} \log \left|\vr-\vr_\rs\right|.
-\end{align}
 
 \section[Finite element solution]{Finite element solution}
 \label{sc:fem}
@@ -538,7 +540,7 @@ and multiply throughout by a test function $u\pr$ and then integrate over the vo
 =\iiint_{\Omega} u\pr p\prt\dif{V}.
 \end{align}
 Now assuming that all the functions are suitably smooth we apply the divergence
-theorem: 
+theorem
 \begin{align}
 \iiint_{\Omega} {\vnabla}{\vcdot}\vF\pr\dif{V} = \oiint_{\partial\Omega}\vF\pr{\vcdot}\dif{\vS}.
 \end{align}
@@ -821,7 +823,7 @@ respectively. Robin BCs are enforced on each side of the boundary
 \uvn_2{\vcdot}D_2\pr{\vnabla}w_2\prt-J_{21}\prt &=0
 \end{align}
 in terms of the net energy flux $J_{21}$ from domain 1 into domain 2. At each iteration this can be
-updated using a relaxation scheme with relaxation parameter $\beta\sim 0.1$~\citep{}:
+updated using a relaxation scheme with relaxation parameter $\beta\sim 0.1$:
 \begin{align}
 \mathrm{Initialise} &: J_{12}\prt = J_{21}\prt = 0 \nonumber \\
 \mathrm{(\ast)\,Solve\,\,for}\,\,w_1 &: \langle w_1,u_1 \rangle + \tilde{a}(w_1,u_1) - \langle u_1 , J_{12} \rangle - \langle u_1 , p_1 \rangle = 0 \nonumber \\
@@ -832,7 +834,7 @@ updated using a relaxation scheme with relaxation parameter $\beta\sim 0.1$~\cit
 \end{align}
 As described in Section~\ref{sc:sum:coup} the EEBC and FCBC are equivalent in the case of a lossless aperture. 
 
-Continuity of both the energy density and its flux can be enforced using a Schwarz domain decomposition
+Continuity of both the energy density and its flux can be enforced using a nonoverlapping Schwarz domain decomposition
 method~\citep{Lions1990}. The weak forms are the same as for the FCBC method, however the net flux is updated using
 \begin{align}
 \mathrm{Initialise} &: J_{12}\prt = J_{21}\prt = 0 \nonumber \\
@@ -878,6 +880,9 @@ For time-independent problems the 2D FreeFEM++ implementation is
 
 \section[Canonical test cases]{Canonical test cases}
 \label{sc:tcs}
+
+\subsection[Test case specifications]{Test case specifications}
+\label{sc:tcs:spec}
 
 The canonical test cases are based on the geometry of a
 cuboid cavity occupying the volume $0 \leq x \leq L_x$, $0 \leq y \leq L_y$ and 
@@ -945,6 +950,34 @@ $\alpha_\mathrm{cyl}$  &\texttt{cylAE}         &0.95 \\
 \caption{\label{tb:tcparam} Primary parameters and variable names for the test cases.}
 \end{table}
 
+\subsection[Single and dual domain models]{Single and dual domain models}
+\label{sc:tcs:sddm}
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.6\linewidth]{figures/domains0}
+\vspace{-4mm}
+\caption{\label{fg:tcdom0} Domain nomenclature for the single domain implementation of the single cavity EDM.}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.6\linewidth]{figures/domains1}
+\vspace{-4mm}
+\caption{\label{fg:tcdom1} Domain nomenclature for a single domain implementation of the dual cavity, using
+a inhomogeneous diffusivity.}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.6\linewidth]{figures/domains2}
+\vspace{-4mm}
+\caption{\label{fg:tcdom2} Domain nomenclature for a two domain implementation of the dual cavity.}
+\end{center}
+\end{figure}
+
 \subsection[Overall solution work-flow]{Overall solution work-flow}
 \label{sc:tcs:workflow}
 
@@ -1001,8 +1034,6 @@ also used:
  otherwise the Jing and Xiang loss factor~(\ref{eq:ecjing}) is used.
 \end{itemize}
 
-
-
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.8\linewidth]{figures/gmshdualmesh}
@@ -1011,16 +1042,25 @@ also used:
 \end{center}
 \end{figure}
 
-\subsection[Empty unpartitioned cavity]{Empty unpartitioned cavity}
-\label{sc:tcs:unpartempty}
 
-\begin{figure}[ht]
-\begin{center}
-\includegraphics[width=0.6\linewidth]{figures/domains0}
-\vspace{-4mm}
-\caption{\label{fg:tcdom0} Domain nomenclature for the single domain implementation of the single cavity EDM.}
-\end{center}
-\end{figure}
+\section[Results]{Results}
+\label{sc:res}
+
+EDM results are presented in Sections~\ref{sc:res:unpartempty} to~\ref{sc:tcs:cylpart} for baseline canonical 
+test cases with the following
+parameters:
+\begin{itemize}
+ \item The Jing and Xiang EC~(\ref{eq:ecjing}) is used for all surfaces;
+ \item For the loaded cases the diffusiivity is determined as the harmonic mean~(\ref{eq:harmmean}) of the wall and cylinder
+ diffusivities;
+ \item The specularity factor~(\ref{eq:kappa}) is taken to be unity.
+\end{itemize}
+For coupled cavities results are reported for SDM and EEBC DDM methods. In each case it was verfied
+that the FCBC and EEBC DDM gave the same results and likewise for the SDM and nonoverlapping Schwarz
+DDM.
+
+\subsection[Empty unpartitioned cavity]{Empty unpartitioned cavity}
+\label{sc:res:unpartempty}
 
 \begin{table}[ht]
 \begin{center}
@@ -1029,11 +1069,11 @@ also used:
 \textbf{Power density}               &\textbf{PWB} &\multicolumn{2}{|c|}{\textbf{EDM}} \\ \cline{3-4}
 {}                                   &{}           &\textbf{2D SDM} &\textbf{3D SDM}  \\
 \hline
-Value at centre (dB\,W\,m$^{-2})$    &28.64        &28.63           &28.63 \\
+Value at centre (dB\,W\,m$^{-2})$    &28.64        &28.64           &28.62 \\
 Mean (dB\,W\,m$^{-2})$               &28.64        &28.63           &28.63 \\
-Minimum (dB\,W\,m$^{-2})$            &28.64        &28.60           &28.03 \\
-Maximum (dB\,W\,m$^{-2})$            &28.64        &28.71           &28.74 \\
-Standard deviation (dB\,W\,m$^{-2})$ &-            &6.50            &6.17  \\
+Minimum (dB\,W\,m$^{-2})$            &28.64        &28.59           &28.02 \\
+Maximum (dB\,W\,m$^{-2})$            &28.64        &28.70           &28.73 \\
+Standard deviation (dB\,W\,m$^{-2})$ &0            &6.50            &6.16  \\
 Coefficient of variation (\%)        &0            &0.61            &0.57  \\
 \hline
 \end{tabular}
@@ -1043,32 +1083,42 @@ Coefficient of variation (\%)        &0            &0.61            &0.57  \\
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=0.6\linewidth]{figures/Unpartitioned_Empty_SDM_3D_PowerDensityProfileZ}
-\vspace{-4mm}
-\caption{\label{fg:unpartempty_profz} Normalised vertical profile of the power density in the 2D (Kantovich anzatz) and 3D EDM of the unpartitioned empty cavity.}
+\includegraphics[width=0.6\linewidth]{figures/SDM_3D_SU_PowerDensityProfileZ}\\
+{\footnotesize (a)}\\
+\vspace{2mm}
+\includegraphics[width=0.6\linewidth]{figures/SDM_3D_SU_PowerDensityProfileX}\\
+{\footnotesize (b)}\\
+\vspace{2mm}
+\includegraphics[width=0.6\linewidth]{figures/SDM_3D_SU_PowerDensityPDF}\\
+{\footnotesize (c)}\\
+\vspace{-2mm}
+\caption{\label{fg:unpartempty_profs} EDM of the unloaded unpartitioned cavity: (a) Normalised vertical profile of the power density; 
+(b) Power density profile in the $x$-direction along the cavity centre; (c) PDF of the power density throughout the cavity volume.}
 \end{center}
 \end{figure}
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=0.6\linewidth]{figures/Unpartitioned_Empty_SDM_3D_PowerDensityProfileX}
-\vspace{-4mm}
-\caption{\label{fg:unpartempty_profx} Power density profile in the $x$-direction along the cavity centre of the 3D EDM of the unpartitioned empty cavity.}
-\end{center}
-\end{figure}
-
-\begin{figure}[ht]
-\begin{center}
-\includegraphics[width=0.80\linewidth]{figures/Unpartitioned_Empty_SDM_3D_EnergyDensityUniformityMap}
-\includegraphics[width=0.80\linewidth]{figures/Unpartitioned_Empty_SDM_3D_EnergyDensityAnisotropyMap}
-\includegraphics[width=0.80\linewidth]{figures/Unpartitioned_Empty_SDM_3D_EnergyDensityFluxMap}
-\caption{\label{fg:unpartempty_maps} Energy density relative to the homogeneous PWB model (top), anisotropy (middle)
-and energy density flux (bottom) in the $z$-normal plane at the half height of the cavity for the 3D EDM of the unpartitioned empty cavity.}
+\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_SU_PowerDensityMap}\\
+{\footnotesize (a)}\\
+\vspace{2mm}
+\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_SU_EnergyDensityUniformityMap}\\
+{\footnotesize (b)}\\
+\vspace{2mm}
+\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_SU_EnergyDensityAnisotropyMap}\\
+{\footnotesize (c)}\\
+\vspace{2mm}
+\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_SU_EnergyDensityFluxMap}\\
+{\footnotesize (d)}\\
+\vspace{-2mm}
+\caption{\label{fg:unpartempty_maps} 3D EDM maps in the $z$-normal plane at the half height of the cavity for the 
+unloaded unpartitioned cavity: (a) Power density; (b) Energy density relative to the homogeneous PWB model;
+(c) Anisotropy; (d) Energy density flux.}
 \end{center}
 \end{figure}
 
 \subsection[Unpartitioned cavity with a cylinder]{Unpartitioned cavity with a cylinder}
-\label{sc:tcs:unpartcyl}
+\label{sc:res:unpartcyl}
 
 \begin{table}[ht]
 \begin{center}
@@ -1077,12 +1127,12 @@ and energy density flux (bottom) in the $z$-normal plane at the half height of t
 \textbf{Power density}               &\textbf{PWB} &\multicolumn{2}{|c|}{\textbf{EDM}} \\ \cline{3-4}
 {}                                   &{}           &\textbf{2D SDM} &\textbf{3D SDM}  \\
 \hline
-Value at centre (dB\,W\,m$^{-2})$    &14.57        &15.97           &15.92 \\
-Mean (dB\,W\,m$^{-2})$               &14.57        &16.08           &16.01 \\
-Minimum (dB\,W\,m$^{-2})$            &14.57        &14.10           &12.52 \\
-Maximum (dB\,W\,m$^{-2})$            &14.57        &17.87           &18.28 \\
-Standard deviation (dB\,W\,m$^{-2})$ &-            &9.81            &9.65  \\
-Coefficient of variation (\%)        &0            &23.6            &23.1 \\
+Value at centre (dB\,W\,m$^{-2})$    &11.85        &14.26           &14.16 \\
+Mean (dB\,W\,m$^{-2})$               &11.85        &14.41           &14.29 \\
+Minimum (dB\,W\,m$^{-2})$            &11.85        &11.06           &6.92  \\
+Maximum (dB\,W\,m$^{-2})$            &11.85        &16.84           &17.35 \\
+Standard deviation (dB\,W\,m$^{-2})$ &0            &9.83            &9.67  \\
+Coefficient of variation (\%)        &0            &34.9            &34.5  \\
 \hline
 \end{tabular}
 \end{center}
@@ -1091,49 +1141,42 @@ Coefficient of variation (\%)        &0            &23.6            &23.1 \\
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=0.6\linewidth]{figures/Unpartitioned_Cylinder_SDM_3D_PowerDensityProfileZ}
-\vspace{-4mm}
-\caption{\label{fg:unpartcyl_profz} Normalised vertical profile of the power density in the 2D (Kantovich anzatz) and 3D EDM of the unpartitioned cavity with the cylinder.}
+\includegraphics[width=0.6\linewidth]{figures/SDM_3D_SL_PowerDensityProfileZ}\\
+{\footnotesize (a)}\\
+\vspace{2mm}
+\includegraphics[width=0.6\linewidth]{figures/SDM_3D_SL_PowerDensityProfileX}\\
+{\footnotesize (b)}\\
+\vspace{2mm}
+\includegraphics[width=0.6\linewidth]{figures/SDM_3D_SL_PowerDensityPDF}\\
+{\footnotesize (c)}\\
+\vspace{-2mm}
+\caption{\label{fg:unpartcyl_profs} EDM of the loaded unpartitioned cavity: (a) Normalised vertical profile of the power density; 
+(b) Power density profile in the $x$-direction along the cavity centre; (c) PDF of the power density throughout the cavity volume.}
 \end{center}
 \end{figure}
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=0.6\linewidth]{figures/Unpartitioned_Cylinder_SDM_3D_PowerDensityProfileX}
-\vspace{-4mm}
-\caption{\label{fg:unpartcyl_profx} Power density profile in the $x$-direction along the cavity centre of the 3D EDM of the unpartitioned cavity with the cylinder.}
-\end{center}
-\end{figure}
-
-\begin{figure}[ht]
-\begin{center}
-\includegraphics[width=0.80\linewidth]{figures/Unpartitioned_Cylinder_SDM_3D_EnergyDensityUniformityMap}
-\includegraphics[width=0.80\linewidth]{figures/Unpartitioned_Cylinder_SDM_3D_EnergyDensityAnisotropyMap}
-\includegraphics[width=0.80\linewidth]{figures/Unpartitioned_Cylinder_SDM_3D_EnergyDensityFluxMap}
-\caption{\label{fg:unpartcyl_maps} Energy density relative to the homogeneous PWB model (top), anisotropy (middle)
-and energy density flux (bottom) in the $z$-normal plane at the half height of the cavity for the 3D EDM of the unpartitioned cavity with the cylinder.}
+\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_SL_PowerDensityMap}\\
+{\footnotesize (a)}\\
+\vspace{2mm}
+\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_SL_EnergyDensityUniformityMap}\\
+{\footnotesize (b)}\\
+\vspace{2mm}
+\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_SL_EnergyDensityAnisotropyMap}\\
+{\footnotesize (c)}\\
+\vspace{2mm}
+\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_SL_EnergyDensityFluxMap}\\
+{\footnotesize (d)}\\
+\vspace{-2mm}
+\caption{\label{fg:unpartcyl_maps} 3D EDM maps in the $z$-normal plane at the half height of the cavity for the 
+loaded unpartitioned cavity: (a) Power density; (b) Energy density relative to the homogeneous PWB model;
+(c) Anisotropy; (d) Energy density flux.}
 \end{center}
 \end{figure}
 
 \subsection[Empty partitioned cavity]{Empty partitioned cavity}
-\label{sc:tcs:emptypart}
-
-\begin{figure}[ht]
-\begin{center}
-\includegraphics[width=0.6\linewidth]{figures/domains1}
-\vspace{-4mm}
-\caption{\label{fg:tcdom1} Domain nomenclature for a single domain implementation of the dual cavity, using
-a inhomogeneous diffusivity.}
-\end{center}
-\end{figure}
-
-\begin{figure}[ht]
-\begin{center}
-\includegraphics[width=0.6\linewidth]{figures/domains2}
-\vspace{-4mm}
-\caption{\label{fg:tcdom2} Domain nomenclature for a two domain implementation of the dual cavity.}
-\end{center}
-\end{figure}
+\label{sc:res:emptypart}
 
 \begin{table}[ht]
 \begin{center}
@@ -1144,87 +1187,105 @@ a inhomogeneous diffusivity.}
 \hline
 \multicolumn{6}{|l|}{\textbf{Sub-cavity 1}} \\
 \hline
-Value at centre (dB\,W\,m$^{-2})$    &27.64        &28.06           &28.36           &28.05           &28.97 \\
-Mean (dB\,W\,m$^{-2})$               &27.64        &28.06           &28.26           &28.05           &28.97 \\
-Minimum (dB\,W\,m$^{-2})$            &27.64        &27.89           &27.42           &26.74           &27.93 \\
-Maximum (dB\,W\,m$^{-2})$            &27.64        &28.14           &28.48           &28.18           &29.07 \\
-Standard deviation (dB\,W\,m$^{-2})$ &-            &7.12            &6.78            &6.61            &5.91 \\
-Coefficient of variation (\%)        &0            &0.81            &0.70            &0.72            &0.50 \\
+Value at centre (dB\,W\,m$^{-2})$    &28.26        &28.04           &28.36           &28.03           &28.35 \\
+Mean (dB\,W\,m$^{-2})$               &28.26        &28.04           &28.36           &28.02           &28.35 \\
+Minimum (dB\,W\,m$^{-2})$            &28.26        &27.89           &28.23           &26.92           &27.33 \\
+Maximum (dB\,W\,m$^{-2})$            &28.26        &28.11           &28.43           &28.14           &28.46 \\
+Standard deviation (dB\,W\,m$^{-2})$ &0            &6.47            &6.28            &5.95            &5.76  \\
+Coefficient of variation (\%)        &0            &0.70            &0.62            &0.62            &0.55  \\
 \hline
 \multicolumn{6}{|l|}{\textbf{Sub-cavity 2}} \\
 \hline
-Value at centre (dB\,W\,m$^{-2})$    &26.81        &27.75           &27.39           &27.76           &28.30 \\
-Mean (dB\,W\,m$^{-2})$               &26.81        &27.76           &27.40           &27.77           &28.30 \\
-Minimum (dB\,W\,m$^{-2})$            &26.81        &27.74           &27.37           &27.75           &28.27 \\
-Maximum (dB\,W\,m$^{-2})$            &26.81        &27.89           &27.54           &27.90           &28.40 \\
-Standard deviation (dB\,W\,m$^{-2})$ &-            &4.82            &4.50            &4.80            &3.75 \\
-Coefficient of variation (\%)        &0            &0.51            &0.51            &0.50            &0.35 \\
+Value at centre (dB\,W\,m$^{-2})$    &27.54        &27.77           &27.42           &27.78           &27.42 \\
+Mean (dB\,W\,m$^{-2})$               &27.54        &27.78           &27.42           &27.79           &27.42 \\
+Minimum (dB\,W\,m$^{-2})$            &27.54        &27.76           &27.40           &27.76           &27.40 \\
+Maximum (dB\,W\,m$^{-2})$            &27.54        &27.89           &27.54           &27.90           &27.55 \\
+Standard deviation (dB\,W\,m$^{-2})$ &0            &4.17            &3.85            &4.16            &3.85  \\
+Coefficient of variation (\%)        &0            &0.44            &0.44            &0.43            &0.44  \\
 \hline
 \end{tabular}
 \end{center}
-\caption{\label{tb:partempty} Statistics of the reverberant power density in the partitioned empty cavity.}
+\caption{\label{tb:partempty} Statistics of the reverberant power density in the unloaded partitioned cavity.}
 \end{table}
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=0.6\linewidth]{figures/Partitioned_Empty_DDM_3D_PowerDensityProfileZ}
-\vspace{-4mm}
-\caption{\label{fg:partemptyddmeebc_profz} Normalised vertical profile of the power density in the 2D (Kantovich anzatz) and 3D EDM of the partitioned empty cavity,
-using the DDM with an EEBC.}
+\includegraphics[width=0.6\linewidth]{figures/SDM_3D_DU_PowerDensityProfileZ}\\
+{\footnotesize (a)}\\
+\vspace{2mm}
+\includegraphics[width=0.6\linewidth]{figures/SDM_3D_DU_PowerDensityProfileX}\\
+{\footnotesize (b)}\\
+\vspace{2mm}
+\includegraphics[width=0.45\linewidth]{figures/SDM_3D_DU_PowerDensityPDF1}
+\includegraphics[width=0.45\linewidth]{figures/SDM_3D_DU_PowerDensityPDF2}
+\\
+{\footnotesize (c)}\\
+\vspace{-2mm}
+\caption{\label{fg:partemptysdm_profs} Single domain EDM of the unloaded partitioned cavity: (a) Normalised vertical profile of the power density; 
+(b) Power density profile in the $x$-direction along the cavity centre; (c) PDF of the power density in the source cavity (left) and coupled cavity (right).}
 \end{center}
 \end{figure}
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=0.6\linewidth]{figures/Partitioned_Empty_DDM_3D_PowerDensityProfileX}
-\vspace{-4mm}
-\caption{\label{fg:partemptyddmeebc_profx} Power density profile in the $x$-direction along the cavity centre of the 3D EDM of the partitioned empty cavity,
-using the DDM with an EEBC.}
+\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_DU_PowerDensityMap}\\
+{\footnotesize (a)}\\
+\vspace{2mm}
+\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_DU_EnergyDensityUniformityMap}\\
+{\footnotesize (b)}\\
+\vspace{2mm}
+\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_DU_EnergyDensityAnisotropyMap}\\
+{\footnotesize (c)}\\
+\vspace{2mm}
+\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_DU_EnergyDensityFluxMap}\\
+{\footnotesize (d)}\\
+\vspace{-2mm}
+\caption{\label{fg:partemptysdm_maps} Single domain 3D EDM maps in the $z$-normal plane at the half height of the cavity for the 
+unloaded partitioned cavity: (a) Power density; (b) Energy density relative to the homogeneous PWB model;
+(c) Anisotropy; (d) Energy density flux.}
 \end{center}
 \end{figure}
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=0.80\linewidth]{figures/Partitioned_Empty_DDM_3D_EnergyDensityUniformityMap}
-\includegraphics[width=0.80\linewidth]{figures/Partitioned_Empty_DDM_3D_EnergyDensityAnisotropyMap}
-\includegraphics[width=0.80\linewidth]{figures/Partitioned_Empty_DDM_3D_EnergyDensityFluxMap}
-\caption{\label{fg:partemptyddmeebc_maps} Energy density relative to the homogeneous PWB model (top), anisotropy (middle)
-and energy density flux (bottom) in the $z$-normal plane at the half height of the cavity for the 3D EDM of the partitioned empty cavity,
-using the DDM with an EEBC.}
+\includegraphics[width=0.6\linewidth]{figures/DDM-EEBC_3D_DU_PowerDensityProfileZ}\\
+{\footnotesize (a)}\\
+\vspace{2mm}
+\includegraphics[width=0.6\linewidth]{figures/DDM-EEBC_3D_DU_PowerDensityProfileX}\\
+{\footnotesize (b)}\\
+\vspace{2mm}
+\includegraphics[width=0.45\linewidth]{figures/DDM-EEBC_3D_DU_PowerDensityPDF1}
+\includegraphics[width=0.45\linewidth]{figures/DDM-EEBC_3D_DU_PowerDensityPDF2}
+\\
+{\footnotesize (c)}\\
+\vspace{-2mm}
+\caption{\label{fg:partemptysdm_profs} Dual domain EEBC EDM of the unloaded partitioned cavity: (a) Normalised vertical profile of the power density; 
+(b) Power density profile in the $x$-direction along the cavity centre; (c) PDF of the power density in the source cavity (left) and coupled cavity (right).}
 \end{center}
 \end{figure}
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=0.6\linewidth]{figures/Partitioned_Empty_SDM_3D_PowerDensityProfileZ}
-\vspace{-4mm}
-\caption{\label{fg:partemptysdm_profz} Normalised vertical profile of the power density in the 2D (Kantovich anzatz) and 3D EDM of the partitioned empty cavity,
-using the SDM.}
-\end{center}
-\end{figure}
-
-\begin{figure}[ht]
-\begin{center}
-\includegraphics[width=0.6\linewidth]{figures/Partitioned_Empty_SDM_3D_PowerDensityProfileX}
-\vspace{-4mm}
-\caption{\label{fg:artemptysdm_profx} Power density profile in the $x$-direction along the cavity centre of the 3D EDM of the partitioned empty cavity,
-using the SDM.}
-\end{center}
-\end{figure}
-
-\begin{figure}[ht]
-\begin{center}
-\includegraphics[width=0.80\linewidth]{figures/Partitioned_Empty_SDM_3D_EnergyDensityUniformityMap}
-\includegraphics[width=0.80\linewidth]{figures/Partitioned_Empty_SDM_3D_EnergyDensityAnisotropyMap}
-\includegraphics[width=0.80\linewidth]{figures/Partitioned_Empty_SDM_3D_EnergyDensityFluxMap}
-\caption{\label{fg:artemptysdm_maps} Energy density relative to the homogeneous PWB model (top), anisotropy (middle)
-and energy density flux (bottom) in the $z$-normal plane at the half height of the cavity for the 3D EDM of the partitioned empty cavity,
-using the SDM.}
+\includegraphics[trim={0 13mm 0 12mm},clip,width=0.53\linewidth]{figures/DDM-EEBC_3D_DU_PowerDensityMap}\\
+{\footnotesize (a)}\\
+\vspace{2mm}
+\includegraphics[trim={0 14mm 0 12mm},clip,width=0.53\linewidth]{figures/DDM-EEBC_3D_DU_EnergyDensityUniformityMap}\\
+{\footnotesize (b)}\\
+\vspace{2mm}
+\includegraphics[trim={0 14mm 0 12mm},clip,width=0.53\linewidth]{figures/DDM-EEBC_3D_DU_EnergyDensityAnisotropyMap}\\
+{\footnotesize (c)}\\
+\vspace{2mm}
+\includegraphics[trim={0 13mm 0 12mm},clip,width=0.53\linewidth]{figures/DDM-EEBC_3D_DU_EnergyDensityFluxMap}\\
+{\footnotesize (d)}\\
+\vspace{-2mm}
+\caption{\label{fg:partemptysdm_maps} Dual domain EEBC 3D EDM maps in the $z$-normal plane at the half height of the cavity for the 
+unloaded partitioned cavity: (a) Power density; (b) Energy density relative to the homogeneous PWB model;
+(c) Anisotropy; (d) Energy density flux.}
 \end{center}
 \end{figure}
 
 \subsection[Partitioned cavity with a cylinder]{Partitioned cavity with a cylinder}
-\label{sc:tcs:cylpart}
+\label{sc:res:cylpart}
 
 \begin{table}[ht]
 \begin{center}
@@ -1235,21 +1296,21 @@ using the SDM.}
 \hline
 \multicolumn{6}{|l|}{\textbf{Sub-cavity 1}} \\
 \hline
-Value at centre (dB\,W\,m$^{-2})$    &23.08        &20.83           &24.39           &20.64           &24.40 \\
-Mean (dB\,W\,m$^{-2})$               &23.08        &20.81           &24.40           &20.63           &24.39 \\
-Minimum (dB\,W\,m$^{-2})$            &23.08        &18.93           &21.67           &18.74           &20.41 \\
-Maximum (dB\,W\,m$^{-2})$            &23.08        &21.30           &24.71           &21.50           &24.72 \\
-Standard deviation (dB\,W\,m$^{-2})$ &-            &8.86            &8.27            &8.54            &8.09  \\
-Coefficient of variation (\%)        &0            &6.39            &2.44            &6.18            &2.34  \\
+Value at centre (dB\,W\,m$^{-2})$    &23.00        &19.93           &24.16           &19.72           &24.13 \\
+Mean (dB\,W\,m$^{-2})$               &23.00        &19.91           &24.15           &19.71           &24.12 \\
+Minimum (dB\,W\,m$^{-2})$            &23.00        &17.85           &23.55           &17.63           &20.69 \\
+Maximum (dB\,W\,m$^{-2})$            &23.00        &20.42           &24.34           &20.62           &24.42 \\
+Standard deviation (dB\,W\,m$^{-2})$ &0            &8.26            &7.80            &7.94            &7.48  \\
+Coefficient of variation (\%)        &0            &6.84            &2.32            &6.66            &2.17  \\
 \hline
 \multicolumn{6}{|l|}{\textbf{Sub-cavity 2}} \\
 \hline
-Value at centre (dB\,W\,m$^{-2})$    &13.70        &14.22           &13.57           &14.25           &13.58 \\
-Mean (dB\,W\,m$^{-2})$               &13.70        &15.03           &14.38           &15.05           &14.39 \\
-Minimum (dB\,W\,m$^{-2})$            &13.70        &13.64           &12.99           &13.68           &13.01 \\
-Maximum (dB\,W\,m$^{-2})$            &13.70        &18.85           &18.41           &18.80           &18.41 \\
-Standard deviation (dB\,W\,m$^{-2})$ &-            &8.85            &8.23            &8.83            &8.22 \\
-Coefficient of variation (\%)        &0            &24.1            &24.3            &23.9            &24.2 \\
+Value at centre (dB\,W\,m$^{-2})$    &11.12        &11.63           &10.97           &11.65           &10.98 \\
+Mean (dB\,W\,m$^{-2})$               &11.12        &12.86           &12.21           &12.88           &12.21 \\
+Minimum (dB\,W\,m$^{-2})$            &11.12        &10.70           &10.04           &10.73           &10.05 \\
+Maximum (dB\,W\,m$^{-2})$            &11.12        &17.75           &17.33           &17.70           &17.33 \\
+Standard deviation (dB\,W\,m$^{-2})$ &0            &8.34            &7.71            &8.33            &7.71  \\
+Coefficient of variation (\%)        &0            &35.3            &35.6            &35.1            &35.5  \\
 \hline
 \end{tabular}
 \end{center}
@@ -1258,61 +1319,88 @@ Coefficient of variation (\%)        &0            &24.1            &24.3       
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=0.6\linewidth]{figures/Partitioned_Cylinder_DDM_3D_PowerDensityProfileZ}
-\vspace{-4mm}
-\caption{\label{fg:partcylddmeebc_profz} Normalised vertical profile of the power density in the 2D (Kantovich anzatz) and 3D EDM of the partitioned cavity with the cylinder,
-using the DDM with EEBC.}
+\includegraphics[width=0.6\linewidth]{figures/SDM_3D_DL_PowerDensityProfileZ}\\
+{\footnotesize (a)}\\
+\vspace{2mm}
+\includegraphics[width=0.6\linewidth]{figures/SDM_3D_DL_PowerDensityProfileX}\\
+{\footnotesize (b)}\\
+\vspace{2mm}
+\includegraphics[width=0.45\linewidth]{figures/SDM_3D_DL_PowerDensityPDF1}
+\includegraphics[width=0.45\linewidth]{figures/SDM_3D_DL_PowerDensityPDF2}
+\\
+{\footnotesize (c)}\\
+\vspace{-2mm}
+\caption{\label{fg:partcylsdm_profs} Single domain EDM of the loaded partitioned cavity: (a) Normalised vertical profile of the power density; 
+(b) Power density profile in the $x$-direction along the cavity centre; (c) PDF of the power density in the source cavity (left) and coupled cavity (right).}
 \end{center}
 \end{figure}
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=0.6\linewidth]{figures/Partitioned_Cylinder_DDM_3D_PowerDensityProfileX}
-\vspace{-4mm}
-\caption{\label{fg:partcylddmeebc_profx} Power density profile in the $x$-direction along the cavity centre of the 3D EDM of the partitioned cavity with the cylinder,
-using the DDM with EEBC.}
+\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_DL_PowerDensityMap}\\
+{\footnotesize (a)}\\
+\vspace{2mm}
+\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_DL_EnergyDensityUniformityMap}\\
+{\footnotesize (b)}\\
+\vspace{2mm}
+\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_DL_EnergyDensityAnisotropyMap}\\
+{\footnotesize (c)}\\
+\vspace{2mm}
+\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_DL_EnergyDensityFluxMap}\\
+{\footnotesize (d)}\\
+\vspace{-2mm}
+\caption{\label{fg:partcylsdm_maps} Single domain 3D EDM maps in the $z$-normal plane at the half height of the cavity for the 
+loaded partitioned cavity: (a) Power density; (b) Energy density relative to the homogeneous PWB model;
+(c) Anisotropy; (d) Energy density flux.}
 \end{center}
 \end{figure}
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=0.80\linewidth]{figures/Partitioned_Cylinder_DDM_3D_EnergyDensityUniformityMap}
-\includegraphics[width=0.80\linewidth]{figures/Partitioned_Cylinder_DDM_3D_EnergyDensityAnisotropyMap}
-\includegraphics[width=0.80\linewidth]{figures/Partitioned_Cylinder_DDM_3D_EnergyDensityFluxMap}
-\caption{\label{fg:partcylddmeebc_maps} Energy density relative to the homogeneous PWB model (top), anisotropy (middle)
-and energy density flux (bottom) in the $z$-normal plane at the half height of the cavity for the 3D EDM of the partitioned cavity with the cylinder,
-using the DDM with EEBC.}
+\includegraphics[width=0.6\linewidth]{figures/DDM-EEBC_3D_DL_PowerDensityProfileZ}\\
+{\footnotesize (a)}\\
+\vspace{2mm}
+\includegraphics[width=0.6\linewidth]{figures/DDM-EEBC_3D_DL_PowerDensityProfileX}\\
+{\footnotesize (b)}\\
+\vspace{2mm}
+\includegraphics[width=0.45\linewidth]{figures/DDM-EEBC_3D_DL_PowerDensityPDF1}
+\includegraphics[width=0.45\linewidth]{figures/DDM-EEBC_3D_DL_PowerDensityPDF2}
+\\
+{\footnotesize (c)}\\
+\vspace{-2mm}
+\caption{\label{fg:partcylsdm_profs} Dual domain EEBC EDM of the loaded partitioned cavity: (a) Normalised vertical profile of the power density; 
+(b) Power density profile in the $x$-direction along the cavity centre; (c) PDF of the power density in the source cavity (left) and coupled cavity (right).}
 \end{center}
 \end{figure}
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=0.6\linewidth]{figures/Partitioned_Cylinder_SDM_3D_PowerDensityProfileZ}
-\vspace{-4mm}
-\caption{\label{fg:partcylsdm_profz} Normalised vertical profile of the power density in the 2D (Kantovich anzatz) and 3D EDM of the partitioned cavity with the cylinder,
-with the SDM.}
+\includegraphics[trim={0 13mm 0 12mm},clip,width=0.53\linewidth]{figures/DDM-EEBC_3D_DL_PowerDensityMap}\\
+{\footnotesize (a)}\\
+\vspace{2mm}
+\includegraphics[trim={0 14mm 0 12mm},clip,width=0.53\linewidth]{figures/DDM-EEBC_3D_DL_EnergyDensityUniformityMap}\\
+{\footnotesize (b)}\\
+\vspace{2mm}
+\includegraphics[trim={0 14mm 0 12mm},clip,width=0.53\linewidth]{figures/DDM-EEBC_3D_DL_EnergyDensityAnisotropyMap}\\
+{\footnotesize (c)}\\
+\vspace{2mm}
+\includegraphics[trim={0 13mm 0 12mm},clip,width=0.53\linewidth]{figures/DDM-EEBC_3D_DL_EnergyDensityFluxMap}\\
+{\footnotesize (d)}\\
+\vspace{-2mm}
+\caption{\label{fg:partcylsdm_maps} Dual domain EEBC 3D EDM maps in the $z$-normal plane at the half height of the cavity for the 
+loaded partitioned cavity: (a) Power density; (b) Energy density relative to the homogeneous PWB model;
+(c) Anisotropy; (d) Energy density flux.}
 \end{center}
 \end{figure}
 
-\begin{figure}[ht]
-\begin{center}
-\includegraphics[width=0.6\linewidth]{figures/Partitioned_Cylinder_SDM_3D_PowerDensityProfileX}
-\vspace{-4mm}
-\caption{\label{fg:partcylsdm_profx} Power density profile in the $x$-direction along the cavity centre of the 3D EDM of the partitioned cavity with the cylinder,
-with the SDM.}
-\end{center}
-\end{figure}
+\subsection[Parametric study and comparison to measurements]{Parametric study and comparison to measurements}
+\label{sc:res:para}
 
-\begin{figure}[ht]
-\begin{center}
-\includegraphics[width=0.80\linewidth]{figures/Partitioned_Cylinder_SDM_3D_EnergyDensityUniformityMap}
-\includegraphics[width=0.80\linewidth]{figures/Partitioned_Cylinder_SDM_3D_EnergyDensityAnisotropyMap}
-\includegraphics[width=0.80\linewidth]{figures/Partitioned_Cylinder_SDM_3D_EnergyDensityFluxMap}
-\caption{\label{fg:partcylsdm_maps} Energy density relative to the homogeneous PWB model (top), anisotropy (middle)
-and energy density flux (bottom) in the $z$-normal plane at the half height of the cavity for the 3D EDM of the partitioned cavity with the cylinder,
-with the SDM.}
-\end{center}
-\end{figure}
+\begin{itemize}
+ \item Compare 3D EDM using EEBC and SDM with measurement;
+ \item Compare 3D EDM using EEBC and Sabine and Jing and Xiang EC with measurement;
+ \item Sweep $\kappa$ in 3D EDM using EEBC and compare to measurement; 
+\end{itemize}
 
 \section[Conclusions]{Conclusions}
 \label{sc:conc}
