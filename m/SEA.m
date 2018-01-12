@@ -55,21 +55,31 @@ end % if
 partEC = c0 * partAF;
 
 % Single cavity.
-wallMFP0 = 4.0 * cavityVolume0 / cavityArea0;     % Mean free-path of walls [m].
+wallMFP0 = 4.0 * cavityVolume0 / wallArea0;       % Mean free-path of walls [m].
 wallD0 = wallMFP0 * c0 / 3.0;                     % Diffusion coefficient of walls [m^2/s].
-wallACS0 = wallAF * wallArea0;                    % Absorption cross-section of wall [m^2].
+wallACS0 = 0.25 * wallAE * wallArea0;             % Absorption cross-section of wall [m^2].
+cavityMFP0 = 4.0 * cavityVolume0 / cavityArea0;   % Mean free-path of cavity [m].
+cavityD0 = cavityMFP0 * c0 / 3.0;                 % Diffusion coefficient of cavity [m^2/s].
 
 % Partitioned cavity - sub-cavity 1.
-wallMFP1 = 4.0 * cavityVolume1 / cavityArea1;     % Mean free-path of walls [m].
+wallMFP1 = 4.0 * cavityVolume1 / wallArea1;       % Mean free-path of walls [m].
+partMFP1 = 4.0 * cavityVolume1 / partArea1;       % Mean free-path of partition [m].
 wallD1 = wallMFP1 * c0 / 3.0;                     % Diffusion coefficient of wall [m^2/s].
-wallACS1 = wallAF * wallArea1;                    % Absorption cross-section of wall [m^2].
-partACS1 = partAF * partArea1;                    % Absorption cross-section of partition in sub-cavity 1 [m^2].
+partD1 = partMFP1 * c0 / 3.0;                     % Diffusion coefficient of partition [m^2/s].
+wallACS1 = 0.25 * wallAE * wallArea1;             % Absorption cross-section of wall [m^2].
+partACS1 = 0.25 * partAE * partArea1;             % Absorption cross-section of partition in sub-cavity 1 [m^2].
+cavityMFP1 = 4.0 * cavityVolume1 / cavityArea1;   % Mean free-path of sub-cavity 1 [m].
+cavityD1 = cavityMFP1 * c0 / 3.0;                 % Diffusion coefficient of sub-cavity 1 [m^2/s].
 
 % Partitioned cavity - sub-cavity 2.
-wallMFP2 = 4.0 * cavityVolume2 / cavityArea2;     % Mean free-path of walls [m].
+wallMFP2 = 4.0 * cavityVolume2 / wallArea2;       % Mean free-path of walls [m].
+partMFP2 = 4.0 * cavityVolume2 / partArea2;       % Mean free-path of partition [m].
 wallD2 = wallMFP2 * c0 / 3.0;                     % Diffusion coefficient of wall [m^2/s].
-wallACS2 = wallAF * wallArea2;                    % Absorption cross-section of wall [m^2].
-partACS2 = partAF * partArea2;                    % Absorption cross-section of partition in sub-cavity 2 [m^2].
+partD2 = partMFP2 * c0 / 3.0;                     % Diffusion coefficient of partition [m^2/s].
+wallACS2 = 0.25 * wallAE * wallArea2;             % Absorption cross-section of wall [m^2].
+partACS2 = 0.25 * partAE * partArea2;             % Absorption cross-section of partition in sub-cavity 2 [m^2].
+cavityMFP2 = 4.0 * cavityVolume2 / cavityArea2;   % Mean free-path of sub-cavity 2 [m].
+cavityD2 = cavityMFP2 * c0 / 3.0;                 % Diffusion coefficient of sub-cavity 2 [m^2/s].
 
 % Hole.
 holeTCS = 0.25 * holeArea;                        % Hole transmission cross-section [m^2].
@@ -89,7 +99,7 @@ cylMFP0 = 4.0 * cavityVolume0 / cylArea;          % Mean free-path of cylinder w
 cylMFP2 = 4.0 * cavityVolume2 / cylArea;          % Mean free-path of cylinder with partition [m].
 cylD0 = cylMFP0 * c0 / 3.0;                       % Diffusion coefficient of cylinder without partition [m/s].
 cylD2 = cylMFP2 * c0 / 3.0;                       % Diffusion coefficient of cylinder with partition [m/s].
-cylACS = cylAF * cylArea;                         % Cylinder absorption cross-section [m^2]. 
+cylACS = 0.25 * cylAE * cylArea;                  % Cylinder absorption cross-section [m^2]. 
 
 % Soure.
 srcSurfaceExitance = srcTRP / srcArea;            % Surface source exitance [W/m^2].
@@ -106,17 +116,17 @@ srcArealPowerDensity = srcTRP / srcXSArea;        % Area source areal power dens
 % D2 - Diffusivity for x > partX in single and dual cavities.
 
 if( ~isCyl && ~isPart )
-  D0 = wallD0;
+  D0 = cavityD0;
   D1 = D0;
   D2 = D0;
 elseif( isCyl && ~isPart )
-  D0 = 1.0 / ( 1.0 / wallD0 + 1.0 / cylD0 );
+  D0 = cavityD0;
   D1 = D0;
   D2 = D0;
 elseif( ~isCyl && isPart )
-  D1 = wallD1;
-  D2 = wallD2;
+  D1 = cavityD1;
+  D2 = cavityD2;
 elseif( isCyl && isPart )
-  D1 = wallD1;
-  D2 = 1.0 / ( 1.0 / wallD2 + 1.0 / cylD2 ); 
+  D1 = cavityD1;
+  D2 = cavityD2; 
 end % if

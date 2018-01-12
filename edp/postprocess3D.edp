@@ -106,6 +106,6 @@ real[int] colors2 = [
 ];
 
 //real[int] levels = [  14.0 , 14.25 , 14.5 , 15.0 , 16.0 , 17.0 , 18.0 , 19.0 , 19.0 , 19.5 , 19.75 , 20.0 , 21.0 ];
-//plot( SrdB , value = true , viso = levels , wait = 1 , hsv = colors, cmm = "Power density (dB W/m^2)" );
-plot( SrdB , value = true , nbiso = 12 , wait = 1 , hsv = colors2 , cmm = "Power density (dB W/m^2)" );
+//plot( SrdB , value = true , viso = levels , wait = 0 , hsv = colors, cmm = "Power density (dB W/m^2)" );
+plot( SrdB , value = true , nbiso = 12 , wait = 0 , hsv = colors2 , cmm = "Power density (dB W/m^2)" );
 

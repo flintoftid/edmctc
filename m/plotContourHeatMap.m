@@ -37,7 +37,7 @@ function [ hf ] = plotContourHeatMap( x , y , v , xMin , xMax , xLabel , yMin , 
   axis( 'equal' );
   xlabel( xLabel );
   ylabel( yLabel );
-  clabel( C , h , 'fontSize' , 10 );
+  clabel( C , h , 'fontSize' , 8 );
   if( ~isempty( xMin ) && ~isempty( xMax ) )
     xlim( [ xMin , xMax ] );
   end % if

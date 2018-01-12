@@ -110,8 +110,8 @@ real[int] colors2 = [
 
 // Reverberant power density.
 //real[int] levels = [  14.0 , 14.25 , 14.5 , 15.0 , 16.0 , 17.0 , 18.0 , 19.0 , 19.0 , 19.5 , 19.75 , 20.0 , 21.0 ];
-//plot( S1rdB , S2rdB , value = true , viso = levels , wait = 1 , hsv = colors , cmm = "Power density (dB W/m^2)" );
-plot( S1rdB , S2rdB , value = true , nbiso = 12 , wait = 1 , hsv = colors2 , cmm = "Power density (dB W/m^2)" );
+//plot( S1rdB , S2rdB , value = true , viso = levels , wait = 0 , hsv = colors , cmm = "Power density (dB W/m^2)" );
+plot( S1rdB , S2rdB , value = true , nbiso = 12 , wait = 0 , hsv = colors2 , cmm = "Power density (dB W/m^2)" );
 
 // Reverberant energy density flux.
-plot( [ J1x , J1y , J1z ] , [ J2x , J2y , J2z ] , value = true , wait = 1 , hsv = colors2 , cmm = "Energy density flux (W/m^2)" );
+plot( [ J1x , J1y , J1z ] , [ J2x , J2y , J2z ] , value = true , wait = 0 , hsv = colors2 , cmm = "Energy density flux (W/m^2)" );

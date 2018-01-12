@@ -88,6 +88,7 @@ comprehensive background and references.
 ACS              & (Average) Absorption Cross-Section  \\
 AE               &(Average) Absorption Efficiency      \\
 BC               &Boundary Condition                   \\
+COV              &Coefficient of Variation             \\
 DDM              &Dual Domain Model                    \\
 DOF              &Degrees of Freedom                   \\
 EC               &(Energy) Exchange Coefficient        \\
@@ -100,6 +101,7 @@ FEM              &Finite Element Method                \\
 MFP              &Mean-Free-Path                       \\
 ODE              &Ordinary Differential Equation       \\
 PDE              &Partial Differential Equation        \\
+PDF              &Probability Density Function         \\
 PWB              &Power Balance                        \\
 SDM              &Single Domain Model                  \\
 TCS              &(Average) Transmission Cross-Section \\
@@ -224,8 +226,8 @@ however, this is a gross approximation which may be of limited scope and accurac
 \subsection[Scattering and absorption from fittings]{Scattering and absorption from fittings}
 \label{sc:sum:fit}
 
-If there are objects (fittings) in the cavity the overall MFP is the harmonic
-mean of the MFP of the walls and fittings,
+If there are objects (fittings) in the cavity the overall MFP is the reciprocal of the 
+sum of the reciprocals of the MFPs of the walls and fittings,
 \begin{align}
 \label{eq:harmmean}
 \frac{1}{\lambda} = \frac{1}{\lambda_\rw} + \frac{1}{\lambda_\rf},
@@ -398,9 +400,11 @@ where  $\widehat  n_1$ and  $\widehat  n_2$ are outward normal vectors in their
 respective domains. On the shared wall an energy exchange boundary condition (EEBC) is
 applied~\citep{Billon2008}
 \begin{align}
+\label{eq:eebc1}
 \begin{matrix}
 \uvn_1{\vcdot}\left[D_1\pr{\vnabla}w_1\prt\right]+h_{11}\pr w_1\prt-h_{12}\pr w_2\prt = 0 &\vr\in\partial\Omega_{12}
 \end{matrix}\\
+\label{eq:eebc2}
 \begin{matrix}
 \uvn_2{\vcdot}\left[D_2\pr{\vnabla}w_2\prt\right]+h_{22}\pr w_2\prt-h_{21}\pr w_1\prt = 0 &\vr\in\partial\Omega_{21}
 \end{matrix}
@@ -451,6 +455,7 @@ J_{12}\prt = -J_{21}\prt = \frac{1}{4}\rc_0\tau\left[w_2\prt-w_1\prt\right].
 Adding these and noting $\uvn_1=-\uvn_2$ we find an energy density flux continuity
 boundary condition (FCBC) through the aperture~\citep{Billon2008}:
 \begin{align}
+\label{eq:fcbc}
 \begin{matrix}
 \uvn_1{\vcdot}\left[D_1\pr{\vnabla}w_1\prt-D_2\pr{\vnabla}w_2\prt\right]=0 &\vr\in\partial\Omega_{12}
 \end{matrix}
@@ -894,6 +899,15 @@ and height $L_z$ can be positioned in the cavity, orientated with its axis in th
 $z$-direction, centred at $(x_\mathrm{cyl},y_\mathrm{cyl},L_z/2)$. The cylinder is assumed
 to have a homogeneous absorption efficiency of $\alpha_\mathrm{cyl}$.
 
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.8\linewidth]{figures/geometry}
+\vspace{-4mm}
+\caption{\label{fg:tcgeom} Cross-section in the $xy$-plane of the test case geometry.
+The small black dots represent the probe locations in the z=h plane used for the measurements.}
+\end{center}
+\end{figure}
+
 The cavity can also be partitioned into two sub-cavities leaving a hole of width
 $w_\mathrm{hole}$ with the full height of the cavity located in the region 
 $L_y-w_\mathrm{hole} \leq y \leq L_y$, $0 \leq z \leq L_z$ of the shared 
@@ -905,15 +919,8 @@ The thickness of the partition is denoted $t_\mathrm{part}$.
 The values of the parameters are given in Table~\ref{tb:tcparam}. The wall and cylinder
 absorption efficiencies were chosen to match those of the physical cavity and
 cylinder used for the validation measurements described in~\citep{Flintoft2017b}.
-
-\begin{figure}[ht]
-\begin{center}
-\includegraphics[width=0.8\linewidth]{figures/geometry}
-\vspace{-4mm}
-\caption{\label{fg:tcgeom} Cross-section in the $xy$-plane of the test case geometry.
-The small black dots represent the probe locations in the z=h plane used for the measurements.}
-\end{center}
-\end{figure}
+Note that the cylinder centre's $x$-coordinate is slighlty different in the unpartitioned
+and partitioned cavities in order to be consistent with measurement data. 
 
 \begin{table}[ht]
 \begin{center}
@@ -933,7 +940,7 @@ $x_\mathrm{src}$       &\texttt{srcX}          &0.05\,m \\
 $y_\mathrm{src}$       &\texttt{srcY}          &0.225\,m \\
 $z_\mathrm{src}$       &\texttt{srcZ}          &0.225\,m \\
 $a_\mathrm{src}$       &\texttt{srcRadius}     &0.02\,m \\
-$x_\mathrm{cyl}$       &\texttt{cylX}          &0.675/0.700\,m \\
+$x_\mathrm{cyl}$       &\texttt{cylX}          &0.675/0.700\,m$^\mathrm{a}$ \\
 $y_\mathrm{cyl}$       &\texttt{cylY}          &0.225\,m \\
 $z_\mathrm{cyl}$       &\texttt{cylZ}          &0.225\,m \\
 $a_\mathrm{cyl}$       &\texttt{cylRadius}     &0.05\,m \\
@@ -947,34 +954,77 @@ $\alpha_\mathrm{cyl}$  &\texttt{cylAE}         &0.95 \\
 \hline
 \end{tabular}
 \end{center}
-\caption{\label{tb:tcparam} Primary parameters and variable names for the test cases.}
+\caption{\label{tb:tcparam} Primary parameters and variable names for the test cases. 
+$^\mathrm{a}$\texttt{cylX} is 0.7\, in the unpartitioned cavity and 0.675\,m in the
+partitioned cavity.}
 \end{table}
 
 \subsection[Single and dual domain models]{Single and dual domain models}
 \label{sc:tcs:sddm}
 
-\begin{figure}[ht]
-\begin{center}
-\includegraphics[width=0.6\linewidth]{figures/domains0}
-\vspace{-4mm}
-\caption{\label{fg:tcdom0} Domain nomenclature for the single domain implementation of the single cavity EDM.}
-\end{center}
-\end{figure}
+The EDM of an unpartitioned cavity can be simply implemented using a single domain model (SDM)
+as shown in Figure~\ref{fg:sdm}(a). The diffusivity $D$ of the domain $\Omega$ is uniform and
+the surfaces forming the walls, $\Omega^\mathrm{wall}$, cylinder, $\Omega^\mathrm{cyl}$, and 
+possibly the source, $\Omega^\mathrm{src}$, are identified. The surface bounding the source is 
+used if the source is implemented as a surface or volume source, but is not used for a point source.
+
+For coupled cavities there are a number of ways to implement the EDM. The sub-cavities can
+be modelled as a single contiguous domain with the aperture between them explicitly represented in 
+the geometry; this is again an SDM and is illustrated in Figure~\ref{fg:sdm}(b). The surfaces
+of the walls in each sub-cavity, $\Omega^\mathrm{wall}_1$ and $\Omega^\mathrm{wall}_2$ are identified
+and it is convenient to also explicitly identify the portions of the partition surface which face into
+each sub-cavity, $\Omega^\mathrm{part}_1$ and $\Omega^\mathrm{part}_2$. While only a single domain
+is modelled an inhomogeneous diffusivity is used to assign the appropriate diffusivities $D_1$ and
+$D_2$ in each sub-cavity:
+\begin{align}
+D(\vr) = \left\{ 
+\begin{matrix}
+D_1    &x <= x_\mathrm{part} \\
+D_2    &x > x_\mathrm{part} 
+\end{matrix}
+\right.
+\end{align}
+The energy density through the hole in this case satisfies the natural continuity boundary conditions
+for its value and derivative.
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=0.6\linewidth]{figures/domains1}
+\includegraphics[width=0.6\linewidth]{figures/domains0}\\
+{\footnotesize (a)}\\
 \vspace{-4mm}
-\caption{\label{fg:tcdom1} Domain nomenclature for a single domain implementation of the dual cavity, using
-a inhomogeneous diffusivity.}
+\includegraphics[width=0.6\linewidth]{figures/domains1}\\
+{\footnotesize (b)}\\
+\vspace{0mm}
+\caption{\label{fg:sdm} Domain nomenclature for the single domain model (SDM) implementation of the 
+single cavity (a) and partitioned cavity (b).}
 \end{center}
 \end{figure}
+
+Alternatively the partitioned cavity can be implemented as a dual domain model (DDM) as shown in
+Figure~\ref{fg:ddm}, in which the sub-cavities are represented as completely separate domains 
+$\Omega_1$ and $\Omega_2$. The surface corresponding to the hole is meshed as part of the surface
+bounding each sub-cavity and identified as $\Omega^\mathrm{hole}_{12}$ and $\Omega^\mathrm{hole}_{21}$ in 
+the source and coupled sub-cavities respectively. The diffusivity in each sub-cavity is homogeneous
+with values $D_1$ and $D_2$ respectively. A appropriate boundary condition must be applied on the 
+surfaces $\Omega^\mathrm{hole}_1$ and $\Omega^\mathrm{hole}_2$:
+\begin{itemize}
+ \item \textbf{EEBC}: Exchange coefficients are used to enforce Robin BCs according to~(\ref{eq:eebc1})-(\ref{eq:eebc2}).
+ \item \textbf{FCBC}: The energy density flux is forced to be continuous through the hole using~(\ref{eq:fcbc}). For lossless apertures
+ with unity transmission efficiency this is equivalent to the EEBC; 
+ \item \textbf{Schwarz}: A non-overlapping Schwarz algorithm can be applied which enforces continuity of both
+ the energy density and its flux; this is equivalent to using an SDM;
+\end{itemize}
+The SDM/Schwarz approach implicitly assumes that the aperture is electrical large and may only be accurate in this
+regime. The EEBC/FCBC method allow discontinuity of the energy density across aperture, which may be more appropriate 
+for apertures which are in the resonant regime. For electrically small apertures the EEBC approach must be used and the 
+appropriate transmission efficiency (TE) included. These conjectures on the realm of validity of the different aperture modelling approaches
+require verification, either by experiment or using full-wave simulation.
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.6\linewidth]{figures/domains2}
 \vspace{-4mm}
-\caption{\label{fg:tcdom2} Domain nomenclature for a two domain implementation of the dual cavity.}
+\caption{\label{fg:ddm} Domain nomenclature for the dual domain model (DDM) implementation of the partitioned cavity.}
 \end{center}
 \end{figure}
 
@@ -985,13 +1035,23 @@ The overall solution of the EDM is implemented using a combination of Open Sourc
 \begin{enumerate}
  \item \textbf{Gmsh}: For 3D solutions a parametric CAD model of the geometry is created using 
  Gmsh~\citep{Geuzaine2009}. Gmsh is then used to created a tetrahedral mesh from this CAD model, which 
- is then exported using the INRIA Medit format.
+ is then exported using the INRIA Medit format. As an example, the mesh for the loaded partitioned cavity
+ is shown in Figure~\ref{fg:tcdualmesh}.
  \item \textbf{FreeFEM++}: The FEM solution is determined using FreeFEM++~\citep{Hecht2013}. For 2D
  solutions the mesh is created directly within FreeFEM++, while for 3D solutions the mesh is imported in INRIA
  Medit format. The resulting energy density and energy density flux are exported in sampled form to ASCII files. 
  \item \textbf{Octave}: Post-processing is carried out by importing the sampled energy density and energy density 
- flux into GNU Octave.
+ flux into GNU Octave. The post-processing scripts are compatible with MATLAB.
 \end{enumerate}
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.8\linewidth]{figures/gmshdualmesh}
+\vspace{-4mm}
+\caption{\label{fg:tcdualmesh} Tetrahedral mesh of the coupled cavities test-case containing the lossy cylinder.}
+\end{center}
+\end{figure}
+
 The input for Gmsh, FreeFEM++ and Octave is all taken from the same ASCII text file \texttt{parameters.geo}, which
 is in Gmsh's ``geo'' format. The file contains a series of lines, each of which assigns a value to a variable:
 {\small
@@ -1022,45 +1082,87 @@ srcTRP = 1;            // Total radiated power of source [W].
 \end{verbatim}}
 \noindent In order for FreeFEM++ and Octave to be able to parse the file correctly it is essential 
 that spaces are left on either side of the ``\texttt{=}'' sign. The order of the parameters is 
-not significant. In addition to the geometrical and electromagnetic parameters defined in Table~\ref{tb:tcparam} 
-four boolean parameters \texttt{isSrc}, \texttt{isCyl}, \texttt{isPart} and \texttt{isSabine} are 
-also used:
+not significant. 
+
+In addition to the geometrical and electromagnetic parameters defined in 
+Table~\ref{tb:tcparam} four boolean parameters \texttt{isSrc}, \texttt{isCyl}, \texttt{isPart} and 
+\texttt{isSabine} are also used:
 \begin{itemize}
  \item \textbf{\texttt{isSrc}}: If true, a small sphere is added to the mesh to represent the source using a surface,
  otherwise an interpolated delta function source is applied;
  \item \textbf{\texttt{isCyl}}: If true, the cylinder is included in the geometry;
  \item \textbf{\texttt{isPart}}: If true, the partition is included;
- \item \textbf{\texttt{isSabine}}: If true, the Sabine loss factor~(\ref{eq:ecsabine}) is used,
- otherwise the Jing and Xiang loss factor~(\ref{eq:ecjing}) is used.
+ \item \textbf{\texttt{isSabine}}: If true, the Sabine EC~(\ref{eq:ecsabine}) is used,
+ otherwise the Jing and Xiang EC~(\ref{eq:ecjing}) is used.
 \end{itemize}
-
-\begin{figure}[ht]
-\begin{center}
-\includegraphics[width=0.8\linewidth]{figures/gmshdualmesh}
-\vspace{-4mm}
-\caption{\label{fg:tcdualmesh} Tetrahedral mesh of the coupled cavities test-case containing the lossy cylinder.}
-\end{center}
-\end{figure}
 
 
 \section[Results]{Results}
 \label{sc:res}
 
-EDM results are presented in Sections~\ref{sc:res:unpartempty} to~\ref{sc:tcs:cylpart} for baseline canonical 
-test cases with the following
-parameters:
+EDM results are presented in Sections~\ref{sc:res:unpartempty} to~\ref{sc:res:cylpart} for baseline canonical 
+test cases with the following parameters:
 \begin{itemize}
- \item The Jing and Xiang EC~(\ref{eq:ecjing}) is used for all surfaces;
- \item For the loaded cases the diffusiivity is determined as the harmonic mean~(\ref{eq:harmmean}) of the wall and cylinder
- diffusivities;
+ \item The Sabine EC~(\ref{eq:ecsabine}) is used for all surfaces;
+ \item For the loaded cases the diffusivity is determined using~(\ref{eq:harmmean});
  \item The specularity factor~(\ref{eq:kappa}) is taken to be unity.
 \end{itemize}
-For coupled cavities results are reported for SDM and EEBC DDM methods. In each case it was verfied
-that the FCBC and EEBC DDM gave the same results and likewise for the SDM and nonoverlapping Schwarz
-DDM.
+For coupled cavities results are reported for SDM and EEBC DDM methods. In each case it was verified
+that the FCBC and EEBC DDM gave the same results and likewise for the SDM and non-overlapping Schwarz
+DDM. Generally the FCBC and EEBC agreed to within the convergence tolerance requested (0.1\,\%) in the 
+total energy density while the agreement between the SDM and Schwarz DDM was very slightly worse than
+the requested tolerance, which is due to the difference in the meshes. Dervied parameters common 
+to all the canonical test-case models are given in Table~\ref{tb:derivparams}.
+
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Parameter}     &\textbf{Unit} &\textbf{Value}\\ 
+\hline
+\texttt{wallEC}        &m/s           &2.0236$\times 10^5$ \\
+\texttt{cylEC}         &m/s           &7.1201$\times 10^7$ \\
+\texttt{partEC}        &m/s           &2.0236$\times 10^5$ \\
+\texttt{holeEC}        &m/s           &7.4948$\times 10^7$ \\
+\texttt{holeArea}      &m$^2$         &0.018000            \\
+\texttt{holeTCS}       &m$^2$         &0.0045000           \\
+\texttt{cylArea}       &m$^2$         &0.14137             \\
+\texttt{cylACS}        &m$^2$         &0.033576            \\
+\hline
+\end{tabular}
+\end{center}
+\caption{\label{tb:derivparams} Common derived parameters for the test-cases.}
+\end{table}
 
 \subsection[Empty unpartitioned cavity]{Empty unpartitioned cavity}
 \label{sc:res:unpartempty}
+
+The derived parameters empty unpartitioned cavity are given in Table~\ref{tb:derivparamsu} and the summary 
+statistics for the average power density in the EDM models are presented in Table~\ref{tb:unpartempty}. 
+Results are given for 2D and 3D SDM cases and also for the homogeneous PWB model. The power density is very 
+uniform with a coefficient of variation (COV) of only about 0.6\,\%. All the models are in close agreement 
+as expected since the loss in the cavity is very low.
+
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Parameter}     &\textbf{Unit} &\textbf{Value}\\ 
+\hline
+\texttt{wallArea}      &m$^2$         &2.025              \\
+\texttt{cavityArea}    &m$^2$         &2.025              \\
+\texttt{cavityVolume}  &m$^3$         &0.18225            \\
+\texttt{wallMFP}       &m             &0.36               \\
+\texttt{cavityMFP}     &m             &0.36               \\
+\texttt{wallD}         &m$^2$/s       &3.5975$\times10^7$ \\
+\texttt{cavityD}       &m$^2$/s       &3.5975$\times10^7$ \\
+\texttt{wallACS}       &m$^2$         &0.0013669          \\
+\texttt{cavityACS}     &m$^2$         &0.0013669          \\
+\hline
+\end{tabular}
+\end{center}
+\caption{\label{tb:derivparamsu} Derived parameters for unpartitioned empty cavity.}
+\end{table}
 
 \begin{table}[ht]
 \begin{center}
@@ -1069,17 +1171,28 @@ DDM.
 \textbf{Power density}               &\textbf{PWB} &\multicolumn{2}{|c|}{\textbf{EDM}} \\ \cline{3-4}
 {}                                   &{}           &\textbf{2D SDM} &\textbf{3D SDM}  \\
 \hline
-Value at centre (dB\,W\,m$^{-2})$    &28.64        &28.64           &28.62 \\
+Value at centre (dB\,W\,m$^{-2})$    &28.64        &28.63           &28.63 \\
 Mean (dB\,W\,m$^{-2})$               &28.64        &28.63           &28.63 \\
-Minimum (dB\,W\,m$^{-2})$            &28.64        &28.59           &28.02 \\
-Maximum (dB\,W\,m$^{-2})$            &28.64        &28.70           &28.73 \\
-Standard deviation (dB\,W\,m$^{-2})$ &0            &6.50            &6.16  \\
+Minimum (dB\,W\,m$^{-2})$            &28.64        &28.60           &28.03 \\
+Maximum (dB\,W\,m$^{-2})$            &28.64        &28.71           &28.74 \\
+Standard deviation (dB\,W\,m$^{-2})$ &0            &6.50            &6.17  \\
 Coefficient of variation (\%)        &0            &0.61            &0.57  \\
 \hline
 \end{tabular}
 \end{center}
 \caption{\label{tb:unpartempty} Statistics of the reverberant power density in the unpartitioned empty cavity.}
 \end{table}
+
+The variation of the power density in the $z$ direction is shown in Figure~\ref{fg:unpartempty_profs}(a)
+at $y=L_y/2$ and various values of $x$. In this case the quadratic anzatz used in the Kantorovich reduction
+is seen to be quite accurate and the 2D model provides very good results. The variation of the power density 
+in the $x$ direction for $z=L_z/2$ and a number of $y$ positions is shown in Figure~\ref{fg:unpartempty_profs}(b).
+The power density falls monotonically along the cavity away from the source as expected for a harmonic solution
+of the Laplace operator. At the source end of the cavity the EDM predicts high power density than PWB, while 
+at the opposite end the EDM result is lower than the PWB result. The average power density in the EDM in 
+Table~\ref{tb:unpartempty} is very close to the PWB prediction. The probability density function (PDF)
+for the average power density in the cavity is shown in Figure~\ref{fg:unpartempty_profs}(c); it is a narrow
+monomodal distribution.
 
 \begin{figure}[ht]
 \begin{center}
@@ -1097,18 +1210,32 @@ Coefficient of variation (\%)        &0            &0.61            &0.57  \\
 \end{center}
 \end{figure}
 
+Figure~\ref{fg:unpartempty_maps} shows maps of various quantities in the $z=L_z/2$ plane. The power density is
+shown in Figure~\ref{fg:unpartempty_maps}(a) as a hybrid heat and contour map; the power density is seen to
+be relative uniform in the $y$ direction away from the source. The uniformity shown in Figure~\ref{fg:unpartempty_maps}(b)
+is the ratio of the EDM and PWB power densities. The zero isoline is located at approximately $x=0.35$, indicating that in 65\,\% of 
+the cavity the EDM power density is lower than the PWB power density. The anisotropy of the power density is defined as 
+\begin{align}
+\Upsilon(\vr) &= \frac{\mathrm{c}_0 w(\vr)}{\mathrm{c}_0 w(\vr) - |\vJ(\vr)|} 
+\end{align}
+and is shown in Figure~\ref{fg:unpartempty_maps}(c); necessarily it must be greater close to the source. In most of the 
+cavity the anisotropy is less than 0.05\,dB. Figure~\ref{fg:unpartempty_maps}(c) shows the flux of the energy density 
+as a hybrid heat and vector
+field map with the colour indicating the magnitude and the arrow the direction. The flux is again relatively uniform away from 
+the source and directed in the positive $x$ direction. 
+
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_SU_PowerDensityMap}\\
+\includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/SDM_3D_SU_PowerDensityMap}\\
 {\footnotesize (a)}\\
 \vspace{2mm}
-\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_SU_EnergyDensityUniformityMap}\\
+\includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/SDM_3D_SU_EnergyDensityUniformityMap}\\
 {\footnotesize (b)}\\
 \vspace{2mm}
-\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_SU_EnergyDensityAnisotropyMap}\\
+\includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/SDM_3D_SU_EnergyDensityAnisotropyMap}\\
 {\footnotesize (c)}\\
 \vspace{2mm}
-\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_SU_EnergyDensityFluxMap}\\
+\includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/SDM_3D_SU_EnergyDensityFluxMap}\\
 {\footnotesize (d)}\\
 \vspace{-2mm}
 \caption{\label{fg:unpartempty_maps} 3D EDM maps in the $z$-normal plane at the half height of the cavity for the 
@@ -1120,6 +1247,37 @@ unloaded unpartitioned cavity: (a) Power density; (b) Energy density relative to
 \subsection[Unpartitioned cavity with a cylinder]{Unpartitioned cavity with a cylinder}
 \label{sc:res:unpartcyl}
 
+The derived parameters loaded unpartitioned cavity are given in Table~\ref{tb:derivparamsl} and the 
+summary statistics for the average power density in the EDM models of the loaded unpartitioned cavity
+are presented in Table~\ref{tb:unpartcyl}. Results are given for 2D and 3D SDM cases and also for the 
+homogeneous PWB model. The power density varies significantly in the volume of the cavity with a coefficient 
+of variation (COV) of about 23,\%. The 2D and 3D EDM are still in close agreement but diverge from the homogeneous
+PWB prediction. Even the average EDM power density of 14.3\,dB\,W\,m$^{-2})$ deviates significantly from the PWB value
+of 11.9\,dB\,W\,m$^{-2})$. This result was verfied using an independently constructed EDM of the specific test-case. 
+
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Parameter}     &\textbf{Unit} &\textbf{Value}\\ 
+\hline
+\texttt{wallArea}      &m$^2$         &2.0093              \\
+\texttt{cavityArea}    &m$^2$         &2.1507              \\
+\texttt{cavityVolume}  &m$^3$         &0.17872             \\
+\texttt{wallMFP}       &m             &0.35578             \\
+\texttt{cylMFP}        &m             &5.0566              \\
+\texttt{cavityMFP}     &m             &0.33239             \\
+\texttt{wallD}         &m$^2$/s       &3.5553$\times 10^7$ \\
+\texttt{cylD}          &m$^2$/s       &5.0531$\times 10^8$ \\
+\texttt{cavityD}       &m$^2$/s       &3.3216$\times 10^7$ \\
+\texttt{wallACS}       &m$^2$         &0.0013563           \\
+\texttt{cavityACS}     &m$^2$         &0.034932            \\
+\hline
+\end{tabular}
+\end{center}
+\caption{\label{tb:derivparamsl} Derived parameters for unpartitioned loaded cavity.}
+\end{table}
+
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{|l|c|c|c|c|c|}
@@ -1127,17 +1285,28 @@ unloaded unpartitioned cavity: (a) Power density; (b) Energy density relative to
 \textbf{Power density}               &\textbf{PWB} &\multicolumn{2}{|c|}{\textbf{EDM}} \\ \cline{3-4}
 {}                                   &{}           &\textbf{2D SDM} &\textbf{3D SDM}  \\
 \hline
-Value at centre (dB\,W\,m$^{-2})$    &11.85        &14.26           &14.16 \\
-Mean (dB\,W\,m$^{-2})$               &11.85        &14.41           &14.29 \\
-Minimum (dB\,W\,m$^{-2})$            &11.85        &11.06           &6.92  \\
-Maximum (dB\,W\,m$^{-2})$            &11.85        &16.84           &17.35 \\
-Standard deviation (dB\,W\,m$^{-2})$ &0            &9.83            &9.67  \\
-Coefficient of variation (\%)        &0            &34.9            &34.5  \\
+Value at centre (dB\,W\,m$^{-2})$    &14.57        &15.90           &15.85 \\
+Mean (dB\,W\,m$^{-2})$               &14.57        &16.00           &15.93 \\
+Minimum (dB\,W\,m$^{-2})$            &14.57        &14.12           &12.69 \\
+Maximum (dB\,W\,m$^{-2})$            &14.57        &17.72           &18.12 \\
+Standard deviation (dB\,W\,m$^{-2})$ &0            &9.54            &9.37  \\
+Coefficient of variation (\%)        &0            &22.6            &22.1  \\
 \hline
 \end{tabular}
 \end{center}
 \caption{\label{tb:unpartcyl} Statistics of the reverberant power density in the unpartitioned cavity with the cylinder.}
 \end{table}
+
+The variation of the power density in the $z$ direction is shown in Figure~\ref{fg:unpartcyl_profs}(a)
+at $y=L_y/2$ and various values of $x$. In this case the quadratic anzatz used in the Kantorovich reduction
+is seen to be less accurate; however, the 2D model still provides good results. The variation of the power density 
+in the $x$ direction for $z=L_z/2$ and a number of $y$ positions is shown in Figure~\ref{fg:unpartempty_profs}(b).
+The power density falls monotonically along the cavity away from the source as expected for a harmonic solution
+of the Laplace operator. At the source end of the cavity the EDM predicts high power density than PWB, while 
+at the opposite end the EDM result is a little lower than the PWB result. The average power density in the EDM in 
+Table~\ref{tb:unpartempty} is 1.5\,dB higher than the PWB prediction. The probability density function (PDF)
+for the average power density in the cavity is shown in Figure~\ref{fg:unpartempty_profs}(c); it is a relatively
+uniform distribution.
 
 \begin{figure}[ht]
 \begin{center}
@@ -1155,18 +1324,27 @@ Coefficient of variation (\%)        &0            &34.9            &34.5  \\
 \end{center}
 \end{figure}
 
+Figure~\ref{fg:unpartcyl_maps} shows maps of various quantities in the $z=L_z/2$ plane. The power density
+shown in Figure~\ref{fg:unpartcyl_maps}(a) exhibits a monotonic decrease along the cavity, with a shadow
+region behind the cylinder. The uniformity shown in Figure~\ref{fg:unpartcyl_maps}(b)
+is the ratio of the EDM and PWB power densities. The zero isoline is close to the cylinder indicating that in most of 
+the cavity the EDM power density is higher than the PWB power density. The anisotropy of the power density is shown in
+Figure~\ref{fg:unpartcyl_maps}(c); it is much higher than for the unloaded cavity with a typically value of 0.5\,dB.
+Figure~\ref{fg:unpartcyl_maps}(c) shows the flux of the energy density which clearly shows the flow of reverberant power from 
+the source to the cylinder. 
+
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_SL_PowerDensityMap}\\
+\includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/SDM_3D_SL_PowerDensityMap}\\
 {\footnotesize (a)}\\
 \vspace{2mm}
-\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_SL_EnergyDensityUniformityMap}\\
+\includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/SDM_3D_SL_EnergyDensityUniformityMap}\\
 {\footnotesize (b)}\\
 \vspace{2mm}
-\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_SL_EnergyDensityAnisotropyMap}\\
+\includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/SDM_3D_SL_EnergyDensityAnisotropyMap}\\
 {\footnotesize (c)}\\
 \vspace{2mm}
-\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_SL_EnergyDensityFluxMap}\\
+\includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/SDM_3D_SL_EnergyDensityFluxMap}\\
 {\footnotesize (d)}\\
 \vspace{-2mm}
 \caption{\label{fg:unpartcyl_maps} 3D EDM maps in the $z$-normal plane at the half height of the cavity for the 
@@ -1180,6 +1358,32 @@ loaded unpartitioned cavity: (a) Power density; (b) Energy density relative to t
 
 \begin{table}[ht]
 \begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Parameter}     &\textbf{Unit} &\textbf{Source sub-cavity} &\textbf{Coupled sub-cavity}\\ 
+\hline
+\texttt{wallArea}      &m$^2$         &1.0080                     &1.0080              \\
+\texttt{partArea}      &m$^2$         &0.1845                     &0.1845              \\
+\texttt{holeArea}      &m$^2$         &0.0180                     &0.0180              \\
+\texttt{cavityArea}    &m$^2$         &1.2105                     &1.2105              \\
+\texttt{cavityVolume}  &m$^3$         &0.090619                   &0.090619            \\
+\texttt{wallMFP}       &m             &0.35960                    &0.35960             \\
+\texttt{partMFP}       &m             &1.9646                     &1.9646              \\
+\texttt{cavityMFP}     &m             &0.29944                    &0.29944             \\
+\texttt{wallD}         &m$^2$/s       &3.5935$\times 10^7$        &3.5935$\times 10^7$ \\
+\texttt{partD}         &m$^2$/s       &1.9633$\times 10^8$        &1.9633$\times 10^8$ \\
+\texttt{cavityD}       &m$^2$/s       &2.9924$\times 10^7$        &2.9924$\times 10^7$ \\
+\texttt{wallACS}       &m$^2$         &0.00068040                 &0.00068040          \\
+\texttt{partACS}       &m$^2$         &0.00012454                 &0.00012454          \\
+\texttt{cavityACS}     &m$^2$         &0.00080494                 &0.00080494          \\
+\hline
+\end{tabular}
+\end{center}
+\caption{\label{tb:derivparamdu} Derived parameters for the unloaded partitioned cavity.}
+\end{table}
+
+\begin{table}[ht]
+\begin{center}
 \begin{tabular}{|l|c|c|c|c|c|}
 \hline
 \textbf{Power density}               &\textbf{PWB} &\multicolumn{4}{|c|}{\textbf{EDM}} \\ \cline{3-6}
@@ -1187,19 +1391,19 @@ loaded unpartitioned cavity: (a) Power density; (b) Energy density relative to t
 \hline
 \multicolumn{6}{|l|}{\textbf{Sub-cavity 1}} \\
 \hline
-Value at centre (dB\,W\,m$^{-2})$    &28.26        &28.04           &28.36           &28.03           &28.35 \\
-Mean (dB\,W\,m$^{-2})$               &28.26        &28.04           &28.36           &28.02           &28.35 \\
-Minimum (dB\,W\,m$^{-2})$            &28.26        &27.89           &28.23           &26.92           &27.33 \\
-Maximum (dB\,W\,m$^{-2})$            &28.26        &28.11           &28.43           &28.14           &28.46 \\
+Value at centre (dB\,W\,m$^{-2})$    &28.27        &28.04           &28.37           &28.03           &28.36 \\
+Mean (dB\,W\,m$^{-2})$               &28.27        &28.04           &28.36           &28.03           &28.36 \\
+Minimum (dB\,W\,m$^{-2})$            &28.27        &27.89           &28.24           &26.93           &27.35 \\
+Maximum (dB\,W\,m$^{-2})$            &28.27        &28.11           &28.43           &28.14           &28.47 \\
 Standard deviation (dB\,W\,m$^{-2})$ &0            &6.47            &6.28            &5.95            &5.76  \\
 Coefficient of variation (\%)        &0            &0.70            &0.62            &0.62            &0.55  \\
 \hline
 \multicolumn{6}{|l|}{\textbf{Sub-cavity 2}} \\
 \hline
-Value at centre (dB\,W\,m$^{-2})$    &27.54        &27.77           &27.42           &27.78           &27.42 \\
-Mean (dB\,W\,m$^{-2})$               &27.54        &27.78           &27.42           &27.79           &27.42 \\
-Minimum (dB\,W\,m$^{-2})$            &27.54        &27.76           &27.40           &27.76           &27.40 \\
-Maximum (dB\,W\,m$^{-2})$            &27.54        &27.89           &27.54           &27.90           &27.55 \\
+Value at centre (dB\,W\,m$^{-2})$    &27.55        &27.78           &27.42           &27.78           &27.42 \\
+Mean (dB\,W\,m$^{-2})$               &27.55        &27.79           &27.43           &27.79           &27.43 \\
+Minimum (dB\,W\,m$^{-2})$            &27.55        &27.76           &27.41           &27.77           &27.41 \\
+Maximum (dB\,W\,m$^{-2})$            &27.55        &27.89           &27.55           &27.90           &27.55 \\
 Standard deviation (dB\,W\,m$^{-2})$ &0            &4.17            &3.85            &4.16            &3.85  \\
 Coefficient of variation (\%)        &0            &0.44            &0.44            &0.43            &0.44  \\
 \hline
@@ -1228,16 +1432,16 @@ Coefficient of variation (\%)        &0            &0.44            &0.44       
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_DU_PowerDensityMap}\\
+\includegraphics[trim={0 11mm 0 12mm},clip,width=0.52\linewidth]{figures/SDM_3D_DU_PowerDensityMap}\\
 {\footnotesize (a)}\\
 \vspace{2mm}
-\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_DU_EnergyDensityUniformityMap}\\
+\includegraphics[trim={0 11mm 0 12mm},clip,width=0.52\linewidth]{figures/SDM_3D_DU_EnergyDensityUniformityMap}\\
 {\footnotesize (b)}\\
 \vspace{2mm}
-\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_DU_EnergyDensityAnisotropyMap}\\
+\includegraphics[trim={0 11mm 0 12mm},clip,width=0.52\linewidth]{figures/SDM_3D_DU_EnergyDensityAnisotropyMap}\\
 {\footnotesize (c)}\\
 \vspace{2mm}
-\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_DU_EnergyDensityFluxMap}\\
+\includegraphics[trim={0 11mm 0 12mm},clip,width=0.52\linewidth]{figures/SDM_3D_DU_EnergyDensityFluxMap}\\
 {\footnotesize (d)}\\
 \vspace{-2mm}
 \caption{\label{fg:partemptysdm_maps} Single domain 3D EDM maps in the $z$-normal plane at the half height of the cavity for the 
@@ -1259,26 +1463,26 @@ unloaded partitioned cavity: (a) Power density; (b) Energy density relative to t
 \\
 {\footnotesize (c)}\\
 \vspace{-2mm}
-\caption{\label{fg:partemptysdm_profs} Dual domain EEBC EDM of the unloaded partitioned cavity: (a) Normalised vertical profile of the power density; 
+\caption{\label{fg:partemptyddm_profs} Dual domain EEBC EDM of the unloaded partitioned cavity: (a) Normalised vertical profile of the power density; 
 (b) Power density profile in the $x$-direction along the cavity centre; (c) PDF of the power density in the source cavity (left) and coupled cavity (right).}
 \end{center}
 \end{figure}
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[trim={0 13mm 0 12mm},clip,width=0.53\linewidth]{figures/DDM-EEBC_3D_DU_PowerDensityMap}\\
+\includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/DDM-EEBC_3D_DU_PowerDensityMap}\\
 {\footnotesize (a)}\\
 \vspace{2mm}
-\includegraphics[trim={0 14mm 0 12mm},clip,width=0.53\linewidth]{figures/DDM-EEBC_3D_DU_EnergyDensityUniformityMap}\\
+\includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/DDM-EEBC_3D_DU_EnergyDensityUniformityMap}\\
 {\footnotesize (b)}\\
 \vspace{2mm}
-\includegraphics[trim={0 14mm 0 12mm},clip,width=0.53\linewidth]{figures/DDM-EEBC_3D_DU_EnergyDensityAnisotropyMap}\\
+\includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/DDM-EEBC_3D_DU_EnergyDensityAnisotropyMap}\\
 {\footnotesize (c)}\\
 \vspace{2mm}
-\includegraphics[trim={0 13mm 0 12mm},clip,width=0.53\linewidth]{figures/DDM-EEBC_3D_DU_EnergyDensityFluxMap}\\
+\includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/DDM-EEBC_3D_DU_EnergyDensityFluxMap}\\
 {\footnotesize (d)}\\
 \vspace{-2mm}
-\caption{\label{fg:partemptysdm_maps} Dual domain EEBC 3D EDM maps in the $z$-normal plane at the half height of the cavity for the 
+\caption{\label{fg:partemptyddm_maps} Dual domain EEBC 3D EDM maps in the $z$-normal plane at the half height of the cavity for the 
 unloaded partitioned cavity: (a) Power density; (b) Energy density relative to the homogeneous PWB model;
 (c) Anisotropy; (d) Energy density flux.}
 \end{center}
@@ -1289,6 +1493,33 @@ unloaded partitioned cavity: (a) Power density; (b) Energy density relative to t
 
 \begin{table}[ht]
 \begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Parameter}     &\textbf{Unit} &\textbf{Source sub-cavity} &\textbf{Coupled sub-cavity}\\ 
+\hline
+\texttt{wallArea}      &m$^2$         &1.0080                     &0.99229             \\
+\texttt{partArea}      &m$^2$         &0.18450                    &0.18450             \\
+\texttt{holeArea}      &m$^2$         &0.018000                   &0.018000            \\
+\texttt{cavityArea}    &m$^2$         &1.2105                     &1.3362              \\
+\texttt{cavityVolume}  &m$^3$         &0.090619                   &0.087084            \\
+\texttt{wallMFP}       &m             &0.35960                    &0.35104             \\
+\texttt{partMFP}       &m             &1.9646                     &1.8880              \\
+\texttt{cavityMFP}     &m             &0.29944                    &0.26070             \\
+\texttt{wallD}         &m$^2$/s       &3.5935$\times 10^7$        &3.5080$\times 10^7$ \\
+\texttt{partD}         &m$^2$/s       &1.9633$\times 10^8$        &1.8867$\times 10^8$ \\
+\texttt{cylD}          &m$^2$/s       &-                          &2.4623$\times 10^8$ \\
+\texttt{cavityD}       &m$^2$/s       &2.9924$\times 10^7$        &2.6052$\times 10^7$ \\
+\texttt{wallACS}       &m$^2$         &0.00068040                 &0.00066980          \\
+\texttt{partACS}       &m$^2$         &0.00012454                 &0.00012454          \\
+\texttt{cavityACS}     &m$^2$         &0.00080494                 &0.034370            \\
+\hline
+\end{tabular}
+\end{center}
+\caption{\label{tb:derivparamdl} Derived parameters for the loaded partitioned cavity.}
+\end{table}
+
+\begin{table}[ht]
+\begin{center}
 \begin{tabular}{|l|c|c|c|c|c|}
 \hline
 \textbf{Power density}               &\textbf{PWB} &\multicolumn{4}{|c|}{\textbf{EDM}} \\ \cline{3-6}
@@ -1296,21 +1527,21 @@ unloaded partitioned cavity: (a) Power density; (b) Energy density relative to t
 \hline
 \multicolumn{6}{|l|}{\textbf{Sub-cavity 1}} \\
 \hline
-Value at centre (dB\,W\,m$^{-2})$    &23.00        &19.93           &24.16           &19.72           &24.13 \\
-Mean (dB\,W\,m$^{-2})$               &23.00        &19.91           &24.15           &19.71           &24.12 \\
-Minimum (dB\,W\,m$^{-2})$            &23.00        &17.85           &23.55           &17.63           &20.69 \\
-Maximum (dB\,W\,m$^{-2})$            &23.00        &20.42           &24.34           &20.62           &24.42 \\
-Standard deviation (dB\,W\,m$^{-2})$ &0            &8.26            &7.80            &7.94            &7.48  \\
-Coefficient of variation (\%)        &0            &6.84            &2.32            &6.66            &2.17  \\
+Value at centre (dB\,W\,m$^{-2})$    &23.20        &20.24           &24.25           &20.06           &24.22 \\
+Mean (dB\,W\,m$^{-2})$               &23.20        &20.22           &24.24           &20.04           &24.21 \\
+Minimum (dB\,W\,m$^{-2})$            &23.20        &18.36           &23.66           &18.18           &20.89 \\
+Maximum (dB\,W\,m$^{-2})$            &23.20        &20.70           &24.43           &20.90           &24.51 \\
+Standard deviation (dB\,W\,m$^{-2})$ &0            &8.24            &7.78            &7.91            &7.46  \\
+Coefficient of variation (\%)        &0            &6.36            &2.26            &6.13            &2.11  \\
 \hline
 \multicolumn{6}{|l|}{\textbf{Sub-cavity 2}} \\
 \hline
-Value at centre (dB\,W\,m$^{-2})$    &11.12        &11.63           &10.97           &11.65           &10.98 \\
-Mean (dB\,W\,m$^{-2})$               &11.12        &12.86           &12.21           &12.88           &12.21 \\
-Minimum (dB\,W\,m$^{-2})$            &11.12        &10.70           &10.04           &10.73           &10.05 \\
-Maximum (dB\,W\,m$^{-2})$            &11.12        &17.75           &17.33           &17.70           &17.33 \\
-Standard deviation (dB\,W\,m$^{-2})$ &0            &8.34            &7.71            &8.33            &7.71  \\
-Coefficient of variation (\%)        &0            &35.3            &35.6            &35.1            &35.5  \\
+Value at centre (dB\,W\,m$^{-2})$    &13.84        &14.27           &13.60           &14.29           &13.63 \\
+Mean (dB\,W\,m$^{-2})$               &13.84        &14.93           &14.33           &14.95           &14.28 \\
+Minimum (dB\,W\,m$^{-2})$            &13.84        &13.80           &13.09           &13.84           &13.16 \\
+Maximum (dB\,W\,m$^{-2})$            &13.84        &18.29           &18.09           &18.24           &17.82 \\
+Standard deviation (dB\,W\,m$^{-2})$ &0            &7.94            &7.73            &7.92            &7.30  \\
+Coefficient of variation (\%)        &0            &20.0            &21.9            &19.8            &20.0  \\
 \hline
 \end{tabular}
 \end{center}
@@ -1337,16 +1568,16 @@ Coefficient of variation (\%)        &0            &35.3            &35.6       
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_DL_PowerDensityMap}\\
+\includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/SDM_3D_DL_PowerDensityMap}\\
 {\footnotesize (a)}\\
 \vspace{2mm}
-\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_DL_EnergyDensityUniformityMap}\\
+\includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/SDM_3D_DL_EnergyDensityUniformityMap}\\
 {\footnotesize (b)}\\
 \vspace{2mm}
-\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_DL_EnergyDensityAnisotropyMap}\\
+\includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/SDM_3D_DL_EnergyDensityAnisotropyMap}\\
 {\footnotesize (c)}\\
 \vspace{2mm}
-\includegraphics[trim={0 11mm 0 12mm},clip,width=0.55\linewidth]{figures/SDM_3D_DL_EnergyDensityFluxMap}\\
+\includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/SDM_3D_DL_EnergyDensityFluxMap}\\
 {\footnotesize (d)}\\
 \vspace{-2mm}
 \caption{\label{fg:partcylsdm_maps} Single domain 3D EDM maps in the $z$-normal plane at the half height of the cavity for the 
@@ -1368,26 +1599,26 @@ loaded partitioned cavity: (a) Power density; (b) Energy density relative to the
 \\
 {\footnotesize (c)}\\
 \vspace{-2mm}
-\caption{\label{fg:partcylsdm_profs} Dual domain EEBC EDM of the loaded partitioned cavity: (a) Normalised vertical profile of the power density; 
+\caption{\label{fg:partcylddm_profs} Dual domain EEBC EDM of the loaded partitioned cavity: (a) Normalised vertical profile of the power density; 
 (b) Power density profile in the $x$-direction along the cavity centre; (c) PDF of the power density in the source cavity (left) and coupled cavity (right).}
 \end{center}
 \end{figure}
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[trim={0 13mm 0 12mm},clip,width=0.53\linewidth]{figures/DDM-EEBC_3D_DL_PowerDensityMap}\\
+\includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/DDM-EEBC_3D_DL_PowerDensityMap}\\
 {\footnotesize (a)}\\
 \vspace{2mm}
-\includegraphics[trim={0 14mm 0 12mm},clip,width=0.53\linewidth]{figures/DDM-EEBC_3D_DL_EnergyDensityUniformityMap}\\
+\includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/DDM-EEBC_3D_DL_EnergyDensityUniformityMap}\\
 {\footnotesize (b)}\\
 \vspace{2mm}
-\includegraphics[trim={0 14mm 0 12mm},clip,width=0.53\linewidth]{figures/DDM-EEBC_3D_DL_EnergyDensityAnisotropyMap}\\
+\includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/DDM-EEBC_3D_DL_EnergyDensityAnisotropyMap}\\
 {\footnotesize (c)}\\
 \vspace{2mm}
-\includegraphics[trim={0 13mm 0 12mm},clip,width=0.53\linewidth]{figures/DDM-EEBC_3D_DL_EnergyDensityFluxMap}\\
+\includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/DDM-EEBC_3D_DL_EnergyDensityFluxMap}\\
 {\footnotesize (d)}\\
 \vspace{-2mm}
-\caption{\label{fg:partcylsdm_maps} Dual domain EEBC 3D EDM maps in the $z$-normal plane at the half height of the cavity for the 
+\caption{\label{fg:partcylddm_maps} Dual domain EEBC 3D EDM maps in the $z$-normal plane at the half height of the cavity for the 
 loaded partitioned cavity: (a) Power density; (b) Energy density relative to the homogeneous PWB model;
 (c) Anisotropy; (d) Energy density flux.}
 \end{center}
@@ -1397,10 +1628,131 @@ loaded partitioned cavity: (a) Power density; (b) Energy density relative to the
 \label{sc:res:para}
 
 \begin{itemize}
- \item Compare 3D EDM using EEBC and SDM with measurement;
+ \item Compare baseline models above to measurement - six $x$ profiles on one page;
  \item Compare 3D EDM using EEBC and Sabine and Jing and Xiang EC with measurement;
- \item Sweep $\kappa$ in 3D EDM using EEBC and compare to measurement; 
+ \item Sweep $\kappa$ in 3D EDM using EEBC and compare to measurement, related to non-cuboid cavity MFP formula; 
 \end{itemize}
+
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.6\linewidth]{figures/SDM_3D_SU_PowerDensityProfileXMeas}\\
+{\footnotesize (a)}\\
+\vspace{2mm}
+\includegraphics[width=0.6\linewidth]{figures/SDM_3D_SU_PowerDensityProfileXMeas_JX}\\
+{\footnotesize (b)}\\
+\vspace{-2mm}
+\caption{\label{fg:measprofssu} Power density profile in the $x$-direction along the cavity centre comparing
+the 3D EDM of the single unloaded cavity and measurement~\citep{Flintoft2017b}: (a) Sabine EC; (b) Jing and Xiang EC.}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.6\linewidth]{figures/SDM_3D_SL_PowerDensityProfileXMeas}\\
+{\footnotesize (a)}\\
+\vspace{2mm}
+\includegraphics[width=0.6\linewidth]{figures/SDM_3D_SL_PowerDensityProfileXMeas_JX}\\
+{\footnotesize (b)}\\
+\vspace{-2mm}
+\caption{\label{fg:measprofssl} Power density profile in the $x$-direction along the cavity centre comparing
+the 3D EDM of the single loaded cavity and measurement~\citep{Flintoft2017b}: (a) Sabine EC; (b) Jing and Xiang EC.}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.6\linewidth]{figures/DDM-EEBC_3D_DU_PowerDensityProfileXMeas}\\
+{\footnotesize (a)}\\
+\vspace{2mm}
+\includegraphics[width=0.6\linewidth]{figures/DDM-EEBC_3D_DU_PowerDensityProfileXMeas_JX}\\
+{\footnotesize (b)}\\
+\vspace{-2mm}
+\caption{\label{fg:measprofsdu} Power density profile in the $x$-direction along the cavity centre comparing
+the 3D DDM EEBC EDM of the dual unloaded cavity and measurement~\citep{Flintoft2017b}: (a) Sabine EC; (b) Jing and Xiang EC.}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.6\linewidth]{figures/DDM-EEBC_3D_DL_PowerDensityProfileXMeas}\\
+{\footnotesize (a)}\\
+\vspace{2mm}
+\includegraphics[width=0.6\linewidth]{figures/DDM-EEBC_3D_DL_PowerDensityProfileXMeas_JX}\\
+{\footnotesize (b)}\\
+\vspace{-2mm}
+\caption{\label{fg:measprofsdl} Power density profile in the $x$-direction along the cavity centre comparing
+the 3D DDM EEBC EDM of the dual loaded cavity and measurement~\citep{Flintoft2017b}: (a) Sabine EC; (b) Jing and Xiang EC.}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.49\linewidth]{figures/SDM_3D_SU_PowerDensityProfileXMeas_JX_k0_5}
+\includegraphics[width=0.49\linewidth]{figures/SDM_3D_SU_PowerDensityProfileXMeas_JX_k0_75}\\
+{\footnotesize (a)\hspace{75mm}(b)}\\
+\includegraphics[width=0.5\linewidth]{figures/SDM_3D_SU_PowerDensityProfileXMeas_JX_k1_0}\\
+{\footnotesize (c)}\\
+\includegraphics[width=0.49\linewidth]{figures/SDM_3D_SU_PowerDensityProfileXMeas_JX_k1_5}
+\includegraphics[width=0.49\linewidth]{figures/SDM_3D_SU_PowerDensityProfileXMeas_JX_k2_0}\\
+{\footnotesize (d)\hspace{75mm}(e)}\\
+\vspace{-2mm}
+\caption{\label{fg:measprofssuk} Power density profile in the $x$-direction along the cavity centre comparing
+the 3D EDM of the single unloaded cavity and measurement~\citep{Flintoft2017b}: (a) $\kappa=1/2$; (b) $\kappa=3/4$;
+(c) $\kappa=1$; (d) $\kappa=3/2$; (e) $\kappa=2$.}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.49\linewidth]{figures/SDM_3D_SL_PowerDensityProfileXMeas_JX_k0_5}
+\includegraphics[width=0.49\linewidth]{figures/SDM_3D_SL_PowerDensityProfileXMeas_JX_k0_75}\\
+{\footnotesize (a)\hspace{75mm}(b)}\\
+\includegraphics[width=0.5\linewidth]{figures/SDM_3D_SL_PowerDensityProfileXMeas_JX_k1_0}\\
+{\footnotesize (c)}\\
+\includegraphics[width=0.49\linewidth]{figures/SDM_3D_SL_PowerDensityProfileXMeas_JX_k1_5}
+\includegraphics[width=0.49\linewidth]{figures/SDM_3D_SL_PowerDensityProfileXMeas_JX_k2_0}\\
+{\footnotesize (d)\hspace{75mm}(e)}\\
+\vspace{-2mm}
+\caption{\label{fg:measprofsslk} Power density profile in the $x$-direction along the cavity centre comparing
+the 3D EDM of the single loaded cavity and measurement~\citep{Flintoft2017b}: (a) $\kappa=1/2$; (b) $\kappa=3/4$;
+(c) $\kappa=1$; (d) $\kappa=3/2$; (e) $\kappa=2$.}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.49\linewidth]{figures/DDM-EEBC_3D_DU_PowerDensityProfileXMeas_JX_k0_5}
+\includegraphics[width=0.49\linewidth]{figures/DDM-EEBC_3D_DU_PowerDensityProfileXMeas_JX_k0_75}\\
+{\footnotesize (a)\hspace{75mm}(b)}\\
+\includegraphics[width=0.5\linewidth]{figures/DDM-EEBC_3D_DU_PowerDensityProfileXMeas_JX_k1_0}\\
+{\footnotesize (c)}\\
+\includegraphics[width=0.49\linewidth]{figures/DDM-EEBC_3D_DU_PowerDensityProfileXMeas_JX_k1_5}
+\includegraphics[width=0.49\linewidth]{figures/DDM-EEBC_3D_DU_PowerDensityProfileXMeas_JX_k2_0}\\
+{\footnotesize (d)\hspace{75mm}(e)}\\
+\vspace{-2mm}
+\caption{\label{fg:measprofsduk} Power density profile in the $x$-direction along the cavity centre comparing
+the 3D EDM of the dual unloaded cavity and measurement~\citep{Flintoft2017b}: (a) $\kappa=1/2$; (b) $\kappa=3/4$;
+(c) $\kappa=1$; (d) $\kappa=3/2$; (e) $\kappa=2$.}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.49\linewidth]{figures/DDM-EEBC_3D_DL_PowerDensityProfileXMeas_JX_k0_5}
+\includegraphics[width=0.49\linewidth]{figures/DDM-EEBC_3D_DL_PowerDensityProfileXMeas_JX_k0_75}\\
+{\footnotesize (a)\hspace{75mm}(b)}\\
+\includegraphics[width=0.5\linewidth]{figures/DDM-EEBC_3D_DL_PowerDensityProfileXMeas_JX_k1_0}\\
+{\footnotesize (c)}\\
+\includegraphics[width=0.49\linewidth]{figures/DDM-EEBC_3D_DL_PowerDensityProfileXMeas_JX_k1_5}
+\includegraphics[width=0.49\linewidth]{figures/DDM-EEBC_3D_DL_PowerDensityProfileXMeas_JX_k2_0}\\
+{\footnotesize (d)\hspace{75mm}(e)}\\
+\vspace{-2mm}
+\caption{\label{fg:measprofsdlk} Power density profile in the $x$-direction along the cavity centre comparing
+the 3D EDM of the dual loaded cavity and measurement~\citep{Flintoft2017b}: (a) $\kappa=1/2$; (b) $\kappa=3/4$;
+(c) $\kappa=1$; (d) $\kappa=3/2$; (e) $\kappa=2$.}
+\end{center}
+\end{figure}
 
 \section[Conclusions]{Conclusions}
 \label{sc:conc}

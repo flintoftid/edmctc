@@ -95,10 +95,7 @@ x_2D = squeeze( x(:,:,kc) );
 y_2D = squeeze( y(:,:,kc) );
 SrdB_2D = db10( squeeze( Sr(:,:,kc) ) );
 idxNotSrc = find( ( x_2D - srcX ).^2 + ( y_2D - srcY ).^2 >= (3 * srcRadius)^2 ); 
-SrdB_2D_min = nanmin( SrdB_2D(idxNotSrc) );
-SrdB_2D_max = nanmax( SrdB_2D(idxNotSrc) );
-SrdB_2D_cont = linspace( SrdB_2D_min , SrdB_2D_max , 10 );
-SrdB_2D_cont = roundsf( SrdB_2D_cont , 2 );
+[ SrdB_2D_min , SrdB_2D_max , SrdB_2D_cont ] = makeContourLines( SrdB_2D(idxNotSrc) );
 
 plotContourHeatMap( x_2D , y_2D, SrdB_2D , ...
                     0.0 , 0.9 , 'x (m)' , ...
@@ -110,11 +107,8 @@ kc = floor( Nz / 2 );
 x_2D = squeeze( x(:,:,kc) );
 y_2D = squeeze( y(:,:,kc) );
 DeltadB_2D = squeeze( DeltadB(:,:,kc) );
-idxNotSrc = find( ( x_2D - srcX ).^2 + ( y_2D - srcY ).^2 >= (3 * srcRadius)^2 ); 
-DeltadB_2D_min = nanmin( DeltadB_2D(idxNotSrc) );
-DeltadB_2D_max = nanmax( DeltadB_2D(idxNotSrc) );
-DeltadB_2D_cont = linspace( DeltadB_2D_min , DeltadB_2D_max , 10 );
-DeltadB_2D_cont = roundsf( DeltadB_2D_cont , 2 );
+idxNotSrc = find( ( x_2D - srcX ).^2 + ( y_2D - srcY ).^2 >= (3 * srcRadius)^2 );
+[ DeltadB_2D_min , DeltadB_2D_max , DeltadB_2D_cont ] = makeContourLines( DeltadB_2D(idxNotSrc) );
 
 plotContourHeatMap( x_2D , y_2D, DeltadB_2D , ...
                     0.0 , 0.9 , 'x (m)' , ...
@@ -129,10 +123,7 @@ Jx_2D = squeeze( Jx(:,:,kc) );
 Jy_2D = squeeze( Jy(:,:,kc) );
 JdB_2D = squeeze( JdB(:,:,kc) );
 idxNotSrc = find( ( x_2D - srcX ).^2 + ( y_2D - srcY ).^2 >= (3 * srcRadius)^2 ); 
-JdB_2D_min = nanmin( JdB_2D(idxNotSrc) );
-JdB_2D_max = nanmax( JdB_2D(idxNotSrc) );
-JdB_2D_cont = linspace( JdB_2D_min ,  JdB_2D_max , 10 );
-JdB_2D_cont = roundsf( JdB_2D_cont , 2 );
+[ JdB_2D_min , JdB_2D_max , JdB_2D_cont ] = makeContourLines( JdB_2D(idxNotSrc) );
 
 plotVectorHeatMap( x_2D , y_2D, Jx_2D , Jy_2D , ...
                    0.0 , 0.9 , 'x (m)' , ...
@@ -145,10 +136,7 @@ x_2D = squeeze( x(:,:,kc) );
 y_2D = squeeze( y(:,:,kc) );
 UpsilondB_2D = squeeze( UpsilondB(:,:,kc) );
 idxNotSrc = find( ( x_2D - srcX ).^2 + ( y_2D - srcY ).^2 >= (3 * srcRadius)^2 ); 
-UpsilondB_2D_min = nanmin( UpsilondB_2D(idxNotSrc) );
-UpsilondB_2D_max = nanmax( UpsilondB_2D(idxNotSrc) );
-UpsilondB_2D_cont = linspace( UpsilondB_2D_min , UpsilondB_2D_max , 10 );
-UpsilondB_2D_cont = roundsf( UpsilondB_2D_cont , 2 );
+[ UpsilondB_2D_min , UpsilondB_2D_max , UpsilondB_2D_cont ] = makeContourLines( UpsilondB_2D(idxNotSrc) );
 
 plotContourHeatMap( x_2D , y_2D, UpsilondB_2D , ...
                     0.0 , 0.9 , 'x (m)' , ...

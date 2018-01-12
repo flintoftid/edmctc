@@ -26,7 +26,7 @@ function [ hf ] = plotLineGraph( lines , labels , xMin , xMax , xLabel , yMin , 
   pngFileName = [ tag , '.png' ];
 
   cols = edmcolormap(10);
-  marks = { '^' , '<' , '>' , 'o' , 's' , 'x' };
+  marks = { '^' , '<' , '>' , 'o' , 's' , 'x' , 'p' , '*' , 'd' , 'v' };
 
   hf = figure();
   colormap( edmcolormap );
@@ -45,6 +45,7 @@ function [ hf ] = plotLineGraph( lines , labels , xMin , xMax , xLabel , yMin , 
   end % if
   grid( 'on' );
   hlg = legend( hl , labels , 'location' , 'northeast' );
+  set( hlg , 'fontSize' , 7 );
   print( '-dpng' , '-r360' , pngFileName );
   hold off;
    
