@@ -24,7 +24,7 @@
 %\usepackage{txfonts}
 \usepackage{doi}
 \usepackage[nodayofweek,level]{datetime}
-\newcommand{\mydate}{\formatdate{3}{6}{2017}}
+\newcommand{\mydate}{Version 1.0, \formatdate{24}{2}{2018}}
 %
 \include{MathMacros}
 \numberwithin{equation}{section}
@@ -45,35 +45,36 @@
 %
 \title{Implementation of electromagnetic diffusion model canonical test cases using FreeFEM++}
 \author{Ian Flintoft}
-\date{2017-02-04}
+%\date{2017-02-04}
 \renewcommand{\headrulewidth}{0.0pt}
 \renewcommand{\footrulewidth}{0.4pt}
 \lhead{}
 \chead{}
 \rhead{}
-\lfoot{Ian Flintoft \href{mailto:ian.flintoft@googlemail.com}{<ian.flintoft@googlemail.com>}}
+\lfoot{I. D. Flintoft}
 \rfoot{\mydate}
 \pagestyle{fancy}
 %
 \begin{document}
 \clearpage\setcounter{page}{1}{\centering
-\textbf{\Large Implementation of electromagnetic diffusion model canonical test cases using FreeFEM++}
+\textbf{\Large Implementation of EDM canonical test cases using FreeFEM++}
 \par}
 \vspace{5mm}
 \thispagestyle{plain}
 {\centering\large 
 Ian Flintoft\footnote{ Email: \href{mailto:ian.flintoft@googlemail.com}{ian.flintoft@googlemail.com}; 
-Web: \url{https://idflintoft.bitbucket.io}}, University of York
+Web: \url{https://idflintoft.bitbucket.io}}
 \par}
 \vspace{5mm}
 {\centering
 \mydate
 \par}
 \vspace{5mm}
-\textbf{\textit{Abstract}}\textit{ -- These informal notes provide details of the implementation of the 
+\textbf{\textit{Abstract}}\textit{ -- These notes provide details of the implementation of the 
 electromagnetic diffusion model for some canonical test cases using the finite element method
-with FreeFEM++. The treatment is terse and no attempt has been made to motivate the methods used or to provide
-comprehensive background and references. 
+with FreeFEM++. The treatment is terse and no attempt has been made to motivate the methods used 
+or to provide comprehensive background and references. Results from the test-case implementations
+are compared to published measurement data.
 }
 %
 \setcounter{tocdepth}{3}
@@ -123,7 +124,7 @@ $w\prt$             &J\,m$^{-3}$     &\texttt{w}                  &Average energ
 $D\pr$              &m$^2$\,s$^{-1}$ &\texttt{D}                  &Diffusivity (Diffusion Coefficient) \\
 $\Lambda _V$        &s$^{-1}$        &\texttt{volLossRate}        &Volumetric absorption loss rate \\
 $p\prt$             &W\,m$^{-3}$     &\texttt{volSrcDensity}      &Volumetric power density source \\
-$\rc_0$             &m\,s${-1}$      &\texttt{c0}                 &Speed of light in free-space \\
+$\rc_0$             &m\,s$^{-1}$     &\texttt{c0}                 &Speed of light in free-space \\
 $\lambda$           &m               &\texttt{MFP}                &Mean free path \\
 $\vJ\prt$           &W\,m$^{-2}$     &\texttt{Jx, Jy, Jz}         &Fickian energy density flux \\
 $V$                 &m$^3$           &\texttt{cavityVolume}       &Domain volume \\
@@ -144,7 +145,7 @@ $h_\rf\pr$          &m\,s$^{-1}$     &\texttt{fittingEC}          &Energy exchan
 $n_V^\rf$           &m$^{-3}$        &\texttt{fittingConc}        &Volumetric number density (concentration) of fittings \\
 $\Lambda_V^\rf$     &s$^{-1}$        &\texttt{fittingVolLossRate} &Volumetric absorption loss rate due to fittings \\
 $P^\rt$             &W               &\texttt{srcTRP}             &Source total (isotropic) radiated power \\
-$V_\rs$             &m$^3$           &\texttt{srcVolume}          &Volume source volume \\
+$V_\rs$             &m$^3$           &\texttt{srcVolume}          &Volumetric source volume \\
 $S_\rs$             &m$^2$           &\texttt{srcArea}            &Surface source surface area \\
 $J_\rs$             &W\,m$^{-2}$     &\texttt{srcSurfaceExitance} &Surface source exitance \\
 $J_\rc$             &W\,m$^{-1}$     &\texttt{srcLineExitance}    &Contour source line exitance \\
@@ -258,7 +259,7 @@ absorption efficiency of the fittings and $\sigma_\rf^\ra=\alpha_\rf S_\rf/4$ th
 average absorption cross-section.
 
 Attempts have also been made to include the effects of specular reflections by
-introducing an empirical factor, ${\kappa}$, into the diffusivity~\citep{Foy2009} 
+introducing an empirical ``specularity factor'', ${\kappa}$, into the diffusivity~\citep{Foy2009}:
 \begin{align}
 \label{eq:kappa}
 D \rightarrow \kappa D .
@@ -284,7 +285,7 @@ called Fourier or Type 3) boundary conditions
 \uvn\vcdot\left[D\pr\vnabla w\prt\right] + h\pr w\prt + J_\mathrm{in}\prt - J_\mathrm{out}\prt = 0 &\vr\in\partial\Omega\,,
 \end{matrix}
 \end{align}
-where $\uvn$ is an outward normal vector to the domain and 
+where $\uvn$ is the outward normal vector to the domain and 
 $h\pr$ is an energy exchange coefficient (EC). $J_\mathrm{in}\prt$ and
 $J_\mathrm{out}\prt$ represent an in-flux and out-flux (exitance) of energy density to/from the surface 
 respectively and can be used to model sources and energy exchange boundary conditions (EEBCs) as described below.
@@ -357,7 +358,7 @@ using
 \begin{matrix} 
 p\prt = \frac{P^\rt(t)}{V_s} &\vr\in\Omega_\rs 
 \end{matrix} \\
-V_s = \iiint_{\Omega_\rs}\dif{V}
+V_s = \iiint_{\Omega_\rs}\dif{V}\,.
 \end{align}
 The spurious direct energy density from such a source is reported to be less than for point
 sources~\citep{Visentin2012}.
@@ -989,7 +990,7 @@ D(\vr) = \left\{
 D_1    &x <= x_\mathrm{part} \\
 D_2    &x > x_\mathrm{part} 
 \end{matrix}
-\right.
+\right.\,.
 \end{align}
 The energy density through the hole in this case satisfies the natural continuity boundary conditions
 for its value and derivative.
@@ -1117,7 +1118,7 @@ For coupled cavities results are reported for SDM and EEBC DDM methods. In each 
 that the FCBC and EEBC DDM gave the same results and likewise for the SDM and non-overlapping Schwarz
 DDM. Generally the FCBC and EEBC agreed to within the convergence tolerance requested (0.1\,\%) in the 
 total energy density while the agreement between the SDM and Schwarz DDM was very slightly worse than
-the requested tolerance, which is due to the difference in the meshes. Derived parameters common 
+the requested tolerance, which is due to the differences in the meshes. Derived parameters common 
 to all the canonical test-case models are given in Table~\ref{tb:derivparams}.
 
 \begin{table}[ht]
@@ -1143,11 +1144,11 @@ to all the canonical test-case models are given in Table~\ref{tb:derivparams}.
 \subsection[Empty unpartitioned cavity]{Empty unpartitioned cavity}
 \label{sc:res:unpartempty}
 
-The derived parameters empty unpartitioned cavity are given in Table~\ref{tb:derivparamsu} and the summary 
+The derived parameters for the empty unpartitioned cavity are given in Table~\ref{tb:derivparamsu} and the summary 
 statistics for the average power density in the EDM models are presented in Table~\ref{tb:unpartempty}. 
 Results are given for 2D and 3D SDM cases and also for the homogeneous PWB model. The power density is very 
-uniform with a coefficient of variation (COV) of only about 0.6\,\%. All the models are in close agreement 
-as expected since the loss in the cavity is very low.
+uniform, with a coefficient of variation (COV) of about 0.6\,\%. All the models are in close agreement 
+as expected, since the loss in the cavity is very low.
 
 \begin{table}[ht]
 \begin{center}
@@ -1167,7 +1168,7 @@ as expected since the loss in the cavity is very low.
 \hline
 \end{tabular}
 \end{center}
-\caption{\label{tb:derivparamsu} Derived parameters for unpartitioned empty cavity.}
+\caption{\label{tb:derivparamsu} Derived parameters for the unpartitioned empty cavity.}
 \end{table}
 
 \begin{table}[ht]
@@ -1225,12 +1226,12 @@ unloaded unpartitioned cavity: (a) Power density; (b) Energy density relative to
 \end{center}
 \end{figure}
 
-The variation of the power density in the $z$ direction is shown in Figure~\ref{fg:unpartempty_profs}(a)
+The variation of the power density in the $z$-direction is shown in Figure~\ref{fg:unpartempty_profs}(a)
 at $y=L_y/2$ and various values of $x$. In this case the quadratic anzatz used in the Kantorovich reduction
 is seen to be quite accurate and the 2D model provides very good results. The variation of the power density 
-in the $x$ direction for $z=L_z/2$ and a number of $y$ positions is shown in Figure~\ref{fg:unpartempty_profs}(b).
+in the $x$-direction for $z=L_z/2$ and a number of $y$ positions is shown in Figure~\ref{fg:unpartempty_profs}(b).
 The power density falls monotonically along the cavity away from the source as expected for a harmonic solution
-of the Laplace operator. At the source end of the cavity the EDM predicts high power density than PWB, while 
+of the Laplace operator. At the source end of the cavity the EDM predicts higher power density than PWB, while 
 at the opposite end the EDM result is lower than the PWB result. The average power density in the EDM in 
 Table~\ref{tb:unpartempty} is very close to the PWB prediction. The probability density function (PDF)
 for the average power density in the cavity is shown in Figure~\ref{fg:unpartempty_profs}(c); it is a narrow
@@ -1238,7 +1239,7 @@ monomodal distribution.
 
 Figure~\ref{fg:unpartempty_maps} shows maps of various quantities in the $z=L_z/2$ plane. The power density is
 shown in Figure~\ref{fg:unpartempty_maps}(a) as a hybrid heat and contour map; the power density is seen to
-be relative uniform in the $y$ direction away from the source. The uniformity shown in Figure~\ref{fg:unpartempty_maps}(b)
+be relative uniform in the $y$-direction away from the source. The uniformity shown in Figure~\ref{fg:unpartempty_maps}(b)
 is the ratio of the EDM and PWB power densities. The zero isoline is located at approximately $x=0.35$, indicating that in 65\,\% of 
 the cavity the EDM power density is lower than the PWB power density. The anisotropy of the power density is defined as 
 \begin{align}
@@ -1248,18 +1249,18 @@ and is shown in Figure~\ref{fg:unpartempty_maps}(c); necessarily it must be grea
 cavity the anisotropy is less than 0.05\,dB. Figure~\ref{fg:unpartempty_maps}(c) shows the flux of the energy density 
 as a hybrid heat and vector
 field map with the colour indicating the magnitude and the arrow the direction. The flux is again relatively uniform away from 
-the source and directed in the positive $x$ direction. 
+the source and directed in the positive $x$-direction. 
 
 \subsection[Unpartitioned cavity with a cylinder]{Unpartitioned cavity with a cylinder}
 \label{sc:res:unpartcyl}
 
-The derived parameters loaded unpartitioned cavity are given in Table~\ref{tb:derivparamsl} and the 
-summary statistics for the average power density in the EDM models of the loaded unpartitioned cavity
-are presented in Table~\ref{tb:unpartcyl}. Results are given for 2D and 3D SDM cases and also for the 
+The derived parameters for the loaded unpartitioned cavity are given in Table~\ref{tb:derivparamsl} and the 
+corresponding summary statistics for the average power density in the EDM models are presented 
+in Table~\ref{tb:unpartcyl}. Results are given for 2D and 3D SDM cases and also for the 
 homogeneous PWB model. The power density varies significantly in the volume of the cavity with a coefficient 
 of variation (COV) of about 23,\%. The 2D and 3D EDM are still in close agreement but diverge from the homogeneous
-PWB prediction. Even the average EDM power density of 14.3\,dB\,W\,m$^{-2})$ deviates significantly from the PWB value
-of 11.9\,dB\,W\,m$^{-2})$. This result was verified using an independently constructed EDM of the specific test-case. 
+PWB prediction. Even the average EDM power density of 14.3\,dB\,W\,m$^{-2}$ deviates significantly from the PWB value
+of 11.9\,dB\,W\,m$^{-2}$. This result was verified using an independently constructed EDM of the specific test-case. 
 
 \begin{table}[ht]
 \begin{center}
@@ -1281,7 +1282,7 @@ of 11.9\,dB\,W\,m$^{-2})$. This result was verified using an independently const
 \hline
 \end{tabular}
 \end{center}
-\caption{\label{tb:derivparamsl} Derived parameters for unpartitioned loaded cavity.}
+\caption{\label{tb:derivparamsl} Derived parameters for the unpartitioned loaded cavity.}
 \end{table}
 
 \begin{table}[ht]
@@ -1339,12 +1340,12 @@ loaded unpartitioned cavity: (a) Power density; (b) Energy density relative to t
 \end{center}
 \end{figure}
 
-The variation of the power density in the $z$ direction is shown in Figure~\ref{fg:unpartcyl_profs}(a)
+The variation of the power density in the $z$-direction is shown in Figure~\ref{fg:unpartcyl_profs}(a)
 at $y=L_y/2$ and various values of $x$. In this case the quadratic anzatz used in the Kantorovich reduction
 is seen to be less accurate; however, the 2D model still provides good results. The variation of the power density 
 in the $x$ direction for $z=L_z/2$ and a number of $y$ positions is shown in Figure~\ref{fg:unpartempty_profs}(b).
-The power density falls monotonically along the cavity away from the source as expected for a harmonic solution
-of the Laplace operator. At the source end of the cavity the EDM predicts high power density than PWB, while 
+The power density again falls monotonically along the cavity away from the source. At the source end of 
+the cavity the EDM predicts higher power density than PWB, while 
 at the opposite end the EDM result is a little lower than the PWB result. The average power density in the EDM in 
 Table~\ref{tb:unpartempty} is 1.5\,dB higher than the PWB prediction. The probability density function (PDF)
 for the average power density in the cavity is shown in Figure~\ref{fg:unpartempty_profs}(c); it is a relatively
@@ -1356,13 +1357,13 @@ region behind the cylinder. The uniformity shown in Figure~\ref{fg:unpartcyl_map
 is the ratio of the EDM and PWB power densities. The zero isoline is close to the cylinder indicating that in most of 
 the cavity the EDM power density is higher than the PWB power density. The anisotropy of the power density is shown in
 Figure~\ref{fg:unpartcyl_maps}(c); it is much higher than for the unloaded cavity with a typically value of 0.5\,dB.
-Figure~\ref{fg:unpartcyl_maps}(c) shows the flux of the energy density which clearly shows the flow of reverberant power from 
+Figure~\ref{fg:unpartcyl_maps}(c) shows the flux of the energy density, which clearly shows the flow of reverberant power from 
 the source to the cylinder. 
 
 \subsection[Empty partitioned cavity]{Empty partitioned cavity}
 \label{sc:res:emptypart}
 
-The derived parameters empty partitioned cavity are given in Table~\ref{tb:derivparamdu} and the summary 
+The derived parameters empty for the partitioned cavity are given in Table~\ref{tb:derivparamdu} and the summary 
 statistics for the average power density in the EDM models are presented in Table~\ref{tb:partempty}. 
 Results are given for 2D and 3D SDM cases, EEBC and SDM models for the hole, and also for the homogeneous 
 PWB model. 
@@ -1427,7 +1428,7 @@ Coefficient of variation (\%)        &0            &0.44            &0.44       
 \caption{\label{tb:partempty} Statistics of the reverberant power density in the unloaded partitioned cavity.}
 \end{table}
 
-The variation of the power density in the $z$ direction for the SDM and EEBC model are shown in 
+The variation of the power density in the $z$-direction for the SDM and EEBC models are shown in 
 Figure~\ref{fg:partemptysdm_profs}(a) and Figure~\ref{fg:partemptyddm_profs}(a) at $y=L_y/2$ and various 
 values of $x$. In this case the quadratic anzatz used in the Kantorovich reduction
 is seen to be quite accurate and the 2D model provides very good results. The variation of the power density 
@@ -1435,7 +1436,7 @@ in the $x$ direction for $z=L_z/2$ and a number of $y$ positions is shown in Fig
 and Figure~\ref{fg:partemptyddm_profs}(b) for the SDM and EEBC. The power density is relatively uniform in each
 sub-cavity, falling slightly towards the hole in the source sub-cavity and away from the hole in the coupled 
 sub-cavity. In both cases there is a rapid variation in the average power at the hole; however, there is a 
-significant difference in the level difference between the sub-cavities predicted by the SDM and EEBC methods 
+significant difference in the level between the sub-cavities predicted by the SDM and EEBC methods 
 of treating the aperture BC. The SDM predicts a much small level difference than the EEBC. The level difference
 predicted by the EEBC model is quite close to the PWB model prediction. Forcing continuity of both the energy
 density and its flux appears to constrain the level difference between the two cavities, while only enforcing
@@ -1444,13 +1445,13 @@ for the average power density in the sub-cavities are shown in Figure~\ref{fg:pa
 Figure~\ref{fg:partemptyddm_profs}(c).
 
 Figure~\ref{fg:partemptysdm_maps} and Figure~\ref{fg:partemptyddm_maps} shows maps of various quantities in 
-the $z=L_z/2$ plane for the SDM and EEBC model respectively. The power densities are shown in 
+the $z=L_z/2$ plane for the SDM and EEBC models respectively. The power densities are shown in 
 Figure~\ref{fg:partemptysdm_maps}(a) and Figure~\ref{fg:partemptyddm_maps}(a) as hybrid heat and contour maps; 
 the power density is seen to fall off along the source sub-cavity towards the aperture and then in the coupled
 sub-cavity increase away from the hole. The uniformities in the SDM and EEBC models are shown in 
 Figure~\ref{fg:partemptysdm_maps}(b) and Figure~\ref{fg:partemptyddm_maps}(b) as the ratio of the EDM and 
 PWB power densities. In both cases the EDM predicts lower values than the PWB model in the source cavity and
-high values in the coupled cavity. The anisotropies are shown in Figure~\ref{fg:partemptysdm_maps}(c) and
+higher values in the coupled cavity. The anisotropies are shown in Figure~\ref{fg:partemptysdm_maps}(c) and
 Figure~\ref{fg:partemptyddm_maps}(c) and are fairly similar for the two aperture models, as are the energy
 density fluxes shown in Figure~\ref{fg:partemptysdm_maps}(c) and Figure~\ref{fg:partemptyddm_maps}(c).
 
@@ -1533,7 +1534,7 @@ unloaded partitioned cavity: (a) Power density; (b) Energy density relative to t
 \subsection[Partitioned cavity with a cylinder]{Partitioned cavity with a cylinder}
 \label{sc:res:cylpart}
 
-The derived parameters partitioned cavity loaded with the cylinder are given in Table~\ref{tb:derivparamdl} 
+The derived parameters for the partitioned cavity loaded with the cylinder are given in Table~\ref{tb:derivparamdl} 
 and the summary statistics for the average power density in the EDM models are presented in Table~\ref{tb:partcyl}. 
 Results are again given for 2D and 3D SDM cases, EEBC and SDM models for the hole, and also for the homogeneous 
 PWB model. 
@@ -1603,22 +1604,21 @@ Coefficient of variation (\%)        &0            &20.0            &21.9       
 \caption{\label{tb:partcyl} Statistics of the reverberant power density in the partitioned cavity with the cylinder.}
 \end{table}
 
-The variation of the power density in the $z$ direction for the SDM and EEBC model are shown in 
+The variation of the power density in the $z$-direction for the SDM and EEBC model are shown in 
 Figure~\ref{fg:partcylsdm_profs}(a) and Figure~\ref{fg:partcylddm_profs}(a) at $y=L_y/2$ and various 
 values of $x$. In this case the quadratic anzatz used in the Kantorovich reduction
 is seen to be quite accurate away from the source and the 2D model provides very good results. Note, however that
 the vertical profile near the aperture ($x=0.44$\,m) for the EEBC is somewhat erratic, perhaps indicating 
-some numerical issue. It must always be remembered that the EDM is not expected to valid very close to an aperture
-where the field cannot be highly diffuse. The variation of the power density in the $x$ direction for $z=L_z/2$ 
+some numerical issue. It must always be remembered that the EDM is not expected to valid very close to an aperture,
+where the field cannot be highly diffuse. The variation of the power density in the $x$-direction for $z=L_z/2$ 
 and a number of $y$ positions is shown in Figure~\ref{fg:partcylsdm_profs}(b) and 
-Figure~\ref{fg:partcylddm_profs}(b) for the SDM and EEBC. We again see that the SDM predict less level difference
-between the tow cavities tan the EEBC and PWB models, which give comparable levels. The SDM result for the loaded
+Figure~\ref{fg:partcylddm_profs}(b) for the SDM and EEBC. We again see that the SDM predicts less level difference
+between the two cavities than the EEBC and PWB models, which give comparable levels. The SDM result for the loaded
 cases is notably less symmetrically placed between the PWB levels than was the case for the unloaded cases. 
-The EEBC models predicted a slightly higher power density in the source cavity its average level is in reasonable
+The EEBC model predicts a slightly higher power density in the source cavity and its average level is in reasonable
 agreement with the PWB model in the coupled cavity. The range of the power density in the coupled sub-cavity is
-about 2\,dB for both the SDM and EEBC models with a similar profile. The probability density function (PDF)
-for the average power density in the sub-cavities are shown in Figure~\ref{fg:partcylsdm_profs}(c) and
-Figure~\ref{fg:partcylddm_profs}(c).
+about 2\,dB for both the SDM and EEBC models with a similar profile. The PDF for the average power density in 
+the sub-cavities are shown in Figure~\ref{fg:partcylsdm_profs}(c) and Figure~\ref{fg:partcylddm_profs}(c).
 
 Figure~\ref{fg:partcylsdm_maps} and Figure~\ref{fg:partcylddm_maps} shows maps of various quantities in 
 the $z=L_z/2$ plane for the SDM and EEBC model respectively. The power densities are shown in 
@@ -1632,7 +1632,7 @@ Figure~\ref{fg:partcylddm_maps}(c) and are fairly similar for the two aperture m
 about 1.5\,dB in the cavity and notably remains above 1\,dB in the volume of the coupled sub-cavity between the 
 hole and the cylinder. The energy density fluxes shown in Figure~\ref{fg:partcylsdm_maps}(c) and 
 Figure~\ref{fg:partcylddm_maps}(c) are fairly similar in structure with some difference in magnitude due to the 
-difference energy density division between the sub-cavities.
+energy density division between the sub-cavities.
 
 \begin{figure}[hp]
 \begin{center}
@@ -1740,8 +1740,7 @@ the 3D EDM of the single unloaded cavity and measurement~\citep{Flintoft2017b}: 
 
 Figure~\ref{fg:measprofssl} shows the power density comparison for the loaded unpartitioned cavity. While again the 
 measurement has significant statistical variation, the general trend of the measurement data, a reduction in level
-with increasing distance from the source, is consistent with the EDM results.  are at least consistent with the measurement data
-in this case and no conclusion can be draw regarding the validity of the two EC models. While neither EC model matches 
+with increasing distance from the source, is consistent with the EDM results. While neither EC model matches 
 the overall trend in the measurement across the full length of the cavity, the measurement data is generally within
 the range of the two models, favouring te Sabine EC model closer to the source and the Jing and Xiang model at the other
 end of the cavity.
@@ -1783,7 +1782,7 @@ that the simulation using the Jing and Xiang EC gives significantly better agree
 the simulation using the Sabine EC model. The Sabine model appears to under-estimate the level difference between
 the cavities and shows less variation in the $y$ direction than the measurement data. The Jing and Xiang EC simulation 
 gives a much better estimate of the level difference and while it still under-estimates the variation in the $y$-direction
-compared to the measurement data, it is close than that predicted by the Sabine EC simulation.
+compared to the measurement data, it is closer to the measurement than the prediction of the Sabine EC simulation.
 
 \begin{figure}[hp]
 \begin{center}
@@ -1897,7 +1896,7 @@ the 3D EDM of the dual loaded cavity and measurement~\citep{Flintoft2017b}: (a) 
 \label{sc:conc}
 
 The EDM can be implemented very efficiently in 2D and 3D using the FEM with FreeFEM++. For 2D models the
-geometry and mesh can be quickly generated with FreeFEM++ using its native CAD and mesh creation 
+geometry and mesh can be quickly generated within FreeFEM++ using its native CAD and mesh creation 
 capabilities while for 3D models it was found to be more convenient and efficient to use Gmsh to
 create parametric CAD models and the 3D tetrahedral meshes needed by FreeFEM++. Typical solution times
 on a modern PC times for the test-case models are under a second for 2D and single domain models 
@@ -1912,8 +1911,8 @@ For the test-cases without the cylinder the EDM gives very similar levels to the
 variability in the power density. For the loaded test-cases variations of a few decibels in the average
 power density are predicted by the EDM, which are consistent with measurements. The hole between the
 two sub-cavities of the partitioned cavity was represented in two ways in the EDM - using a single 
-cavity or using and EEBC. The measurement data is more consistent with the EEBC model for these
-test-cases in which the holes width is about a wavelength at the central frequency of the measurement
+cavity or using an EEBC. The measurement data is more consistent with the EEBC model for these
+test-cases in which the hole's width is about a wavelength at the central frequency of the measurement
 band. This suggest the hole is not electrically large enough for the two sub-cavities to be considered
 as a single diffuse volume and the hole is a pinch point, causing a discontinuity in the average 
 energy density. A systematic analysis of the effect of the aperture size on the applicability of the
@@ -1923,11 +1922,11 @@ The measurement results generally compared well with the EDM simulations using t
 case and the Jing and Xiang EC. The main discrepancy was found in the variation of the power density in the
 coupled cavity when loaded with the cylinder. The measurements predicted greater variation in the transverse
 $y$-direction than predicted by the EDM. Adjusting the specularity factor $\kappa$ to 0.5 tended to give a
-better comparison to the measurements in this case. In the ADM $kappa$ is adjust to values greater than
+better comparison to the measurements in this case. In the ADM $\kappa$ is adjusted to values greater than
 unity to account for increasing specularity in the surface reflections within a cavity. Here, it could be 
 the the better agreement with $\kappa\sim 0.5$ is in fact indicative of a poor estimate of the cavity
 MFP by~(\ref{eq:mfp}) when the cylinder is present. Perhaps the cylinder is so large that it changes the
-topology of the cavity significantly.
+topology of the cavity significantly, resulting in a signiifcantly shorter MFP.
 
 \bibliographystyle{myabbrvnat}
 %\bibliographystyle{abbrvnat}
