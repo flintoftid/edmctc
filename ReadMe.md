@@ -6,7 +6,9 @@ This suite of software and models provides a set of canonical test cases for
 electromagnetic diffusion models of the average energy density in highly 
 reverberant environments in which the field is diffuse. It was developed in
 the [Department of Electronic Engineering][] at the [University of York][] for 
-research in electromagnetic compatibility ([EMC][]) applications.
+research into the [Electromagnetic Diffusion Model for Stochastic Fields][], 
+particularly for electromagnetic compatibility ([EMC][]) applications in
+reverberant environments.
 
 ## The electromagnetic diffusion model
 
@@ -67,8 +69,8 @@ but should run on other Linux and Windows systems.
 ## Documentation
 
 The implementation of the test cases is detailed in the [LaTeX][] report in
-doc/Implementation_Notes in the source tree. A [PDF][] version is available on 
-the wiki: [EDM Implementation Notes][].
+[doc/Implementation_Notes](https://bitbucket.org/uoyaeg/edmctc/src/tip/doc/Implementation_Notes) 
+in the source tree. A [PDF][] version is available on the wiki: [EDM Implementation Notes][].
 
 There are four implementations of the test cases:
 
@@ -179,9 +181,17 @@ details see the file [Licence.txt][].
 
 [Dr Ian Flintoft][], <ian.flintoft@googlemail.com>
 
-## References
+## Papers using the test-cases and associated tool chain
 
-[Flintoft2017]: http://dx.doi.org/10.1109/TEMC.2016.2623356
+[Robinson2017]: http://www.ursi.org/proceedings/procGA17/GASS2017Program.pdf
+
+([Robinson2017]) M. P. Robinson, I. D. Flintoft, J. F. Dawson, A. C. Marvin, F. I. Funn, 
+L. Dawson and X. Zhang, "Effect of loading on field uniformity: Energy diffusion in reverberant 
+environments", Proceedings of the XXXIInd General Assembly and Scientific Symposium of the 
+International Union of Radio Science. Montreal, Canada, pp.E13–2, 2017. 
+[Postprint](http://eprints.whiterose.ac.uk/114564/1/EDM_Review_submitted.pdf)
+
+[Flintoft2017]: https://doi.org/10.1109/TEMC.2016.2623356
 
 ([Flintoft2017][]) I. D. Flintoft, A. C. Marvin, F. I. Funn, L. Dawson, X. Zhang,
 M. P. Robinson and J. F. Dawson, "Evaluation of the diffusion equation for
@@ -189,46 +199,49 @@ modelling reverberant electromagnetic fields", IEEE Transactions on Electromagne
 Compatibility, vol. 59, no. 3, pp. 760–769, 2017. 
 [Postprint](https://pure.york.ac.uk/portal/files/50375003/TEMC_Flintoft_et_al_postprint.pdf)
 
-[Flintoft2017b]: http://www.iceaa.net/j3
+[Flintoft2017b]: https://doi.org/10.1109/ICEAA.2017.8065293
 
 ([Flintoft2017b][]) I. D. Flintoft and J. F. Dawson, “3D electromagnetic diffusion models 
 for reverberant environments”, 2017 International Conference on Electromagnetics 
 in Advanced Applications (ICEAA2017), Verona, Italy, pp. 11-15 Sep. 2017.
 
-[Geuzaine2009]: http://dx.doi.org/10.1002/nme.2579
+## References
+
+[Geuzaine2009]: https://doi.org/10.1002/nme.2579
 
 ([Geuzaine2009][]) C. Geuzaine and J.-F. Remacle, "Gmsh: a three-dimensional finite element mesh 
 generator with built-in pre- and post-processing facilities", International Journal for Numerical 
 Methods in Engineering 79(11), pp. 1309-1331, 2009.
 
-[Hecht2012]: http://dx.doi.org/10.1515/jnum-2012-0013
+[Hecht2012]: https://doi.org/10.1515/jnum-2012-0013
 
 ([Hecht2012][]) F. Hecht, “New development in FreeFEM++”, Journal of Numerical Mathematics, 
 vol. 20, no. 3-4, pp. 251–265, 2012.
 
-[Hill1994]: http://ieeexplore.ieee.org/xpl/articleDetails.jsp?tp=&arnumber=305461
+[Hill1994]: https://doi.org/10.1109/15.305461
 
 ([Hill1994]) D. A. Hill, M. T. Ma, A. R. Ondrejka, B. F. Riddle, M. L. Crawford 
 and R. T. Johnk, "Aperture excitation of electrically large, lossy cavities", 
 IEEE Transactions on Electromagnetic Compatibility, vol. 36, no. 3, pp. 169-178, 
 Aug 1994.
 
-[Junqua2005]: http://www.tandfonline.com/doi/abs/10.1080/02726340500214845
+[Junqua2005]: https://doi.org/10.1080/02726340500214845
 
 ([Junqua2005]) I. Junqua, J.-P. Parmantier and F. Issac,
 "A Network Formulation of the Power Balance Method for High-Frequency Coupling",
 Electromagnetics, vol. 25 , no. 7-8, pp. 603-622, 2005.
 
-[Navarro2015]: http://dx.doi.org/10.1080/19401493.2013.850534
+[Navarro2015]: https://doi.org/10.1080/19401493.2013.850534
 
 ([Navarro2015][]) J. M. Navarro and J. Escolano, “Simulation of building indoor acoustics 
 using an acoustic diffusion equation model”, Journal of Building Performance Simulation, 
 vol. 8, no. 1, pp. 3-14, 2015.
 
-[Savioja2015]: http://dx.doi.org/10.1121/1.4926438
+[Savioja2015]: https://doi.org/10.1121/1.4926438
 
 ([Savioja2015][]) L. Savioja and U. Peter Svensson, “Overview of geometrical room acoustic 
 modeling techniques”, J. Acoust. Soc. Am., vol. 138, no .2, pp. 708–730, 2015.
+
 
 [University of York]: http://www.york.ac.uk
 [Department of Electronic Engineering]: https://www.york.ac.uk/electronic-engineering
@@ -251,6 +264,7 @@ modeling techniques”, J. Acoust. Soc. Am., vol. 138, no .2, pp. 708–730, 201
 [FEM_SDM_3D]: https://bitbucket.org/uoyaeg/edmctc/src/tip/FEM_SDM_3D
 [FEM_DDM_3D]: https://bitbucket.org/uoyaeg/edmctc/src/tip/FEM_DDM_3D
 [EDM Implementation Notes]: https://bitbucket.org/uoyaeg/edmctc/wiki/EDM_Implementation_Notes.pdf
+[Electromagnetic Diffusion Model for Stochastic Fields]: https://www.researchgate.net/project/Electromagnetic-diffusion-equation-for-high-frequency-stochastic-fields
 
 [Gmsh]: http://gmsh.info
 [FreeFEM++]: http://www.freefem.org
@@ -261,3 +275,4 @@ modeling techniques”, J. Acoust. Soc. Am., vol. 138, no .2, pp. 708–730, 201
 [LaTeX]: https://www.latex-project.org/about
 [PDF]: https://en.wikipedia.org/wiki/Portable_Document_Format
 [INRIA Medit]: https://www.ljll.math.upmc.fr/frey/software.html
+

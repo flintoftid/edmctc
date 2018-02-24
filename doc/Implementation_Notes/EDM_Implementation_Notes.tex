@@ -85,7 +85,8 @@ comprehensive background and references.
 \label{sc:abbrev}
 
 \begin{supertabular}{m{2cm}l}
-ACS              & (Average) Absorption Cross-Section  \\
+ACS              &(Average) Absorption Cross-Section   \\
+ADM              &Acoustic Diffusion Model             \\
 AE               &(Average) Absorption Efficiency      \\
 BC               &Boundary Condition                   \\
 COV              &Coefficient of Variation             \\
@@ -213,7 +214,7 @@ where $V$ and $S$ are the interior volume and surface area of the cavity
 walls, which are given by
 \begin{align}
 V &= \iiint_{\Omega }\dif{V} \\
-S &= \oiint_{\partial\Omega }\dif{S} .
+S &= \oiint_{\partial\Omega }\dif{S}\,.
 \end{align}
 For cavities with one dimension much greater than the others the diffusivity becomes inhomogeneous, 
 depending on the location of the source and the disposition of lossses in the cavity~\citep{Visentin2012,Visentin2015}.
@@ -236,8 +237,10 @@ as is the corresponding overall diffusivity~\citep{Valeau2007}
 \begin{align}
 \frac{1}{D} = \frac{1}{D_\rw} + \frac{1}{D_\rf}.
 \end{align}
-The diffusivity is therefore dominated by the shortest MFP. The MFP for
-scattering with identical fittings of surface area $S_\rf$ and volumetric
+The diffusivity is therefore dominated by the shortest MFP. This behaviour
+of the diffucivity essentially derives from the additivity of the surface area
+of the fittings and walls. The MFP for scattering with identical fittings of 
+surface area $S_\rf$ and volumetric
 concentration $n_V^\rf=N_\rf/V$ can be estimated as~\citep{Valeau2007}
 \begin{align}
 \lambda_\rf = \frac{1}{\sigma_\rf^\rs n_V^\rf} = \frac{4V}{S_\rf N_\rf},
@@ -261,11 +264,13 @@ D \rightarrow \kappa D .
 Empirically it is found that $1\leq\kappa\lesssim 5$ and that $\kappa$ depends on the 
 scattering coefficient of the cavity walls, $s$, which is defined as the fraction
 of energy reflected diffusely ($0 \leq s \leq 1$). A simple empirical model was proposed
-in ~\citep{Foy2009}:
+in~\citep{Foy2009}:
 \begin{align}
 \kappa(s) = -2.238\log_\re(s) + 1.549 \,\,\,\,\,\,s\in [10^{-3},1],
 \end{align}
-though it was noted that the reverberation time was is only accurate for $s>0.4$.
+though it was noted that the reverberation time was only accurate for $s>0.4$. Further
+work by \cite{Navarro2013} suggests the acoustic diffusion model (ADM) for homogeneous single 
+rooms only agrees to within 1\,dB of ray tracing methods when $s>0.6$ and $\alpha<0.45$.
 
 \subsection[Absorption in the cavity walls]{Absorption in the cavity walls}
 \label{sc:sum:abs}
@@ -320,7 +325,7 @@ volumetric loss term.
 \label{sc:sum:src}
 
 A point source of instantaneous total radiated power (TRP) $P^\rt(t)$
-located at $\vr_\rs$ can be implemented as a power density
+located at $\vr_\rs$ can be implemented as a volumetric power density
 \begin{align}
 p\prt = P^\rt(t) \delta^{(3)}\left(\vr-\vr_\rs\right).
 \end{align}
@@ -393,7 +398,7 @@ apply
 \uvn_1{\vcdot}\left[D_1\pr{\vnabla}w_1\prt\right]+h_1\pr w_1\prt = 0 &\vr\in\partial\Omega_1/\partial\Omega_{12}
 \end{matrix}\\
 \begin{matrix}
-\uvn_2{\vcdot}\left[D_2\pr{\vnabla}w_2\prt\right]+h_2\pr w_2\prt = 0 &\vr\in\partial\Omega_2/\partial\Omega_{21}
+\uvn_2{\vcdot}\left[D_2\pr{\vnabla}w_2\prt\right]+h_2\pr w_2\prt = 0 &\vr\in\partial\Omega_2/\partial\Omega_{21}\,,
 \end{matrix}
 \end{align}
 where  $\widehat  n_1$ and  $\widehat  n_2$ are outward normal vectors in their
@@ -407,7 +412,7 @@ applied~\citep{Billon2008}
 \label{eq:eebc2}
 \begin{matrix}
 \uvn_2{\vcdot}\left[D_2\pr{\vnabla}w_2\prt\right]+h_{22}\pr w_2\prt-h_{21}\pr w_1\prt = 0 &\vr\in\partial\Omega_{21}
-\end{matrix}
+\end{matrix}\,,
 \end{align}
 where the exchange coefficients $h_{11}\pr$ and $h_{22}\pr$ describe the power lost 
 on their respective sides of the boundary and $h_{12}\pr$ and $h_{21}\pr$ describe power
@@ -425,7 +430,7 @@ and
 \end{matrix}\\
 \begin{matrix}
 \uvn_2{\vcdot}\left[D_2\pr{\vnabla}w_2\prt\right]+\frac{1}{4}\rc_0\tau\left[w_2\prt-w_1\prt\right]=0 &\vr\in\partial\Omega_{21}
-\end{matrix}
+\end{matrix}\,.
 \end{align}
 In the geometric optics regime the energy lost through an aperture is indistinguishable from that
 absorbed in a perfect absorber of the same area; it can therefore be argued that the energy
@@ -458,7 +463,7 @@ boundary condition (FCBC) through the aperture~\citep{Billon2008}:
 \label{eq:fcbc}
 \begin{matrix}
 \uvn_1{\vcdot}\left[D_1\pr{\vnabla}w_1\prt-D_2\pr{\vnabla}w_2\prt\right]=0 &\vr\in\partial\Omega_{12}
-\end{matrix}
+\end{matrix}\,.
 \end{align}
 If there is dissipative loss associated with the aperture then
 \begin{align}
@@ -477,19 +482,19 @@ Systematic reduction from 3D to 2D can be made via the Kantorovich dimensional
 reduction approach for domains with a uniform cross-section in one direction,
 here taken to be the $z$-direction~\citep{Sequeira2012}. This separates the energy density into
 \begin{align}
-w\prt = W(x,y,t)Z(z),
+w\prt = W(x,y,t)Z(z)\,,
 \end{align}
 where the dimensionless function $Z(z)$ is assumed known a-priori
 (i.e. an anzatz), for example, here it is assumed to be quadratic. This function must
 satisfy the Robin BCs applied on the  $z=0$ and  $z=L_z$ faces of the domain.
-If these upper and lower faces have the same uniform ECs $h_\rw$ and the
+If these upper and lower faces have the same uniform ECs, $h_\rw$, and the
 diffusivity in the domain is also uniform then
 \begin{align}
-Z(z) &= 1 + \xi\left( z-\frac{z^2}{L_z} \right)
+Z(z) &= 1 + \xi\left( z-\frac{z^2}{L_z} \right)\,,
 \end{align}
 where
 \begin{align}
-\xi &= \frac{h_\rw} D.
+\xi &= \frac{h_\rw} D\,.
 \end{align}
 Using the Kantorovich dimensional reduction approach shows that the energy
 density in the other two dimensions satisfies the 2D diffusion problem~\citep{Kantorovich1964}
@@ -506,18 +511,18 @@ D^\prime\uvn{\vcdot}{\vnabla}_{xy}W\left(x,y,t\right)+h^\prime\left(x,y\right)W\
 \end{matrix}
 \end{align}
 where $\Omega$ is the cross-sectional area of the domain projected in the
-$z$-direction, $\partial\Omega$ is its perimeter and
+$z$-direction, $\partial\Omega$, is its perimeter and
 \begin{align}
 D^\prime &= D \int_0^{L_z} Z(z)^2\dif{z} \\
 \Lambda_Z^\prime &= -D \int_0^{L_z} \left(\frac{\rd^2Z\left(z\right)}{\rd z^2}Z(z)\right)\dif{z} \\
 \Lambda_V^\prime &= \Lambda_V \int_0^{L_z} Z(z)^2\dif{z} \\
-h^\prime\left(x,y\right) &= \int_0^{L_z} h\pr Z(z)^2\dif{z}.
+h^\prime\left(x,y\right) &= \int_0^{L_z} h\pr Z(z)^2\dif{z}\,.
 \end{align}
 If the $z=0$ and $z=L_z$ faces have the same uniform ECs then
 \begin{align}
 \int_0^{L_z} Z(z)\dif{z} &= L_z+\xi\frac{L_z^2}{6} \\
 \int_0^{L_z} Z\left(z\right)^2\dif{z} &= L_z+\xi\frac{L_z^2}{3}+\xi^2\frac{L_z^3}{30} \\
-\int_0^{L_z} \left(Z\left(z\right)\frac{\rd^2Z\left(z\right)}{\rd z^2}\right)\dif{z} &=-\xi\left(2+\xi \frac{L_z} 3\right).
+\int_0^{L_z} \left(Z\left(z\right)\frac{\rd^2Z\left(z\right)}{\rd z^2}\right)\dif{z} &=-\xi\left(2+\xi \frac{L_z} 3\right)\,.
 \end{align}
 
 
@@ -547,7 +552,7 @@ and multiply throughout by a test function $u\pr$ and then integrate over the vo
 Now assuming that all the functions are suitably smooth we apply the divergence
 theorem
 \begin{align}
-\iiint_{\Omega} {\vnabla}{\vcdot}\vF\pr\dif{V} = \oiint_{\partial\Omega}\vF\pr{\vcdot}\dif{\vS}.
+\iiint_{\Omega} {\vnabla}{\vcdot}\vF\pr\dif{V} = \oiint_{\partial\Omega}\vF\pr{\vcdot}\dif{\vS}\,.
 \end{align}
 First putting $\vF\pr=\varphi\pr\vG\pr$ we obtain
 \begin{align}
@@ -557,13 +562,13 @@ First putting $\vF\pr=\varphi\pr\vG\pr$ we obtain
 and then letting $\vG\pr=\gamma\pr{\vnabla}\psi\pr$ gives
 \begin{align}
 \iiint_{\Omega} \varphi\pr{\vnabla}{\vcdot}\left[\gamma\pr{\vnabla}\psi\pr\right]+\gamma\pr{\vnabla}\psi\pr{\vcdot}{\vnabla}\varphi\pr\dif{V}
-=\oiint_{\partial\Omega }\varphi\pr\gamma\pr{\vnabla}\psi\pr{\vcdot}\dif{\vS}.
+=\oiint_{\partial\Omega }\varphi\pr\gamma\pr{\vnabla}\psi\pr{\vcdot}\dif{\vS}\,.
 \end{align}
 Now letting $\varphi\pr=u\pr$, $\gamma\pr=D\pr$ and $\psi=w\prt$ we have
 \begin{align}
 \iiint_{\Omega} u{\vnabla}{\vcdot}\left[D{\vnabla}w\right]\dif{V}
 =\oiint_{\partial\Omega } uD{\vnabla}w{\vcdot}\dif{\vS}
--\iiint_{\Omega} D{\vnabla}w{\vcdot}{\vnabla}u\dif{V},
+-\iiint_{\Omega} D{\vnabla}w{\vcdot}{\vnabla}u\dif{V}\,,
 \end{align}
 which can be used to reduce the second order derivative term in the integral form above to obtain
 \begin{align}
@@ -571,7 +576,7 @@ which can be used to reduce the second order derivative term in the integral for
 &-\oiint_{\partial\Omega} u\pr D\pr {\vnabla}w\prt{\vcdot}\dif{\vS}
 +\iiint_{\Omega} D\pr{\vnabla}w\prt{\vcdot}{\vnabla}u\pr\dif{V} \nonumber\\
 &+\Lambda_V \iiint_{\Omega} u\pr w\prt\dif{V}
-=\iiint_{\Omega} u\pr p\prt\dif{V}.
+=\iiint_{\Omega} u\pr p\prt\dif{V}\,.
 \end{align}
 The most general form of the Robin BC
 \begin{align}
@@ -585,11 +590,11 @@ problem:
 +\Lambda_V \iiint_{\Omega} u\pr w\prt\dif{V} \nonumber \\
 &+\oiint_{\partial\Omega} u\pr h\pr w\prt\dif{S}
 -\oiint_{\partial\Omega} u\pr J_\rs\prt\dif{S}
--\iiint_{\Omega} u\pr p\prt\dif{V}=0.
+-\iiint_{\Omega} u\pr p\prt\dif{V}=0\,.
 \end{align}
 This can be written more concisely as
 \begin{align}
-\langle \dot{w},u \rangle + a(w,u) - \langle J_\rs+p ,u \rangle = 0,
+\langle \dot{w},u \rangle + a(w,u) - \langle J_\rs+p ,u \rangle = 0\,,
 \end{align}
 where $a(w,u)$ is the variational bilinear form
 \begin{align}
@@ -601,7 +606,7 @@ a(w,u)
 and the inner product is
 \begin{align}
 \langle u , v \rangle
-= \iiint_{\Omega} u\pr v\pr \dif{V}.
+= \iiint_{\Omega} u\pr v\pr \dif{V}\,.
 \end{align}
 
 The above development is sufficient to implement a numerical solution of the EDM in FreeFEM++; for 
@@ -653,7 +658,7 @@ $\lambda_i^k\left(\vr\right)$ are
 \end{align}
 with
 \begin{equation*}
-\sum_{i=1}^{n_\rrm} \lambda _i^k=1
+\sum_{i=1}^{n_\rrm} \lambda _i^k=1\,,
 \end{equation*}
 where $\vr_i$ are the $n_\rrm$ vertices of $T_k$. The restriction of $\phi_i$ on $T_k$ is then $\lambda_i^k$.
 
@@ -671,7 +676,7 @@ and substitute these into the weak form to obtain
 +\sum_{i=1}^M\sum_{j=1}^M u_i w_j \oiint_{\partial\Omega} h\pr\phi_i\pr\phi_j\pr\dif{S} \nonumber \\
 &-\sum_{i=1}^M u_i \oiint_{\partial\Omega} \phi_i\pr J_\rs\prt\dif{S}
 -\sum_{i=1}^M u_i\iiint_{\Omega} \phi_i\pr p\prt\dif{V}
-= 0.
+= 0\,.
 \end{align}
 Denoting the discrete matrix operators by
 \begin{align}
@@ -679,7 +684,7 @@ D_{ij} &= \iiint_{\Omega} D\pr{\vnabla}\phi_i\pr{\vcdot}{\vnabla}\phi_j\pr\dif{V
 M_{ij} &= \iiint_{\Omega} \phi_i\pr\phi_j\pr\dif{V} \\
 H_{ij} &= \oiint_{\partial\Omega} \phi_j\pr h\pr \phi_i\pr\dif{S} \\
 J_i^\rs(t) &= \oiint_{\partial\Omega} \phi_i\pr J_\rs\prt\dif{S} \\
-P_i(t) &= \iiint_{\Omega} \phi_i\pr p\prt \dif{V},
+P_i(t) &= \iiint_{\Omega} \phi_i\pr p\prt \dif{V}
 \end{align}
 this can be written as
 \begin{align}
@@ -689,20 +694,20 @@ this can be written as
 +\sum_{i=1}^M\sum_{j=1}^M u_i H_{ij} w_j \nonumber \\
 &-\sum_{i=1}^M\sum_{j=1}^M u_i J^\rs_i
 -\sum_{i=1}^M u_i P_i
-= 0.
+= 0\,.
 \end{align}
 $D_{ij}$ is the stiffness matrix, $M_{ij}$ is the mass
 matrix and $\Lambda_V M_{ij}+H_{ij}$ is a dissipation matrix. This can be written in matrix form as
 \begin{align}
 \vec{u}^\intercal \mM \dot{\vec{w}} + \vec{u}^\intercal\mD \vec{w} +\Lambda_V \vec{u}^\intercal\mM \vec{w}+ \vec{u}^\intercal\mH \vec{w}
--\vec{u}^\intercal\vec{J}^\rs -\vec{u}^\intercal\vec{P} = 0,
+-\vec{u}^\intercal\vec{J}^\rs -\vec{u}^\intercal\vec{P} = 0\,,
 \end{align}
 where $\vec{u}$ and $\vec{w}$ are column vectors containing the DOFs and ${}^\intercal$ denotes the transpose. 
 Since the system is linear it can be solved by testing with each basis function separately and so it is
 equivalent to the linear system of ordinary differential equations (ODEs)
 \begin{align}
 \mM \dot{\vec{w}} + \mD \vec{w} +\Lambda_V \mM \vec{w}+ \mH \vec{w}
--\vec{J}^\rs -\vec{P} = \vzero.
+-\vec{J}^\rs -\vec{P} = \vzero\,.
 \end{align}
 This reduces to a linear algebraic system 
 \begin{align}
@@ -717,7 +722,7 @@ derivative term is
 \begin{align}
 \langle \dot{w},u \rangle \approx
 \left\langle \frac{w^n-w^{n-1}}{\Delta t},u \right\rangle
-=\iiint_{\Omega} u\pr  \frac{w^n\pr-w^{n-1}\pr}{\Delta t} \dif{V}.
+=\iiint_{\Omega} u\pr  \frac{w^n\pr-w^{n-1}\pr}{\Delta t} \dif{V}\,.
 \end{align}
 The weak variational problem
 \begin{align}
@@ -781,7 +786,7 @@ and
 -\oiint_{\partial\Omega_2/\partial\Omega_{21}} u_2\pr J_{s;2}\prt\dif{S}
 +\oiint_{\partial\Omega_{21}} u_2\pr h_{22}\pr w_2\prt\dif{S} \nonumber\\
 &-\oiint_{\partial\Omega_{21}} u_2\pr J_{21}\prt\dif{S}
--\iiint_{\Omega_2} u_2\pr p_2\prt\dif{V}=0,
+-\iiint_{\Omega_2} u_2\pr p_2\prt\dif{V}=0\,,
 \end{align}
 where the energy density fluxes coupled between the cavities are
 \begin{align}
@@ -792,7 +797,7 @@ J_{12}\prt = h_{12}\pr w_2\prt &\vr\in\partial\Omega_{12}
 \label{eq:wf:coup:J21}
 \begin{matrix}
 J_{21}\prt = h_{21}\pr w_1\prt &\vr\in\partial\Omega_{21}
-\end{matrix}
+\end{matrix}\,.
 \end{align}
 The system can be solved using a Robin-Robin iterative algorithm~\citep{Discacciati2007}. We first initialise
 $J_{12}\prt$ using the homogeneous power balance (PWB) solution, $w_{2;\rh}$,  in $\Omega_2$
@@ -805,7 +810,7 @@ and then solve the FE system~(\ref{eq:wf:coup1}) in domain $\Omega_1$ using
 this value to give $w_1\prt$. $J_{21}\prt$ can then be calculated from~(\ref{eq:wf:coup:J21}),
 and hence the FE system~(\ref{eq:wf:coup2}) in domain $\Omega_2$ 
 can be  solved for $w_2^\prt$. This process is repeated until the solution has converged; this typically only 
-requires a handful of iterations: The complete iteration algorithm is:
+requires a handful of iterations. The complete iteration algorithm is:
 \begin{align}
 \mathrm{Initialise} &: J_{12}\prt = h_{12}\pr w_{2;\rh} \nonumber \\
 \mathrm{(\ast)\,Solve\,\,for}\,\,w_1 &: \langle w_1,u_1 \rangle + a(w_1,u_1) - \langle u_1 , J_{12} \rangle - \langle u_1 , p_1 \rangle = 0 \nonumber \\
@@ -840,7 +845,7 @@ updated using a relaxation scheme with relaxation parameter $\beta\sim 0.1$:
 As described in Section~\ref{sc:sum:coup} the EEBC and FCBC are equivalent in the case of a lossless aperture. 
 
 Continuity of both the energy density and its flux can be enforced using a nonoverlapping Schwarz domain decomposition
-method~\citep{Lions1990}. The weak forms are the same as for the FCBC method, however the net flux is updated using
+method~\citep{Lions1990}. The weak forms are the same as for the FCBC method; however, the net flux is updated using
 \begin{align}
 \mathrm{Initialise} &: J_{12}\prt = J_{21}\prt = 0 \nonumber \\
 \mathrm{(\ast)\,Solve\,\,for}\,\,w_1 &: \langle w_1,u_1 \rangle + \tilde{a}(w_1,u_1) - \langle u_1 , J_{12} \rangle - \langle u_1 , p_1 \rangle = 0 \nonumber \\
@@ -863,11 +868,11 @@ The weak form of the reduced 2D problem is
 &+\left(\Lambda_V^\prime+\Lambda_Z^\prime\right)\iint_{\Omega }UW\dif{x}\dif{y}
 +\oint_{\partial\Omega} Uh^\prime\left(x,y\right)W\dif{l} \nonumber \\
 &-\oint_{\partial\Omega} UJ_\rc^\prime\left(x,y\right) W\dif{l}
--\iint_{\Omega} U p_\rs^\prime\left(x,y\right)\dif{x}\dif{y}=0,
+-\iint_{\Omega} U p_\rs^\prime\left(x,y\right)\dif{x}\dif{y}=0\,,
 \end{align}
 where
 \begin{align}
-p_\rs^\prime\left(x,y\right)=\int_0^{L_z}Z(z)p\left(x,y,z,t\right)\dif{z}.
+p_\rs^\prime\left(x,y\right)=\int_0^{L_z}Z(z)p\left(x,y,z,t\right)\dif{z}\,.
 \end{align}
 Note that this implicitly replaces the point source by a line source with the same TRP, which 
 will cause errors in the vicinity of the source; these errors will increase with increasing
@@ -964,16 +969,16 @@ partitioned cavity.}
 
 The EDM of an unpartitioned cavity can be simply implemented using a single domain model (SDM)
 as shown in Figure~\ref{fg:sdm}(a). The diffusivity $D$ of the domain $\Omega$ is uniform and
-the surfaces forming the walls, $\Omega^\mathrm{wall}$, cylinder, $\Omega^\mathrm{cyl}$, and 
-possibly the source, $\Omega^\mathrm{src}$, are identified. The surface bounding the source is 
+the surfaces forming the walls, $\partial\Omega^\mathrm{wall}$, cylinder, $\partial\Omega^\mathrm{cyl}$, and 
+possibly the source, $\partial\Omega^\mathrm{src}$, are identified. The surface bounding the source is 
 used if the source is implemented as a surface or volume source, but is not used for a point source.
 
 For coupled cavities there are a number of ways to implement the EDM. The sub-cavities can
 be modelled as a single contiguous domain with the aperture between them explicitly represented in 
 the geometry; this is again an SDM and is illustrated in Figure~\ref{fg:sdm}(b). The surfaces
-of the walls in each sub-cavity, $\Omega^\mathrm{wall}_1$ and $\Omega^\mathrm{wall}_2$ are identified
+of the walls in each sub-cavity, $\partial\Omega^\mathrm{wall}_1$ and $\partial\Omega^\mathrm{wall}_2$ are identified
 and it is convenient to also explicitly identify the portions of the partition surface which face into
-each sub-cavity, $\Omega^\mathrm{part}_1$ and $\Omega^\mathrm{part}_2$. While only a single domain
+each sub-cavity, $\partial\Omega^\mathrm{part}_1$ and $\partial\Omega^\mathrm{part}_2$. While only a single domain
 is modelled an inhomogeneous diffusivity is used to assign the appropriate diffusivities $D_1$ and
 $D_2$ in each sub-cavity:
 \begin{align}
@@ -1003,10 +1008,10 @@ single cavity (a) and partitioned cavity (b).}
 Alternatively the partitioned cavity can be implemented as a dual domain model (DDM) as shown in
 Figure~\ref{fg:ddm}, in which the sub-cavities are represented as completely separate domains 
 $\Omega_1$ and $\Omega_2$. The surface corresponding to the hole is meshed as part of the surface
-bounding each sub-cavity and identified as $\Omega^\mathrm{hole}_{12}$ and $\Omega^\mathrm{hole}_{21}$ in 
+bounding each sub-cavity and identified as $\partial\Omega^\mathrm{hole}_{12}$ and $\partial\Omega^\mathrm{hole}_{21}$ in 
 the source and coupled sub-cavities respectively. The diffusivity in each sub-cavity is homogeneous
 with values $D_1$ and $D_2$ respectively. A appropriate boundary condition must be applied on the 
-surfaces $\Omega^\mathrm{hole}_1$ and $\Omega^\mathrm{hole}_2$:
+surfaces $\partial\Omega^\mathrm{hole}_{12}$ and $\partial\Omega^\mathrm{hole}_{21}$:
 \begin{itemize}
  \item \textbf{EEBC}: Exchange coefficients are used to enforce Robin BCs according to~(\ref{eq:eebc1})-(\ref{eq:eebc2}).
  \item \textbf{FCBC}: The energy density flux is forced to be continuous through the hole using~(\ref{eq:fcbc}). For lossless apertures
@@ -1096,7 +1101,6 @@ Table~\ref{tb:tcparam} four boolean parameters \texttt{isSrc}, \texttt{isCyl}, \
  otherwise the Jing and Xiang EC~(\ref{eq:ecjing}) is used.
 \end{itemize}
 
-
 \section[Results]{Results}
 \label{sc:res}
 
@@ -1183,18 +1187,7 @@ Coefficient of variation (\%)        &0            &0.61            &0.57  \\
 \caption{\label{tb:unpartempty} Statistics of the reverberant power density in the unpartitioned empty cavity.}
 \end{table}
 
-The variation of the power density in the $z$ direction is shown in Figure~\ref{fg:unpartempty_profs}(a)
-at $y=L_y/2$ and various values of $x$. In this case the quadratic anzatz used in the Kantorovich reduction
-is seen to be quite accurate and the 2D model provides very good results. The variation of the power density 
-in the $x$ direction for $z=L_z/2$ and a number of $y$ positions is shown in Figure~\ref{fg:unpartempty_profs}(b).
-The power density falls monotonically along the cavity away from the source as expected for a harmonic solution
-of the Laplace operator. At the source end of the cavity the EDM predicts high power density than PWB, while 
-at the opposite end the EDM result is lower than the PWB result. The average power density in the EDM in 
-Table~\ref{tb:unpartempty} is very close to the PWB prediction. The probability density function (PDF)
-for the average power density in the cavity is shown in Figure~\ref{fg:unpartempty_profs}(c); it is a narrow
-monomodal distribution.
-
-\begin{figure}[ht]
+\begin{figure}[hp]
 \begin{center}
 \includegraphics[width=0.6\linewidth]{figures/SDM_3D_SU_PowerDensityProfileZ}\\
 {\footnotesize (a)}\\
@@ -1210,21 +1203,7 @@ monomodal distribution.
 \end{center}
 \end{figure}
 
-Figure~\ref{fg:unpartempty_maps} shows maps of various quantities in the $z=L_z/2$ plane. The power density is
-shown in Figure~\ref{fg:unpartempty_maps}(a) as a hybrid heat and contour map; the power density is seen to
-be relative uniform in the $y$ direction away from the source. The uniformity shown in Figure~\ref{fg:unpartempty_maps}(b)
-is the ratio of the EDM and PWB power densities. The zero isoline is located at approximately $x=0.35$, indicating that in 65\,\% of 
-the cavity the EDM power density is lower than the PWB power density. The anisotropy of the power density is defined as 
-\begin{align}
-\Upsilon(\vr) &= \frac{\mathrm{c}_0 w(\vr)}{\mathrm{c}_0 w(\vr) - |\vJ(\vr)|} 
-\end{align}
-and is shown in Figure~\ref{fg:unpartempty_maps}(c); necessarily it must be greater close to the source. In most of the 
-cavity the anisotropy is less than 0.05\,dB. Figure~\ref{fg:unpartempty_maps}(c) shows the flux of the energy density 
-as a hybrid heat and vector
-field map with the colour indicating the magnitude and the arrow the direction. The flux is again relatively uniform away from 
-the source and directed in the positive $x$ direction. 
-
-\begin{figure}[ht]
+\begin{figure}[hp]
 \begin{center}
 \includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/SDM_3D_SU_PowerDensityMap}\\
 {\footnotesize (a)}\\
@@ -1243,6 +1222,31 @@ unloaded unpartitioned cavity: (a) Power density; (b) Energy density relative to
 (c) Anisotropy; (d) Energy density flux.}
 \end{center}
 \end{figure}
+
+The variation of the power density in the $z$ direction is shown in Figure~\ref{fg:unpartempty_profs}(a)
+at $y=L_y/2$ and various values of $x$. In this case the quadratic anzatz used in the Kantorovich reduction
+is seen to be quite accurate and the 2D model provides very good results. The variation of the power density 
+in the $x$ direction for $z=L_z/2$ and a number of $y$ positions is shown in Figure~\ref{fg:unpartempty_profs}(b).
+The power density falls monotonically along the cavity away from the source as expected for a harmonic solution
+of the Laplace operator. At the source end of the cavity the EDM predicts high power density than PWB, while 
+at the opposite end the EDM result is lower than the PWB result. The average power density in the EDM in 
+Table~\ref{tb:unpartempty} is very close to the PWB prediction. The probability density function (PDF)
+for the average power density in the cavity is shown in Figure~\ref{fg:unpartempty_profs}(c); it is a narrow
+monomodal distribution.
+
+Figure~\ref{fg:unpartempty_maps} shows maps of various quantities in the $z=L_z/2$ plane. The power density is
+shown in Figure~\ref{fg:unpartempty_maps}(a) as a hybrid heat and contour map; the power density is seen to
+be relative uniform in the $y$ direction away from the source. The uniformity shown in Figure~\ref{fg:unpartempty_maps}(b)
+is the ratio of the EDM and PWB power densities. The zero isoline is located at approximately $x=0.35$, indicating that in 65\,\% of 
+the cavity the EDM power density is lower than the PWB power density. The anisotropy of the power density is defined as 
+\begin{align}
+\Upsilon(\vr) &= \frac{\mathrm{c}_0 w(\vr)}{\mathrm{c}_0 w(\vr) - |\vJ(\vr)|} 
+\end{align}
+and is shown in Figure~\ref{fg:unpartempty_maps}(c); necessarily it must be greater close to the source. In most of the 
+cavity the anisotropy is less than 0.05\,dB. Figure~\ref{fg:unpartempty_maps}(c) shows the flux of the energy density 
+as a hybrid heat and vector
+field map with the colour indicating the magnitude and the arrow the direction. The flux is again relatively uniform away from 
+the source and directed in the positive $x$ direction. 
 
 \subsection[Unpartitioned cavity with a cylinder]{Unpartitioned cavity with a cylinder}
 \label{sc:res:unpartcyl}
@@ -1297,18 +1301,7 @@ Coefficient of variation (\%)        &0            &22.6            &22.1  \\
 \caption{\label{tb:unpartcyl} Statistics of the reverberant power density in the unpartitioned cavity with the cylinder.}
 \end{table}
 
-The variation of the power density in the $z$ direction is shown in Figure~\ref{fg:unpartcyl_profs}(a)
-at $y=L_y/2$ and various values of $x$. In this case the quadratic anzatz used in the Kantorovich reduction
-is seen to be less accurate; however, the 2D model still provides good results. The variation of the power density 
-in the $x$ direction for $z=L_z/2$ and a number of $y$ positions is shown in Figure~\ref{fg:unpartempty_profs}(b).
-The power density falls monotonically along the cavity away from the source as expected for a harmonic solution
-of the Laplace operator. At the source end of the cavity the EDM predicts high power density than PWB, while 
-at the opposite end the EDM result is a little lower than the PWB result. The average power density in the EDM in 
-Table~\ref{tb:unpartempty} is 1.5\,dB higher than the PWB prediction. The probability density function (PDF)
-for the average power density in the cavity is shown in Figure~\ref{fg:unpartempty_profs}(c); it is a relatively
-uniform distribution.
-
-\begin{figure}[ht]
+\begin{figure}[hp]
 \begin{center}
 \includegraphics[width=0.6\linewidth]{figures/SDM_3D_SL_PowerDensityProfileZ}\\
 {\footnotesize (a)}\\
@@ -1324,16 +1317,7 @@ uniform distribution.
 \end{center}
 \end{figure}
 
-Figure~\ref{fg:unpartcyl_maps} shows maps of various quantities in the $z=L_z/2$ plane. The power density
-shown in Figure~\ref{fg:unpartcyl_maps}(a) exhibits a monotonic decrease along the cavity, with a shadow
-region behind the cylinder. The uniformity shown in Figure~\ref{fg:unpartcyl_maps}(b)
-is the ratio of the EDM and PWB power densities. The zero isoline is close to the cylinder indicating that in most of 
-the cavity the EDM power density is higher than the PWB power density. The anisotropy of the power density is shown in
-Figure~\ref{fg:unpartcyl_maps}(c); it is much higher than for the unloaded cavity with a typically value of 0.5\,dB.
-Figure~\ref{fg:unpartcyl_maps}(c) shows the flux of the energy density which clearly shows the flow of reverberant power from 
-the source to the cylinder. 
-
-\begin{figure}[ht]
+\begin{figure}[hp]
 \begin{center}
 \includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/SDM_3D_SL_PowerDensityMap}\\
 {\footnotesize (a)}\\
@@ -1352,6 +1336,26 @@ loaded unpartitioned cavity: (a) Power density; (b) Energy density relative to t
 (c) Anisotropy; (d) Energy density flux.}
 \end{center}
 \end{figure}
+
+The variation of the power density in the $z$ direction is shown in Figure~\ref{fg:unpartcyl_profs}(a)
+at $y=L_y/2$ and various values of $x$. In this case the quadratic anzatz used in the Kantorovich reduction
+is seen to be less accurate; however, the 2D model still provides good results. The variation of the power density 
+in the $x$ direction for $z=L_z/2$ and a number of $y$ positions is shown in Figure~\ref{fg:unpartempty_profs}(b).
+The power density falls monotonically along the cavity away from the source as expected for a harmonic solution
+of the Laplace operator. At the source end of the cavity the EDM predicts high power density than PWB, while 
+at the opposite end the EDM result is a little lower than the PWB result. The average power density in the EDM in 
+Table~\ref{tb:unpartempty} is 1.5\,dB higher than the PWB prediction. The probability density function (PDF)
+for the average power density in the cavity is shown in Figure~\ref{fg:unpartempty_profs}(c); it is a relatively
+uniform distribution.
+
+Figure~\ref{fg:unpartcyl_maps} shows maps of various quantities in the $z=L_z/2$ plane. The power density
+shown in Figure~\ref{fg:unpartcyl_maps}(a) exhibits a monotonic decrease along the cavity, with a shadow
+region behind the cylinder. The uniformity shown in Figure~\ref{fg:unpartcyl_maps}(b)
+is the ratio of the EDM and PWB power densities. The zero isoline is close to the cylinder indicating that in most of 
+the cavity the EDM power density is higher than the PWB power density. The anisotropy of the power density is shown in
+Figure~\ref{fg:unpartcyl_maps}(c); it is much higher than for the unloaded cavity with a typically value of 0.5\,dB.
+Figure~\ref{fg:unpartcyl_maps}(c) shows the flux of the energy density which clearly shows the flow of reverberant power from 
+the source to the cylinder. 
 
 \subsection[Empty partitioned cavity]{Empty partitioned cavity}
 \label{sc:res:emptypart}
@@ -1412,7 +1416,7 @@ Coefficient of variation (\%)        &0            &0.44            &0.44       
 \caption{\label{tb:partempty} Statistics of the reverberant power density in the unloaded partitioned cavity.}
 \end{table}
 
-\begin{figure}[ht]
+\begin{figure}[hp]
 \begin{center}
 \includegraphics[width=0.6\linewidth]{figures/SDM_3D_DU_PowerDensityProfileZ}\\
 {\footnotesize (a)}\\
@@ -1430,7 +1434,7 @@ Coefficient of variation (\%)        &0            &0.44            &0.44       
 \end{center}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[hp]
 \begin{center}
 \includegraphics[trim={0 11mm 0 12mm},clip,width=0.52\linewidth]{figures/SDM_3D_DU_PowerDensityMap}\\
 {\footnotesize (a)}\\
@@ -1450,7 +1454,7 @@ unloaded partitioned cavity: (a) Power density; (b) Energy density relative to t
 \end{center}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[hp]
 \begin{center}
 \includegraphics[width=0.6\linewidth]{figures/DDM-EEBC_3D_DU_PowerDensityProfileZ}\\
 {\footnotesize (a)}\\
@@ -1468,7 +1472,7 @@ unloaded partitioned cavity: (a) Power density; (b) Energy density relative to t
 \end{center}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[hp]
 \begin{center}
 \includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/DDM-EEBC_3D_DU_PowerDensityMap}\\
 {\footnotesize (a)}\\
@@ -1548,7 +1552,7 @@ Coefficient of variation (\%)        &0            &20.0            &21.9       
 \caption{\label{tb:partcyl} Statistics of the reverberant power density in the partitioned cavity with the cylinder.}
 \end{table}
 
-\begin{figure}[ht]
+\begin{figure}[hp]
 \begin{center}
 \includegraphics[width=0.6\linewidth]{figures/SDM_3D_DL_PowerDensityProfileZ}\\
 {\footnotesize (a)}\\
@@ -1566,7 +1570,7 @@ Coefficient of variation (\%)        &0            &20.0            &21.9       
 \end{center}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[hp]
 \begin{center}
 \includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/SDM_3D_DL_PowerDensityMap}\\
 {\footnotesize (a)}\\
@@ -1586,7 +1590,7 @@ loaded partitioned cavity: (a) Power density; (b) Energy density relative to the
 \end{center}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[hp]
 \begin{center}
 \includegraphics[width=0.6\linewidth]{figures/DDM-EEBC_3D_DL_PowerDensityProfileZ}\\
 {\footnotesize (a)}\\
@@ -1604,7 +1608,7 @@ loaded partitioned cavity: (a) Power density; (b) Energy density relative to the
 \end{center}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[hp]
 \begin{center}
 \includegraphics[trim={0 8mm 0 12mm},clip,width=0.52\linewidth]{figures/DDM-EEBC_3D_DL_PowerDensityMap}\\
 {\footnotesize (a)}\\
@@ -1634,7 +1638,7 @@ loaded partitioned cavity: (a) Power density; (b) Energy density relative to the
 \end{itemize}
 
 
-\begin{figure}[ht]
+\begin{figure}[hp]
 \begin{center}
 \includegraphics[width=0.6\linewidth]{figures/SDM_3D_SU_PowerDensityProfileXMeas}\\
 {\footnotesize (a)}\\
@@ -1647,7 +1651,7 @@ the 3D EDM of the single unloaded cavity and measurement~\citep{Flintoft2017b}: 
 \end{center}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[hp]
 \begin{center}
 \includegraphics[width=0.6\linewidth]{figures/SDM_3D_SL_PowerDensityProfileXMeas}\\
 {\footnotesize (a)}\\
@@ -1660,7 +1664,7 @@ the 3D EDM of the single loaded cavity and measurement~\citep{Flintoft2017b}: (a
 \end{center}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[hp]
 \begin{center}
 \includegraphics[width=0.6\linewidth]{figures/DDM-EEBC_3D_DU_PowerDensityProfileXMeas}\\
 {\footnotesize (a)}\\
@@ -1673,7 +1677,7 @@ the 3D DDM EEBC EDM of the dual unloaded cavity and measurement~\citep{Flintoft2
 \end{center}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[hp]
 \begin{center}
 \includegraphics[width=0.6\linewidth]{figures/DDM-EEBC_3D_DL_PowerDensityProfileXMeas}\\
 {\footnotesize (a)}\\
@@ -1686,7 +1690,7 @@ the 3D DDM EEBC EDM of the dual loaded cavity and measurement~\citep{Flintoft201
 \end{center}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[hp]
 \begin{center}
 \includegraphics[width=0.49\linewidth]{figures/SDM_3D_SU_PowerDensityProfileXMeas_JX_k0_5}
 \includegraphics[width=0.49\linewidth]{figures/SDM_3D_SU_PowerDensityProfileXMeas_JX_k0_75}\\
@@ -1703,7 +1707,7 @@ the 3D EDM of the single unloaded cavity and measurement~\citep{Flintoft2017b}: 
 \end{center}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[hp]
 \begin{center}
 \includegraphics[width=0.49\linewidth]{figures/SDM_3D_SL_PowerDensityProfileXMeas_JX_k0_5}
 \includegraphics[width=0.49\linewidth]{figures/SDM_3D_SL_PowerDensityProfileXMeas_JX_k0_75}\\
@@ -1720,7 +1724,7 @@ the 3D EDM of the single loaded cavity and measurement~\citep{Flintoft2017b}: (a
 \end{center}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[hp]
 \begin{center}
 \includegraphics[width=0.49\linewidth]{figures/DDM-EEBC_3D_DU_PowerDensityProfileXMeas_JX_k0_5}
 \includegraphics[width=0.49\linewidth]{figures/DDM-EEBC_3D_DU_PowerDensityProfileXMeas_JX_k0_75}\\
@@ -1737,7 +1741,7 @@ the 3D EDM of the dual unloaded cavity and measurement~\citep{Flintoft2017b}: (a
 \end{center}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[hp]
 \begin{center}
 \includegraphics[width=0.49\linewidth]{figures/DDM-EEBC_3D_DL_PowerDensityProfileXMeas_JX_k0_5}
 \includegraphics[width=0.49\linewidth]{figures/DDM-EEBC_3D_DL_PowerDensityProfileXMeas_JX_k0_75}\\
@@ -1754,14 +1758,16 @@ the 3D EDM of the dual loaded cavity and measurement~\citep{Flintoft2017b}: (a) 
 \end{center}
 \end{figure}
 
+\clearpage
+
 \section[Conclusions]{Conclusions}
 \label{sc:conc}
 
-{\color{red} Question: How do we determine the diffusivity in cases with complex topology such as
+How do we determine the diffusivity in cases with complex topology such as
 the test case with the cylinder? Empirically it appears the diffusivity is about one quarter of that
 of the empty sub-cavity in the dual cavity case. In the single cavity case the effect is not
 noticeable. The fitting method of determining $\lambda_\rf = 4V/S_\rf$ does not appear to be
-appropriate for single contents which significantly perturb the cavity shape.}
+appropriate for single contents which significantly perturb the cavity shape.
 
 \bibliographystyle{myabbrvnat}
 %\bibliographystyle{abbrvnat}
