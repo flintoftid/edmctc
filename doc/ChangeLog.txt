@@ -1,4 +1,2251 @@
+2018-02-24  Ian Flintoft  <ian.flintoft@googlemail.com>
+
+	* doc/Implementation_Notes/EDM_Implementation_Notes.tex:
+	Update of implementation manual following proorf reading.
+	[f1479a446ef7] [tip]
+
+	* doc/Implementation_Notes/EDM_Implementation_Notes.tex:
+	Completed draft implementation report.
+	[ca261c2203cd]
+
+	* Licence.txt, ReadMe.md,
+	doc/Implementation_Notes/EDM_Implementation_Notes.bib,
+	doc/Implementation_Notes/EDM_Implementation_Notes.tex,
+	doc/Implementation_Notes/figures/2D_SDM_w_map.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-EEBC_2D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_2D_DL_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_2D_DL_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_2D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-EEBC_2D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_2D_DU_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_2D_DU_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_2D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityAnisotropyMap_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityAnisotropyMap_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityAnisotropyMap_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityAnisotropyMap_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityAnisotropyMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityFluxMap_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityFluxMap_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityFluxMap_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityFluxMap_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityFluxMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityUniformityMap_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityUniformityMap_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityUniformityMap_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityUniformityMap_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityUniformityMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_3D_DL_PowerDensityMap_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityMap_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityMap_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityMap_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_3D_DL_PowerDensityPDF1_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF1_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF1_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF1_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF1_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_3D_DL_PowerDensityPDF2_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF2_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF2_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF2_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF2_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileX_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileX_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileX_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileX_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileX_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileZ_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileZ_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileZ_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileZ_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileZ_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityAnisotropyMap_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityAnisotropyMap_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityAnisotropyMap_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityAnisotropyMap_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityAnisotropyMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityFluxMap_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityFluxMap_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityFluxMap_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityFluxMap_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityFluxMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityUniformityMap_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityUniformityMap_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityUniformityMap_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityUniformityMap_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityUniformityMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_3D_DU_PowerDensityMap_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityMap_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityMap_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityMap_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_3D_DU_PowerDensityPDF1_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF1_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF1_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF1_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF1_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_3D_DU_PowerDensityPDF2_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF2_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF2_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF2_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF2_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileX_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileX_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileX_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileX_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileX_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileZ_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileZ_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileZ_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileZ_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileZ_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-FCBC_2D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_2D_DL_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_2D_DL_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_2D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-FCBC_2D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_2D_DU_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_2D_DU_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_2D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-FCBC_3D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_3D_DL_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_3D_DL_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_3D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-FCBC_3D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_3D_DU_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_3D_DU_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_3D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-NOSI_2D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_2D_DL_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_2D_DL_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_2D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-NOSI_2D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_2D_DU_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_2D_DU_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_2D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-NOSI_3D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_3D_DL_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_3D_DL_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_3D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-NOSI_3D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_3D_DU_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_3D_DU_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_3D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_PowerDensityProfileZ_JX.png, doc/Implementation_Notes/fig
+	ures/SDM_2D_DL_EnergyDensityAnisotropyMap.png, doc/Implementation_No
+	tes/figures/SDM_2D_DL_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_EnergyDensityFluxMap_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_2D_DL_EnergyDensityUniformi
+	tyMap.png, doc/Implementation_Notes/figures/SDM_2D_DL_EnergyDensityU
+	niformityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityPDF1_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityPDF2_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityProfileXMeas.
+	png, doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityProfileX
+	Meas_JX.png, doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensity
+	ProfileX_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityProfileZ_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_2D_DU_EnergyDensityAnisotro
+	pyMap.png, doc/Implementation_Notes/figures/SDM_2D_DU_EnergyDensityA
+	nisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_EnergyDensityFluxMap_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_2D_DU_EnergyDensityUniformi
+	tyMap.png, doc/Implementation_Notes/figures/SDM_2D_DU_EnergyDensityU
+	niformityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityPDF1_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityPDF2_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityProfileXMeas.
+	png, doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityProfileX
+	Meas_JX.png, doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensity
+	ProfileX_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityProfileZ_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_2D_SL_EnergyDensityAnisotro
+	pyMap.png, doc/Implementation_Notes/figures/SDM_2D_SL_EnergyDensityA
+	nisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_EnergyDensityFluxMap_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_2D_SL_EnergyDensityUniformi
+	tyMap.png, doc/Implementation_Notes/figures/SDM_2D_SL_EnergyDensityU
+	niformityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityPDF.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityPDF_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityProfileXMeas.
+	png, doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityProfileX
+	Meas_JX.png, doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensity
+	ProfileX_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityProfileZ_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_2D_SU_EnergyDensityAnisotro
+	pyMap.png, doc/Implementation_Notes/figures/SDM_2D_SU_EnergyDensityA
+	nisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_EnergyDensityFluxMap_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_2D_SU_EnergyDensityUniformi
+	tyMap.png, doc/Implementation_Notes/figures/SDM_2D_SU_EnergyDensityU
+	niformityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityPDF.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityPDF_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityProfileXMeas.
+	png, doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityProfileX
+	Meas_JX.png, doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensity
+	ProfileX_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityProfileZ_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_3D_DL_EnergyDensityAnisotro
+	pyMap_JX.png, doc/Implementation_Notes/figures/SDM_3D_DL_EnergyDensi
+	tyFluxMap_JX.png, doc/Implementation_Notes/figures/SDM_3D_DL_EnergyD
+	ensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityPDF1_JX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityPDF2_JX.png,
+	d
+	oc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityProfileXMeas.p
+	ng, doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityProfileXM
+	eas_JX.png, doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityP
+	rofileX_JX.png, doc/Implementation_Notes/figures/SDM_3D_DL_PowerDens
+	ityProfileZ_JX.png, doc/Implementation_Notes/figures/SDM_3D_DU_Energ
+	yDensityAnisotropyMap_JX.png, doc/Implementation_Notes/figures/SDM_3
+	D_DU_EnergyDensityFluxMap_JX.png, doc/Implementation_Notes/figures/S
+	DM_3D_DU_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityPDF1_JX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityPDF2_JX.png,
+	d
+	oc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityProfileXMeas.p
+	ng, doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityProfileXM
+	eas_JX.png, doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityP
+	rofileX_JX.png, doc/Implementation_Notes/figures/SDM_3D_DU_PowerDens
+	ityProfileZ_JX.png, doc/Implementation_Notes/figures/SDM_3D_SL_Energ
+	yDensityAnisotropyMap_JX.png, doc/Implementation_Notes/figures/SDM_3
+	D_SL_EnergyDensityAnisotropyMap_JX_k0_5.png, doc/Implementation_Note
+	s/figures/SDM_3D_SL_EnergyDensityAnisotropyMap_JX_k0_75.png, doc/Imp
+	lementation_Notes/figures/SDM_3D_SL_EnergyDensityAnisotropyMap_JX_k1
+	_0.png, doc/Implementation_Notes/figures/SDM_3D_SL_EnergyDensityAnis
+	otropyMap_JX_k1_5.png, doc/Implementation_Notes/figures/SDM_3D_SL_En
+	ergyDensityAnisotropyMap_JX_k2_0.png, doc/Implementation_Notes/figur
+	es/SDM_3D_SL_EnergyDensityFluxMap_JX.png, doc/Implementation_Notes/f
+	igures/SDM_3D_SL_EnergyDensityFluxMap_JX_k0_5.png, doc/Implementatio
+	n_Notes/figures/SDM_3D_SL_EnergyDensityFluxMap_JX_k0_75.png, doc/Imp
+	lementation_Notes/figures/SDM_3D_SL_EnergyDensityFluxMap_JX_k1_0.png
+	, doc/Implementation_Notes/figures/SDM_3D_SL_EnergyDensityFluxMap_JX
+	_k1_5.png, doc/Implementation_Notes/figures/SDM_3D_SL_EnergyDensityF
+	luxMap_JX_k2_0.png, doc/Implementation_Notes/figures/SDM_3D_SL_Energ
+	yDensityUniformityMap_JX.png, doc/Implementation_Notes/figures/SDM_3
+	D_SL_EnergyDensityUniformityMap_JX_k0_5.png, doc/Implementation_Note
+	s/figures/SDM_3D_SL_EnergyDensityUniformityMap_JX_k0_75.png, doc/Imp
+	lementation_Notes/figures/SDM_3D_SL_EnergyDensityUniformityMap_JX_k1
+	_0.png, doc/Implementation_Notes/figures/SDM_3D_SL_EnergyDensityUnif
+	ormityMap_JX_k1_5.png, doc/Implementation_Notes/figures/SDM_3D_SL_En
+	ergyDensityUniformityMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityMap-
+	Sabine.png, doc/Implementation_Notes/figures
+	/SDM_3D_SL_PowerDensityMap-Sabine_JX.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityMap-
+	Sabine_JX_k0_5.png, doc/Implementation_Notes/figures
+	/SDM_3D_SL_PowerDensityMap-Sabine_JX_k0_75.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityMap-
+	Sabine_JX_k1_0.png, doc/Implementation_Notes/figures
+	/SDM_3D_SL_PowerDensityMap-Sabine_JX_k1_5.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityMap-
+	Sabine_JX_k2_0.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityMap_JX.png, d
+	oc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityMap_JX_k0_5.pn
+	g, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityMap_JX_k0_
+	75.png, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityMap_J
+	X_k1_0.png, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityM
+	ap_JX_k1_5.png, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDens
+	ityMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityPDF_JX.png, d
+	oc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityPDF_JX_k0_5.pn
+	g, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityPDF_JX_k0_
+	75.png, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityPDF_J
+	X_k1_0.png, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityP
+	DF_JX_k1_5.png, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDens
+	ityPDF_JX_k2_0.png, doc/Implementation_Notes/figures
+	/SDM_3D_SL_PowerDensityProfileX-Sabine.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityProfileX-
+	Sabine_JX.png, doc/Implementation_Notes/figures
+	/SDM_3D_SL_PowerDensityProfileX-Sabine_JX_k0_5.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityProfileX-
+	Sabine_JX_k0_75.png, doc/Implementation_Notes/figures
+	/SDM_3D_SL_PowerDensityProfileX-Sabine_JX_k1_0.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityProfileX-
+	Sabine_JX_k1_5.png, doc/Implementation_Notes/figures
+	/SDM_3D_SL_PowerDensityProfileX-Sabine_JX_k2_0.png, doc/Implementati
+	on_Notes/figures/SDM_3D_SL_PowerDensityProfileX_JX.png, doc/Implemen
+	tation_Notes/figures/SDM_3D_SL_PowerDensityProfileX_JX_k0_5.png, doc
+	/Implementation_Notes/figures/SDM_3D_SL_PowerDensityProfileX_JX_k0_7
+	5.png, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityProfil
+	eX_JX_k1_0.png, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDens
+	ityProfileX_JX_k1_5.png, doc/Implementation_Notes/figures/SDM_3D_SL_
+	PowerDensityProfileX_JX_k2_0.png, doc/Implementation_Notes/figures/S
+	DM_3D_SL_PowerDensityProfileZ_JX.png, doc/Implementation_Notes/figur
+	es/SDM_3D_SL_PowerDensityProfileZ_JX_k0_5.png, doc/Implementation_No
+	tes/figures/SDM_3D_SL_PowerDensityProfileZ_JX_k0_75.png, doc/Impleme
+	ntation_Notes/figures/SDM_3D_SL_PowerDensityProfileZ_JX_k1_0.png, do
+	c/Implementation_Notes/figures/SDM_3D_SL_PowerDensityProfileZ_JX_k1_
+	5.png, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityProfil
+	eZ_JX_k2_0.png, doc/Implementation_Notes/figures/SDM_3D_SU_EnergyDen
+	sityAnisotropyMap_JX.png, doc/Implementation_Notes/figures/SDM_3D_SU
+	_EnergyDensityAnisotropyMap_JX_k0_5.png, doc/Implementation_Notes/fi
+	gures/SDM_3D_SU_EnergyDensityAnisotropyMap_JX_k0_75.png, doc/Impleme
+	ntation_Notes/figures/SDM_3D_SU_EnergyDensityAnisotropyMap_JX_k1_0.p
+	ng, doc/Implementation_Notes/figures/SDM_3D_SU_EnergyDensityAnisotro
+	pyMap_JX_k1_5.png, doc/Implementation_Notes/figures/SDM_3D_SU_Energy
+	DensityAnisotropyMap_JX_k2_0.png, doc/Implementation_Notes/figures/S
+	DM_3D_SU_EnergyDensityFluxMap_JX.png, doc/Implementation_Notes/figur
+	es/SDM_3D_SU_EnergyDensityFluxMap_JX_k0_5.png, doc/Implementation_No
+	tes/figures/SDM_3D_SU_EnergyDensityFluxMap_JX_k0_75.png, doc/Impleme
+	ntation_Notes/figures/SDM_3D_SU_EnergyDensityFluxMap_JX_k1_0.png, do
+	c/Implementation_Notes/figures/SDM_3D_SU_EnergyDensityFluxMap_JX_k1_
+	5.png, doc/Implementation_Notes/figures/SDM_3D_SU_EnergyDensityFluxM
+	ap_JX_k2_0.png, doc/Implementation_Notes/figures/SDM_3D_SU_EnergyDen
+	sityUniformityMap_JX.png, doc/Implementation_Notes/figures/SDM_3D_SU
+	_EnergyDensityUniformityMap_JX_k0_5.png, doc/Implementation_Notes/fi
+	gures/SDM_3D_SU_EnergyDensityUniformityMap_JX_k0_75.png, doc/Impleme
+	ntation_Notes/figures/SDM_3D_SU_EnergyDensityUniformityMap_JX_k1_0.p
+	ng, doc/Implementation_Notes/figures/SDM_3D_SU_EnergyDensityUniformi
+	tyMap_JX_k1_5.png, doc/Implementation_Notes/figures/SDM_3D_SU_Energy
+	DensityUniformityMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityMap_JX.png, d
+	oc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityMap_JX_k0_5.pn
+	g, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityMap_JX_k0_
+	75.png, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityMap_J
+	X_k1_0.png, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityM
+	ap_JX_k1_5.png, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDens
+	ityMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityPDF_JX.png, d
+	oc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityPDF_JX_k0_5.pn
+	g, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityPDF_JX_k0_
+	75.png, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityPDF_J
+	X_k1_0.png, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityP
+	DF_JX_k1_5.png, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDens
+	ityPDF_JX_k2_0.png, doc/Implementation_Notes/figures/SDM_3D_SU_Power
+	DensityProfileX_JX.png, doc/Implementation_Notes/figures/SDM_3D_SU_P
+	owerDensityProfileX_JX_k0_5.png, doc/Implementation_Notes/figures/SD
+	M_3D_SU_PowerDensityProfileX_JX_k0_75.png, doc/Implementation_Notes/
+	figures/SDM_3D_SU_PowerDensityProfileX_JX_k1_0.png, doc/Implementati
+	on_Notes/figures/SDM_3D_SU_PowerDensityProfileX_JX_k1_5.png, doc/Imp
+	lementation_Notes/figures/SDM_3D_SU_PowerDensityProfileX_JX_k2_0.png
+	, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityProfileZ_JX
+	.png, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityProfile
+	Z_JX_k0_5.png, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensi
+	tyProfileZ_JX_k0_75.png, doc/Implementation_Notes/figures/SDM_3D_SU_
+	PowerDensityProfileZ_JX_k1_0.png, doc/Implementation_Notes/figures/S
+	DM_3D_SU_PowerDensityProfileZ_JX_k1_5.png, doc/Implementation_Notes/
+	figures/SDM_3D_SU_PowerDensityProfileZ_JX_k2_0.png,
+	m/edmcolormap.m.plasma, m/edmcolormap.m.viridis,
+	m/edmcolormap.pal.plasma, m/edmcolormap.pal.viridis,
+	m/plot2D_oct_fdtd.m, m/plot3D_oct_fdtd.m:
+	Remove unused figures, FDTD results and updated links and references
+	[816b7864ade7]
+
+2018-01-12  Ian Flintoft  <ian.flintoft@googlemail.com>
+
+	* doc/Implementation_Notes/EDM_Implementation_Notes.tex,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-EEBC_2D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_2D_DL_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_2D_DL_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_2D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-EEBC_2D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_2D_DU_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_2D_DU_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_2D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityAnisotropyMap_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityAnisotropyMap_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityAnisotropyMap_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityAnisotropyMap_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityAnisotropyMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityFluxMap_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityFluxMap_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityFluxMap_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityFluxMap_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityFluxMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityUniformityMap_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityUniformityMap_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityUniformityMap_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityUniformityMap_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityUniformityMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-EEBC_3D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_3D_DL_PowerDensityMap_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityMap_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityMap_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityMap_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF1.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_3D_DL_PowerDensityPDF1_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF1_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF1_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF1_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF1_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF1_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF2.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_3D_DL_PowerDensityPDF2_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF2_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF2_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF2_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF2_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF2_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileXMeas_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileXMeas_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileXMeas_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileXMeas_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileXMeas_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileX_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileX_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileX_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileX_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileX_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileZ_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileZ_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileZ_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileZ_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileZ_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityAnisotropyMap_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityAnisotropyMap_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityAnisotropyMap_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityAnisotropyMap_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityAnisotropyMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityFluxMap_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityFluxMap_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityFluxMap_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityFluxMap_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityFluxMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityUniformityMap_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityUniformityMap_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityUniformityMap_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityUniformityMap_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityUniformityMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-EEBC_3D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_3D_DU_PowerDensityMap_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityMap_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityMap_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityMap_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF1.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_3D_DU_PowerDensityPDF1_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF1_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF1_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF1_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF1_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF1_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF2.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_3D_DU_PowerDensityPDF2_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF2_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF2_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF2_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF2_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF2_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileXMeas_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileXMeas_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileXMeas_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileXMeas_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileXMeas_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileX_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileX_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileX_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileX_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileX_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileZ_JX_k0_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileZ_JX_k0_75.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileZ_JX_k1_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileZ_JX_k1_5.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileZ_JX_k2_0.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-FCBC_2D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_2D_DL_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_2D_DL_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_2D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-FCBC_2D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_2D_DU_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_2D_DU_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_2D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-FCBC_3D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_3D_DL_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_3D_DL_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_3D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-FCBC_3D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_3D_DU_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_3D_DU_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_3D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-NOSI_2D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_2D_DL_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_2D_DL_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_2D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-NOSI_2D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_2D_DU_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_2D_DU_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_2D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-NOSI_3D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_3D_DL_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_3D_DL_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_3D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_PowerDensityProfileZ_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_EnergyDensityFluxMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_EnergyDensityUniformityMap_JX.png,
+	doc/Implementation_Notes/figures/DDM-NOSI_3D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_PowerDensityMap_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_3D_DU_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_PowerDensityPDF1_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_3D_DU_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_PowerDensityPDF2_JX.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_3D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_PowerDensityProfileXMeas.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_PowerDensityProfileXMeas_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_PowerDensityProfileX_JX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_PowerDensityProfileZ_JX.png, doc/Implementation_Notes/fig
+	ures/SDM_2D_DL_EnergyDensityAnisotropyMap.png, doc/Implementation_No
+	tes/figures/SDM_2D_DL_EnergyDensityAnisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_EnergyDensityFluxMap_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_2D_DL_EnergyDensityUniformi
+	tyMap.png, doc/Implementation_Notes/figures/SDM_2D_DL_EnergyDensityU
+	niformityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityPDF1_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityPDF2_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityProfileXMeas.
+	png, doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityProfileX
+	Meas_JX.png, doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensity
+	ProfileX_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityProfileZ_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_2D_DU_EnergyDensityAnisotro
+	pyMap.png, doc/Implementation_Notes/figures/SDM_2D_DU_EnergyDensityA
+	nisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_EnergyDensityFluxMap_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_2D_DU_EnergyDensityUniformi
+	tyMap.png, doc/Implementation_Notes/figures/SDM_2D_DU_EnergyDensityU
+	niformityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityPDF1_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityPDF2_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityProfileXMeas.
+	png, doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityProfileX
+	Meas_JX.png, doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensity
+	ProfileX_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityProfileZ_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_2D_SL_EnergyDensityAnisotro
+	pyMap.png, doc/Implementation_Notes/figures/SDM_2D_SL_EnergyDensityA
+	nisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_EnergyDensityFluxMap_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_2D_SL_EnergyDensityUniformi
+	tyMap.png, doc/Implementation_Notes/figures/SDM_2D_SL_EnergyDensityU
+	niformityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityPDF.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityPDF_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityProfileXMeas.
+	png, doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityProfileX
+	Meas_JX.png, doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensity
+	ProfileX_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityProfileZ_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_2D_SU_EnergyDensityAnisotro
+	pyMap.png, doc/Implementation_Notes/figures/SDM_2D_SU_EnergyDensityA
+	nisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_EnergyDensityFluxMap_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_2D_SU_EnergyDensityUniformi
+	tyMap.png, doc/Implementation_Notes/figures/SDM_2D_SU_EnergyDensityU
+	niformityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityPDF.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityPDF_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityProfileXMeas.
+	png, doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityProfileX
+	Meas_JX.png, doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensity
+	ProfileX_JX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityProfileZ_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_3D_DL_EnergyDensityAnisotro
+	pyMap.png, doc/Implementation_Notes/figures/SDM_3D_DL_EnergyDensityA
+	nisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_EnergyDensityFluxMap_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_3D_DL_EnergyDensityUniformi
+	tyMap.png, doc/Implementation_Notes/figures/SDM_3D_DL_EnergyDensityU
+	niformityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityPDF1_JX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityPDF2_JX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityProfileXMeas.
+	png, doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityProfileX
+	Meas_JX.png, doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensity
+	ProfileX_JX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityProfileZ_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_3D_DU_EnergyDensityAnisotro
+	pyMap.png, doc/Implementation_Notes/figures/SDM_3D_DU_EnergyDensityA
+	nisotropyMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_EnergyDensityFluxMap_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_3D_DU_EnergyDensityUniformi
+	tyMap.png, doc/Implementation_Notes/figures/SDM_3D_DU_EnergyDensityU
+	niformityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityMap_JX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityPDF1_JX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityPDF2_JX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityProfileXMeas.
+	png, doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityProfileX
+	Meas_JX.png, doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensity
+	ProfileX_JX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityProfileZ_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_3D_SL_EnergyDensityAnisotro
+	pyMap.png, doc/Implementation_Notes/figures/SDM_3D_SL_EnergyDensityA
+	nisotropyMap_JX.png, doc/Implementation_Notes/figures/SDM_3D_SL_Ener
+	gyDensityAnisotropyMap_JX_k0_5.png, doc/Implementation_Notes/figures
+	/SDM_3D_SL_EnergyDensityAnisotropyMap_JX_k0_75.png, doc/Implementati
+	on_Notes/figures/SDM_3D_SL_EnergyDensityAnisotropyMap_JX_k1_0.png, d
+	oc/Implementation_Notes/figures/SDM_3D_SL_EnergyDensityAnisotropyMap
+	_JX_k1_5.png, doc/Implementation_Notes/figures/SDM_3D_SL_EnergyDensi
+	tyAnisotropyMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_EnergyDensityFluxMap_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_3D_SL_EnergyDensityFluxMap_
+	JX_k0_5.png, doc/Implementation_Notes/figures/SDM_3D_SL_EnergyDensit
+	yFluxMap_JX_k0_75.png, doc/Implementation_Notes/figures/SDM_3D_SL_En
+	ergyDensityFluxMap_JX_k1_0.png, doc/Implementation_Notes/figures/SDM
+	_3D_SL_EnergyDensityFluxMap_JX_k1_5.png, doc/Implementation_Notes/fi
+	gures/SDM_3D_SL_EnergyDensityFluxMap_JX_k2_0.png, doc/Implementation
+	_Notes/figures/SDM_3D_SL_EnergyDensityUniformityMap.png, doc/Impleme
+	ntation_Notes/figures/SDM_3D_SL_EnergyDensityUniformityMap_JX.png, d
+	oc/Implementation_Notes/figures/SDM_3D_SL_EnergyDensityUniformityMap
+	_JX_k0_5.png, doc/Implementation_Notes/figures/SDM_3D_SL_EnergyDensi
+	tyUniformityMap_JX_k0_75.png, doc/Implementation_Notes/figures/SDM_3
+	D_SL_EnergyDensityUniformityMap_JX_k1_0.png, doc/Implementation_Note
+	s/figures/SDM_3D_SL_EnergyDensityUniformityMap_JX_k1_5.png, doc/Impl
+	ementation_Notes/figures/SDM_3D_SL_EnergyDensityUniformityMap_JX_k2_
+	0.png, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityMap-
+	Sabine.png, doc/Implementation_Notes/figures
+	/SDM_3D_SL_PowerDensityMap-Sabine_JX.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityMap-
+	Sabine_JX_k0_5.png, doc/Implementation_Notes/figures
+	/SDM_3D_SL_PowerDensityMap-Sabine_JX_k0_75.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityMap-
+	Sabine_JX_k1_0.png, doc/Implementation_Notes/figures
+	/SDM_3D_SL_PowerDensityMap-Sabine_JX_k1_5.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityMap-
+	Sabine_JX_k2_0.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityMap_JX.png, d
+	oc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityMap_JX_k0_5.pn
+	g, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityMap_JX_k0_
+	75.png, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityMap_J
+	X_k1_0.png, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityM
+	ap_JX_k1_5.png, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDens
+	ityMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityPDF.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityPDF_JX.png, d
+	oc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityPDF_JX_k0_5.pn
+	g, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityPDF_JX_k0_
+	75.png, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityPDF_J
+	X_k1_0.png, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityP
+	DF_JX_k1_5.png, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDens
+	ityPDF_JX_k2_0.png, doc/Implementation_Notes/figures
+	/SDM_3D_SL_PowerDensityProfileX-Sabine.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityProfileX-
+	Sabine_JX.png, doc/Implementation_Notes/figures
+	/SDM_3D_SL_PowerDensityProfileX-Sabine_JX_k0_5.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityProfileX-
+	Sabine_JX_k0_75.png, doc/Implementation_Notes/figures
+	/SDM_3D_SL_PowerDensityProfileX-Sabine_JX_k1_0.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityProfileX-
+	Sabine_JX_k1_5.png, doc/Implementation_Notes/figures
+	/SDM_3D_SL_PowerDensityProfileX-Sabine_JX_k2_0.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityProfileXMeas.
+	png, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityProfileX
+	Meas_JX.png, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensity
+	ProfileXMeas_JX_k0_5.png, doc/Implementation_Notes/figures/SDM_3D_SL
+	_PowerDensityProfileXMeas_JX_k0_75.png, doc/Implementation_Notes/fig
+	ures/SDM_3D_SL_PowerDensityProfileXMeas_JX_k1_0.png, doc/Implementat
+	ion_Notes/figures/SDM_3D_SL_PowerDensityProfileXMeas_JX_k1_5.png, do
+	c/Implementation_Notes/figures/SDM_3D_SL_PowerDensityProfileXMeas_JX
+	_k2_0.png, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityPr
+	ofileX_JX.png, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensi
+	tyProfileX_JX_k0_5.png, doc/Implementation_Notes/figures/SDM_3D_SL_P
+	owerDensityProfileX_JX_k0_75.png, doc/Implementation_Notes/figures/S
+	DM_3D_SL_PowerDensityProfileX_JX_k1_0.png, doc/Implementation_Notes/
+	figures/SDM_3D_SL_PowerDensityProfileX_JX_k1_5.png, doc/Implementati
+	on_Notes/figures/SDM_3D_SL_PowerDensityProfileX_JX_k2_0.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityProfileZ_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityProfileZ_
+	JX_k0_5.png, doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensity
+	ProfileZ_JX_k0_75.png, doc/Implementation_Notes/figures/SDM_3D_SL_Po
+	werDensityProfileZ_JX_k1_0.png, doc/Implementation_Notes/figures/SDM
+	_3D_SL_PowerDensityProfileZ_JX_k1_5.png, doc/Implementation_Notes/fi
+	gures/SDM_3D_SL_PowerDensityProfileZ_JX_k2_0.png, doc/Implementation
+	_Notes/figures/SDM_3D_SU_EnergyDensityAnisotropyMap.png, doc/Impleme
+	ntation_Notes/figures/SDM_3D_SU_EnergyDensityAnisotropyMap_JX.png, d
+	oc/Implementation_Notes/figures/SDM_3D_SU_EnergyDensityAnisotropyMap
+	_JX_k0_5.png, doc/Implementation_Notes/figures/SDM_3D_SU_EnergyDensi
+	tyAnisotropyMap_JX_k0_75.png, doc/Implementation_Notes/figures/SDM_3
+	D_SU_EnergyDensityAnisotropyMap_JX_k1_0.png, doc/Implementation_Note
+	s/figures/SDM_3D_SU_EnergyDensityAnisotropyMap_JX_k1_5.png, doc/Impl
+	ementation_Notes/figures/SDM_3D_SU_EnergyDensityAnisotropyMap_JX_k2_
+	0.png,
+	doc/Implementation_Notes/figures/SDM_3D_SU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/SDM_3D_SU_EnergyDensityFluxMap_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_3D_SU_EnergyDensityFluxMap_
+	JX_k0_5.png, doc/Implementation_Notes/figures/SDM_3D_SU_EnergyDensit
+	yFluxMap_JX_k0_75.png, doc/Implementation_Notes/figures/SDM_3D_SU_En
+	ergyDensityFluxMap_JX_k1_0.png, doc/Implementation_Notes/figures/SDM
+	_3D_SU_EnergyDensityFluxMap_JX_k1_5.png, doc/Implementation_Notes/fi
+	gures/SDM_3D_SU_EnergyDensityFluxMap_JX_k2_0.png, doc/Implementation
+	_Notes/figures/SDM_3D_SU_EnergyDensityUniformityMap.png, doc/Impleme
+	ntation_Notes/figures/SDM_3D_SU_EnergyDensityUniformityMap_JX.png, d
+	oc/Implementation_Notes/figures/SDM_3D_SU_EnergyDensityUniformityMap
+	_JX_k0_5.png, doc/Implementation_Notes/figures/SDM_3D_SU_EnergyDensi
+	tyUniformityMap_JX_k0_75.png, doc/Implementation_Notes/figures/SDM_3
+	D_SU_EnergyDensityUniformityMap_JX_k1_0.png, doc/Implementation_Note
+	s/figures/SDM_3D_SU_EnergyDensityUniformityMap_JX_k1_5.png, doc/Impl
+	ementation_Notes/figures/SDM_3D_SU_EnergyDensityUniformityMap_JX_k2_
+	0.png,
+	doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityMap_JX.png, d
+	oc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityMap_JX_k0_5.pn
+	g, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityMap_JX_k0_
+	75.png, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityMap_J
+	X_k1_0.png, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityM
+	ap_JX_k1_5.png, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDens
+	ityMap_JX_k2_0.png,
+	doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityPDF.png,
+	doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityPDF_JX.png, d
+	oc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityPDF_JX_k0_5.pn
+	g, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityPDF_JX_k0_
+	75.png, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityPDF_J
+	X_k1_0.png, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityP
+	DF_JX_k1_5.png, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDens
+	ityPDF_JX_k2_0.png,
+	doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityProfileXMeas.
+	png, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityProfileX
+	Meas_JX.png, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensity
+	ProfileXMeas_JX_k0_5.png, doc/Implementation_Notes/figures/SDM_3D_SU
+	_PowerDensityProfileXMeas_JX_k0_75.png, doc/Implementation_Notes/fig
+	ures/SDM_3D_SU_PowerDensityProfileXMeas_JX_k1_0.png, doc/Implementat
+	ion_Notes/figures/SDM_3D_SU_PowerDensityProfileXMeas_JX_k1_5.png, do
+	c/Implementation_Notes/figures/SDM_3D_SU_PowerDensityProfileXMeas_JX
+	_k2_0.png, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityPr
+	ofileX_JX.png, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensi
+	tyProfileX_JX_k0_5.png, doc/Implementation_Notes/figures/SDM_3D_SU_P
+	owerDensityProfileX_JX_k0_75.png, doc/Implementation_Notes/figures/S
+	DM_3D_SU_PowerDensityProfileX_JX_k1_0.png, doc/Implementation_Notes/
+	figures/SDM_3D_SU_PowerDensityProfileX_JX_k1_5.png, doc/Implementati
+	on_Notes/figures/SDM_3D_SU_PowerDensityProfileX_JX_k2_0.png,
+	doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityProfileZ_JX.p
+	ng, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityProfileZ_
+	JX_k0_5.png, doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensity
+	ProfileZ_JX_k0_75.png, doc/Implementation_Notes/figures/SDM_3D_SU_Po
+	werDensityProfileZ_JX_k1_0.png, doc/Implementation_Notes/figures/SDM
+	_3D_SU_PowerDensityProfileZ_JX_k1_5.png, doc/Implementation_Notes/fi
+	gures/SDM_3D_SU_PowerDensityProfileZ_JX_k2_0.png, edp/SEA.edp,
+	edp/postprocess2D.edp, edp/postprocess2D_DDM.edp,
+	edp/postprocess3D.edp, edp/postprocess3D_DDM.edp, m/SEA.m,
+	m/makeContourLines.m, m/plot2D_oct.m, m/plot3D_oct.m,
+	m/plotContourHeatMap.m, m/plotLineGraph.m:
+	added doc/Implementation_Notes/figures/*.png
+
+	 New figures for notes.
+
+	added m/makeContourLines.m
+
+	 Helper function to determine contour line values.
+
+	changed doc/Implementation_Notes/EDM_Implementation_Notes.tex
+
+	 Updated report.
+
+	changed edp/SEA.edp changed m/SEA.m
+
+	 Rationalise use of areas and determination of diffusivity.
+
+	changed edp/postprocess2D.edp changed edp/postprocess2D_DDM.edp
+	changed edp/postprocess3D.edp changed edp/postprocess3D_DDM.edp
+
+	 Disable waiting on plots for automated rebuilds.
+
+	changed m/plot2D_oct.m changed m/plot3D_oct.m changed
+	m/plotContourHeatMap.m
+
+	 Improve autoscaling and contours.
+
+	changed m/plotLineGraph.m
+
+	 Allow 10 lines.
+	[d3feb09a5747]
+
+2018-01-06  Ian Flintoft  <ian.flintoft@googlemail.com>
+
+	* doc/Implementation_Notes/EDM_Implementation_Notes.tex,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-EEBC_2D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_PowerDensityPDF1.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_2D_DL_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-EEBC_2D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_PowerDensityPDF1.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_2D_DU_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_2D_DU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-EEBC_3D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityPDF1.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_3D_DL_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-EEBC_3D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityPDF1.png, doc/Implementation_Notes/figures
+	/DDM-EEBC_3D_DU_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	EEBC_3D_DU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-FCBC_2D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_PowerDensityPDF1.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_2D_DL_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-FCBC_2D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_PowerDensityPDF1.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_2D_DU_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_2D_DU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-FCBC_3D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_PowerDensityPDF1.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_3D_DL_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-FCBC_3D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_PowerDensityPDF1.png, doc/Implementation_Notes/figures
+	/DDM-FCBC_3D_DU_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	FCBC_3D_DU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-NOSI_2D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_PowerDensityPDF1.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_2D_DL_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-NOSI_2D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_PowerDensityPDF1.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_2D_DU_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_2D_DU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-NOSI_3D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_PowerDensityPDF1.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_3D_DL_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_EnergyDensityUniformityMap.png,
+	doc/Implementation_Notes/figures/DDM-NOSI_3D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_PowerDensityPDF1.png, doc/Implementation_Notes/figures
+	/DDM-NOSI_3D_DU_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/DDM-
+	NOSI_3D_DU_PowerDensityProfileZ.png, doc/Implementation_Notes/figure
+	s/Partitioned_Cylinder_DDM_3D_EnergyDensityAnisotropyMap.png, doc/Im
+	plementation_Notes/figures/Partitioned_Cylinder_DDM_3D_EnergyDensity
+	FluxMap.png, doc/Implementation_Notes/figures/Partitioned_Cylinder_D
+	DM_3D_EnergyDensityUniformityMap.png, doc/Implementation_Notes/figur
+	es/Partitioned_Cylinder_DDM_3D_PowerDensityProfileX.png, doc/Impleme
+	ntation_Notes/figures/Partitioned_Cylinder_DDM_3D_PowerDensityProfil
+	eZ.png, doc/Implementation_Notes/figures/Partitioned_Cylinder_SDM_3D
+	_EnergyDensityAnisotropyMap.png, doc/Implementation_Notes/figures/Pa
+	rtitioned_Cylinder_SDM_3D_EnergyDensityFluxMap.png, doc/Implementati
+	on_Notes/figures/Partitioned_Cylinder_SDM_3D_EnergyDensityUniformity
+	Map.png, doc/Implementation_Notes/figures/Partitioned_Cylinder_SDM_3
+	D_PowerDensityProfileX.png, doc/Implementation_Notes/figures/Partiti
+	oned_Cylinder_SDM_3D_PowerDensityProfileZ.png, doc/Implementation_No
+	tes/figures/Partitioned_Empty_DDM_3D_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/Partitioned_Empty_DDM_3D_EnergyDens
+	ityFluxMap.png, doc/Implementation_Notes/figures/Partitioned_Empty_D
+	DM_3D_EnergyDensityUniformityMap.png, doc/Implementation_Notes/figur
+	es/Partitioned_Empty_DDM_3D_PowerDensityProfileX.png, doc/Implementa
+	tion_Notes/figures/Partitioned_Empty_DDM_3D_PowerDensityProfileZ.png
+	, doc/Implementation_Notes/figures/Partitioned_Empty_SDM_3D_EnergyDe
+	nsityAnisotropyMap.png, doc/Implementation_Notes/figures/Partitioned
+	_Empty_SDM_3D_EnergyDensityFluxMap.png, doc/Implementation_Notes/fig
+	ures/Partitioned_Empty_SDM_3D_EnergyDensityUniformityMap.png, doc/Im
+	plementation_Notes/figures/Partitioned_Empty_SDM_3D_PowerDensityProf
+	ileX.png, doc/Implementation_Notes/figures/Partitioned_Empty_SDM_3D_
+	PowerDensityProfileZ.png, doc/Implementation_Notes/figures/SDM_2D_DL
+	_EnergyDensityAnisotropyMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_EnergyDensityUniformityMa
+	p.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_EnergyDensityAnisotropyMa
+	p.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_EnergyDensityUniformityMa
+	p.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/SDM_2D_DU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_EnergyDensityAnisotropyMa
+	p.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_EnergyDensityUniformityMa
+	p.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityPDF.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_EnergyDensityAnisotropyMa
+	p.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_EnergyDensityUniformityMa
+	p.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityPDF.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/SDM_2D_SU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_EnergyDensityAnisotropyMa
+	p.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_EnergyDensityUniformityMa
+	p.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_EnergyDensityAnisotropyMa
+	p.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_EnergyDensityUniformityMa
+	p.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityPDF1.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityPDF2.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/SDM_3D_DU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_EnergyDensityAnisotropyMa
+	p.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_EnergyDensityUniformityMa
+	p.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityPDF.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/SDM_3D_SL_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/SDM_3D_SU_EnergyDensityAnisotropyMa
+	p.png,
+	doc/Implementation_Notes/figures/SDM_3D_SU_EnergyDensityFluxMap.png,
+	doc/Implementation_Notes/figures/SDM_3D_SU_EnergyDensityUniformityMa
+	p.png,
+	doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityMap.png,
+	doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityPDF.png,
+	doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityProfileX.png,
+	doc/Implementation_Notes/figures/SDM_3D_SU_PowerDensityProfileZ.png,
+	doc/Implementation_Notes/figures/Unpartitioned_Cylinder_SDM_3D_Energ
+	yDensityAnisotropyMap.png, doc/Implementation_Notes/figures/Unpartit
+	ioned_Cylinder_SDM_3D_EnergyDensityFluxMap.png, doc/Implementation_N
+	otes/figures/Unpartitioned_Cylinder_SDM_3D_EnergyDensityUniformityMa
+	p.png, doc/Implementation_Notes/figures/Unpartitioned_Cylinder_SDM_3
+	D_PowerDensityProfileX.png, doc/Implementation_Notes/figures/Unparti
+	tioned_Cylinder_SDM_3D_PowerDensityProfileZ.png, doc/Implementation_
+	Notes/figures/Unpartitioned_Empty_SDM_3D_EnergyDensityAnisotropyMap.
+	png, doc/Implementation_Notes/figures/Unpartitioned_Empty_SDM_3D_Ene
+	rgyDensityFluxMap.png, doc/Implementation_Notes/figures/Unpartitione
+	d_Empty_SDM_3D_EnergyDensityUniformityMap.png, doc/Implementation_No
+	tes/figures/Unpartitioned_Empty_SDM_3D_PowerDensityProfileX.png, doc
+	/Implementation_Notes/figures/Unpartitioned_Empty_SDM_3D_PowerDensit
+	yProfileZ.png:
+	Update all results in report.
+	[5576b1a35830]
+
+2018-01-05  Ian Flintoft  <ian.flintoft@googlemail.com>
+
+	* FEM_DDM_2D/Model1/Model1.m, FEM_DDM_3D/Meshes/DDM_3D_2.geo,
+	FEM_DDM_3D/Meshes/cavity2.mesh, FEM_DDM_3D/Model1/Model1.m,
+	FEM_SDM_2D/Model1/Model1.m, FEM_SDM_3D/Model1/Model1.m,
+	doc/Implementation_Notes/EDM_Implementation_Notes.tex,
+	edp/derivedParameters.edp, m/derivedParameters.m,
+	m/derivedParametersDDM.m, m/plot2D_gnp.m, m/plot2D_oct.m,
+	m/plot3D_gnp.m, m/plot3D_oct.m:
+	added m/derivedParametersDDM.m changed FEM_DDM_2D/Model1/Model1.m
+	changed FEM_DDM_3D/Model1/Model1.m changed
+	FEM_SDM_2D/Model1/Model1.m changed FEM_SDM_3D/Model1/Model1.m
+
+	 Account for small difference in wall area in DDM models.
+
+	changed edp/derivedParameters.edp changed m/derivedParameters.m
+
+	 Fix incorrect wall area calculation.
+
+	changed FEM_DDM_3D/Meshes/DDM_3D_2.geo changed
+	FEM_DDM_3D/Meshes/cavity2.mesh
+
+	 Fix incorrect surface grouping for unloaded case.
+
+	changed doc/Implementation_Notes/EDM_Implementation_Notes.tex
+
+	 Update.
+
+	changed m/plot2D_gnp.m changed m/plot2D_oct.m changed m/plot3D_gnp.m
+	changed m/plot3D_oct.m
+
+	 Fix y slice coordinates and axis labels.
+	[1223f16eebd3]
+
+2017-12-10  Ian Flintoft  <ian.flintoft@googlemail.com>
+
+	* ReadMe.md, doc/Implementation_Notes/EDM_Implementation_Notes.bib,
+	doc/Implementation_Notes/EDM_Implementation_Notes.tex:
+	Update links.
+	[0241ff6a8f25]
+
+2017-06-24  Ian Flintoft  <ian.flintoft@googlemail.com>
+
+	* ReadMe.md:
+	user: Ian Flintoft <ian.flintoft@googlemail.com> branch 'default'
+	changed ReadMe.md
+
+	 Fix broken link.
+	[3d7d862a8f38]
+
+2017-06-23  Ian Flintoft  <ian.flintoft@googlemail.com>
+
+	* doc/Implementation_Notes/EDM_Implementation_Notes.tex, doc/Implement
+	ation_Notes/figures/Partitioned_Cylinder_DDM_3D_EnergyDensityAnisotr
+	opyMap.png, doc/Implementation_Notes/figures/Partitioned_Cylinder_DD
+	M_3D_EnergyDensityFluxMap.png, doc/Implementation_Notes/figures/Part
+	itioned_Cylinder_DDM_3D_EnergyDensityUniformityMap.png, doc/Implemen
+	tation_Notes/figures/Partitioned_Cylinder_DDM_3D_PowerDensityProfile
+	X.png, doc/Implementation_Notes/figures/Partitioned_Cylinder_DDM_3D_
+	PowerDensityProfileZ.png, doc/Implementation_Notes/figures/Partition
+	ed_Cylinder_SDM_3D_EnergyDensityAnisotropyMap.png, doc/Implementatio
+	n_Notes/figures/Partitioned_Cylinder_SDM_3D_EnergyDensityFluxMap.png
+	, doc/Implementation_Notes/figures/Partitioned_Cylinder_SDM_3D_Energ
+	yDensityUniformityMap.png, doc/Implementation_Notes/figures/Partitio
+	ned_Cylinder_SDM_3D_PowerDensityProfileX.png, doc/Implementation_Not
+	es/figures/Partitioned_Cylinder_SDM_3D_PowerDensityProfileZ.png, doc
+	/Implementation_Notes/figures/Partitioned_Empty_DDM_3D_EnergyDensity
+	AnisotropyMap.png, doc/Implementation_Notes/figures/Partitioned_Empt
+	y_DDM_3D_EnergyDensityFluxMap.png, doc/Implementation_Notes/figures/
+	Partitioned_Empty_DDM_3D_EnergyDensityUniformityMap.png, doc/Impleme
+	ntation_Notes/figures/Partitioned_Empty_DDM_3D_PowerDensityProfileX.
+	png, doc/Implementation_Notes/figures/Partitioned_Empty_DDM_3D_Power
+	DensityProfileZ.png, doc/Implementation_Notes/figures/Partitioned_Em
+	pty_SDM_3D_EnergyDensityAnisotropyMap.png, doc/Implementation_Notes/
+	figures/Partitioned_Empty_SDM_3D_EnergyDensityFluxMap.png, doc/Imple
+	mentation_Notes/figures/Partitioned_Empty_SDM_3D_EnergyDensityUnifor
+	mityMap.png, doc/Implementation_Notes/figures/Partitioned_Empty_SDM_
+	3D_PowerDensityProfileX.png, doc/Implementation_Notes/figures/Partit
+	ioned_Empty_SDM_3D_PowerDensityProfileZ.png, doc/Implementation_Note
+	s/figures/Unpartitioned_Cylinder_SDM_3D_EnergyDensityAnisotropyMap.p
+	ng, doc/Implementation_Notes/figures/Unpartitioned_Cylinder_SDM_3D_E
+	nergyDensityFluxMap.png, doc/Implementation_Notes/figures/Unpartitio
+	ned_Cylinder_SDM_3D_EnergyDensityUniformityMap.png, doc/Implementati
+	on_Notes/figures/Unpartitioned_Cylinder_SDM_3D_PowerDensityProfileX.
+	png, doc/Implementation_Notes/figures/Unpartitioned_Cylinder_SDM_3D_
+	PowerDensityProfileZ.png, doc/Implementation_Notes/figures/Unpartiti
+	oned_Empty_SDM_3D_EnergyDensityAnisotropyMap.png, doc/Implementation
+	_Notes/figures/Unpartitioned_Empty_SDM_3D_EnergyDensityFluxMap.png,
+	d
+	oc/Implementation_Notes/figures/Unpartitioned_Empty_SDM_3D_EnergyDen
+	sityUniformityMap.png, doc/Implementation_Notes/figures/Unpartitione
+	d_Empty_SDM_3D_PowerDensityProfileX.png, doc/Implementation_Notes/fi
+	gures/Unpartitioned_Empty_SDM_3D_PowerDensityProfileZ.png,
+	doc/ToDo.md, m/gnpContourHeatMap.m, m/gnpContourHeatMap2.m,
+	m/gnpContourMap.m, m/gnpContourMap2.m, m/gnpHeatMap.m,
+	m/gnpVectorHeatMap.m, m/gnpVectorMap.m, m/plot2D_gnp.m,
+	m/plot2D_oct.m, m/plot3D_gnp.m, m/plot3D_oct.m, m/postprocess2D.m:
+	user: Ian Flintoft <ian.flintoft@googlemail.com> branch 'default'
+
+	added doc/Implementation_Notes/figures/Partitioned_Cylinder_DDM_3D_E
+	nergyDensityAnisotropyMap.png added doc/Implementation_Notes/figures
+	/Partitioned_Cylinder_DDM_3D_EnergyDensityFluxMap.png added doc/Impl
+	ementation_Notes/figures/Partitioned_Cylinder_DDM_3D_EnergyDensityUn
+	iformityMap.png added doc/Implementation_Notes/figures/Partitioned_C
+	ylinder_DDM_3D_PowerDensityProfileX.png added doc/Implementation_Not
+	es/figures/Partitioned_Cylinder_DDM_3D_PowerDensityProfileZ.png
+	added doc/Implementation_Notes/figures/Partitioned_Cylinder_SDM_3D_E
+	nergyDensityAnisotropyMap.png added doc/Implementation_Notes/figures
+	/Partitioned_Cylinder_SDM_3D_EnergyDensityFluxMap.png added doc/Impl
+	ementation_Notes/figures/Partitioned_Cylinder_SDM_3D_EnergyDensityUn
+	iformityMap.png added doc/Implementation_Notes/figures/Partitioned_C
+	ylinder_SDM_3D_PowerDensityProfileX.png added doc/Implementation_Not
+	es/figures/Partitioned_Cylinder_SDM_3D_PowerDensityProfileZ.png
+	added doc/Implementation_Notes/figures/Partitioned_Empty_DDM_3D_Ener
+	gyDensityAnisotropyMap.png added doc/Implementation_Notes/figures/Pa
+	rtitioned_Empty_DDM_3D_EnergyDensityFluxMap.png added doc/Implementa
+	tion_Notes/figures/Partitioned_Empty_DDM_3D_EnergyDensityUniformityM
+	ap.png added doc/Implementation_Notes/figures/Partitioned_Empty_DDM_
+	3D_PowerDensityProfileX.png added doc/Implementation_Notes/figures/P
+	artitioned_Empty_DDM_3D_PowerDensityProfileZ.png added doc/Implement
+	ation_Notes/figures/Partitioned_Empty_SDM_3D_EnergyDensityAnisotropy
+	Map.png added doc/Implementation_Notes/figures/Partitioned_Empty_SDM
+	_3D_EnergyDensityFluxMap.png added doc/Implementation_Notes/figures/
+	Partitioned_Empty_SDM_3D_EnergyDensityUniformityMap.png added doc/Im
+	plementation_Notes/figures/Partitioned_Empty_SDM_3D_PowerDensityProf
+	ileX.png added doc/Implementation_Notes/figures/Partitioned_Empty_SD
+	M_3D_PowerDensityProfileZ.png added doc/Implementation_Notes/figures
+	/Unpartitioned_Cylinder_SDM_3D_EnergyDensityAnisotropyMap.png added
+	d
+	oc/Implementation_Notes/figures/Unpartitioned_Cylinder_SDM_3D_Energy
+	DensityFluxMap.png added doc/Implementation_Notes/figures/Unpartitio
+	ned_Cylinder_SDM_3D_EnergyDensityUniformityMap.png added doc/Impleme
+	ntation_Notes/figures/Unpartitioned_Cylinder_SDM_3D_PowerDensityProf
+	ileX.png added doc/Implementation_Notes/figures/Unpartitioned_Cylind
+	er_SDM_3D_PowerDensityProfileZ.png added doc/Implementation_Notes/fi
+	gures/Unpartitioned_Empty_SDM_3D_EnergyDensityAnisotropyMap.png
+	added doc/Implementation_Notes/figures/Unpartitioned_Empty_SDM_3D_En
+	ergyDensityFluxMap.png added doc/Implementation_Notes/figures/Unpart
+	itioned_Empty_SDM_3D_EnergyDensityUniformityMap.png added doc/Implem
+	entation_Notes/figures/Unpartitioned_Empty_SDM_3D_PowerDensityProfil
+	eX.png added doc/Implementation_Notes/figures/Unpartitioned_Empty_SD
+	M_3D_PowerDensityProfileZ.png changed
+	doc/Implementation_Notes/EDM_Implementation_Notes.tex
+
+	 Added results from initial run of models.
+
+	changed m/gnpContourHeatMap.m changed m/gnpContourMap.m changed
+	m/gnpContourMap2.m changed m/gnpHeatMap.m changed
+	m/gnpVectorHeatMap.m changed m/gnpVectorMap.m
+
+	 Improve margins.
+
+	changed m/plot2D_gnp.m changed m/plot2D_oct.m changed m/plot3D_gnp.m
+	changed m/plot3D_oct.m changed m/postprocess2D.m
+
+	 Fixes.
+
+	added m/gnpContourHeatMap2.m
+
+	 Looking for better plot.
+
+	changed doc/ToDo.md
+
+	 Update.
+	[b32bb0ca5806]
+
+2017-06-14  Ian Flintoft  <ian.flintoft@googlemail.com>
+
+	* FEM_DDM_2D/Model1/Model1.m, FEM_DDM_3D/Model1/Model1.m,
+	FEM_SDM_2D/Model1/Model1.m, FEM_SDM_3D/Model1/Model1.m,
+	doc/Implementation_Notes/EDM_Implementation_Notes.tex, m/plot2D.m,
+	m/plot2D_gnp.m, m/plot3D.m, m/plot3D_gnp.m, m/plot3D_oct.m:
+	user: Ian Flintoft <ian.flintoft@googlemail.com> branch 'default'
+
+	changed FEM_DDM_2D/Model1/Model1.m changed
+	FEM_DDM_3D/Model1/Model1.m changed FEM_SDM_2D/Model1/Model1.m
+	changed FEM_SDM_3D/Model1/Model1.m changed m/plot2D_gnp.m changed
+	m/plot3D_gnp.m changed m/plot3D_oct.m removed m/plot2D.m removed
+	m/plot3D.m
+
+	 Fixed shape differences between 2D ans 3D plot data.
+
+	changed doc/Implementation_Notes/EDM_Implementation_Notes.tex
+
+	 Start adding results.
+	[64c7e23c455f]
+
+	* doc/Implementation_Notes/EDM_Implementation_Notes.tex, m/PWB.m,
+	m/edmcolormap.m, m/edmcolormap.pal, m/gnpBarChart.m,
+	m/gnpContourGenerator.sh, m/gnpContourHeatMap.m, m/gnpContourMap.m,
+	m/gnpContourMap2.m, m/gnpHeatMap.m, m/gnpLineGraph.m, m/gnpTests.m,
+	m/gnpVectorHeatMap.m, m/gnpVectorMap.m, m/plot2D.m, m/plot2D_gnp.m,
+	m/plot2D_oct.m, m/plot3D.m, m/plot3D_gnp.m, m/plot3D_oct.m,
+	m/plotBarChart.m, m/plotContourHeatMap.m, m/plotContourMap.m,
+	m/plotHeatMap.m, m/plotLineGraph.m, m/plotTests.m,
+	m/plotVectorHeatMap.m, m/plotVectorMap.m, m/postprocess2D.m,
+	m/postprocess3D.m:
+	user: Ian Flintoft <ian.flintoft@googlemail.com> branch 'default'
+
+	changed doc/Implementation_Notes/EDM_Implementation_Notes.tex
+
+	 Table template for results.
+
+	changed m/PWB.m
+
+	 Reporting moved. Fix typo.
+
+	changed m/edmcolormap.m changed m/edmcolormap.pal changed
+	m/gnpBarChart.m changed m/gnpContourGenerator.sh changed
+	m/gnpContourHeatMap.m changed m/gnpContourMap.m changed
+	m/gnpContourMap2.m changed m/gnpHeatMap.m changed m/gnpLineGraph.m
+	changed m/gnpVectorHeatMap.m changed m/gnpVectorMap.m changed
+	m/plot2D.m changed m/plot2D_gnp.m changed m/plot2D_oct.m changed
+	m/plot3D.m changed m/plot3D_gnp.m changed m/plot3D_oct.m changed
+	m/plotBarChart.m changed m/plotContourHeatMap.m changed
+	m/plotContourMap.m changed m/plotHeatMap.m changed m/plotLineGraph.m
+	changed m/plotVectorHeatMap.m changed m/plotVectorMap.m changed
+	m/postprocess2D.m changed m/postprocess3D.m removed m/gnpTests.m
+	removed m/plotTests.m
+
+	 Updated plots functions.
+	[765b4089afea]
+
+2017-06-11  Ian Flintoft  <ian.flintoft@googlemail.com>
+
+	* doc/ToDo.md, m/edmcolormap.m, m/edmcolormap.pal, m/gnpBarChart.m,
+	m/gnpContourHeatMap.m, m/gnpContourMap.m, m/gnpContourMap2.m,
+	m/gnpHeatMap.m, m/gnpLineGraph.m, m/gnpVectorHeatMap.m,
+	m/gnpVectorMap.m, m/palette.gnp, m/plot2D.m, m/plot2D_gnp.m,
+	m/plot2D_oct.m, m/plot3D.m, m/plot3D_gnp.m, m/plot3D_oct.m,
+	m/plotBarChart.m, m/plotContourHeatMap.m, m/plotContourMap.m,
+	m/plotHeatMap.m, m/plotLineGraph.m, m/plotVectorHeatMap.m,
+	m/plotVectorMap.m, m/postprocess2D.m, m/postprocess3D.m,
+	m/viridis.m:
+	user: Ian Flintoft <ian.flintoft@googlemail.com> branch 'default'
+
+	added m/edmcolormap.m added m/edmcolormap.pal removed m/palette.gnp
+	removed m/viridis.m changed m/gnpContourHeatMap.m changed
+	m/gnpContourMap.m changed m/gnpContourMap2.m changed m/gnpHeatMap.m
+	changed m/gnpVectorHeatMap.m changed m/gnpVectorMap.m changed
+	m/plotContourHeatMap.m changed m/plotContourMap.m changed
+	m/plotHeatMap.m changed m/plotVectorHeatMap.m changed
+	m/plotVectorMap.m
+
+	 Changed colourmap handling. Shipped using plasma.
+
+	added m/gnpBarChart.m added m/gnpLineGraph.m added m/plotBarChart.m
+	added m/plotLineGraph.m
+
+	 Now plot functions.
+
+	added m/plot2D_gnp.m added m/plot2D_oct.m added m/plot3D_gnp.m added
+	m/plot3D_oct.m changed m/plot2D.m changed m/plot3D.m
+
+	 Now have Gnuplot and Octave version of plots.
+
+	changed m/postprocess2D.m changed m/postprocess3D.m
+
+	 Added writing statistics to file.
+
+	changed doc/ToDo.md
+
+	 Updated.
+	[5a707b2e91d5]
+
+2017-06-10  Ian Flintoft  <ian.flintoft@googlemail.com>
+
+	* ReadMe.md, doc/Implementation_Notes/EDM_Implementation_Notes.bib,
+	doc/Implementation_Notes/EDM_Implementation_Notes.tex,
+	doc/Implementation_Notes/figures/2D_SDM_w_map.png, doc/ToDo.md,
+	doc/Variables.md, m/gnpContourGenerator.sh, m/gnpContourHeatMap.m,
+	m/gnpContourMap.m, m/gnpContourMap2.m, m/gnpHeatMap.m, m/gnpTests.m,
+	m/gnpVectorHeatMap.m, m/gnpVectorMap.m, m/palette.gnp, m/plot2D.m,
+	m/plot3D.m, m/plotContourHeatMap.m, m/plotContourMap.m,
+	m/plotHeatMap.m, m/plotTests.m, m/plotVectorHeatMap.m,
+	m/plotVectorMap.m, m/viridis.m:
+	user: Ian Flintoft <ian.flintoft@googlemail.com> branch 'default'
+
+	added doc/Implementation_Notes/figures/2D_SDM_w_map.png changed
+	ReadMe.md changed
+	doc/Implementation_Notes/EDM_Implementation_Notes.bib changed
+	doc/Implementation_Notes/EDM_Implementation_Notes.tex changed
+	doc/ToDo.md changed doc/Variables.md
+
+	 Update manual and other docs.
+
+	changed m/plot2D.m changed m/plot3D.m added m/gnpContourGenerator.sh
+	added m/gnpContourHeatMap.m added m/gnpContourMap.m added
+	m/gnpContourMap2.m added m/gnpHeatMap.m added m/gnpTests.m added
+	m/gnpVectorHeatMap.m added m/gnpVectorMap.m added m/palette.gnp
+	added m/plotContourHeatMap.m added m/plotContourMap.m added
+	m/plotHeatMap.m added m/plotTests.m added m/plotVectorHeatMap.m
+	added m/plotVectorMap.m added m/viridis.m
+
+	 New plot utility functions. Not integrated yet.
+	[5becc3b3a844]
+
+2017-06-07  Ian Flintoft  <ian.flintoft@googlemail.com>
+
+	* FEM_SDM_3D/Model1/Model1_TD.edp,
+	doc/Implementation_Notes/EDM_Implementation_Notes.bib,
+	doc/Implementation_Notes/EDM_Implementation_Notes.tex,
+	doc/Implementation_Notes/figures/gmshdualmesh.png:
+	user: Ian Flintoft <ian.flintoft@googlemail.com> branch 'default'
+	added FEM_SDM_3D/Model1/Model1_TD.edp
+
+	 Time dependent solution for 3D single domain method.
+
+	added doc/Implementation_Notes/figures/gmshdualmesh.png changed
+	doc/Implementation_Notes/EDM_Implementation_Notes.bib changed
+	doc/Implementation_Notes/EDM_Implementation_Notes.tex
+
+	 Many fixes, small additions and references added.
+	[358e0223fbd7]
+
 2017-06-06  Ian Flintoft  <ian.flintoft@googlemail.com>
+
+	* doc/Implementation_Notes/EDM_Implementation_Notes.tex:
+	user: Ian Flintoft <ian.flintoft@googlemail.com> branch 'default'
+	changed doc/Implementation_Notes/EDM_Implementation_Notes.tex
+
+	 Fix typos.
+	[c9f550ae5b2e]
+
+	* ReadMe.md, doc/ChangeLog.txt,
+	doc/Implementation_Notes/EDM_Implementation_Notes.tex:
+	user: Ian Flintoft <ian.flintoft@googlemail.com> branch 'default'
+	added doc/ChangeLog.txt
+
+	 Add changelog.
+
+	changed ReadMe.md changed
+	doc/Implementation_Notes/EDM_Implementation_Notes.tex
+
+	 Fix typos and a few additions.
+	[b4d925be3b53]
 
 	* FEM_DDM_2D/Model1/Model1.m, FEM_DDM_2D/Model1/Model1_EEBC.edp,
 	FEM_DDM_2D/Model1/Model1_FCBC.edp,
@@ -35,7 +2282,7 @@
 
 	 Reorganised location of parameter calculations ready to implement
 	mesh driven calculation of volumes and areas.
-	[9af47d612582] [tip]
+	[9af47d612582]
 
 2017-06-04  Ian Flintoft  <ian.flintoft@googlemail.com>
 

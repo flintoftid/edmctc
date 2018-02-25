@@ -170,8 +170,11 @@ interested in helping with these or any other aspect of development.
 
 ## Licence
 
-The code is licensed under the GNU Public Licence, version 3 [GPL3][]. For 
-details see the file [Licence.txt][].
+The software code is licensed under the GNU Public Licence, version 3 [GPL3][]. 
+For details see the file [gpl-3.0.txt][].
+
+The implementation notes are licensed under the GNU Free Documentation Licence,
+version 1.3. For details see the file doc/Implementation_Notes/[fdl-1.3.txt][].
 
 ## Developers
 
@@ -258,7 +261,8 @@ modeling techniques”, J. Acoust. Soc. Am., vol. 138, no .2, pp. 708–730, 201
 [Bugs.md]: https://bitbucket.org/uoyaeg/edmctc/src/tip/doc/Bugs.md
 [ToDo.md]: https://bitbucket.org/uoyaeg/edmctc/src/tip/doc/ToDo.md
 [Variables.md]: https://bitbucket.org/uoyaeg/edmctc/src/tip/doc/Variables.md
-[Licence.txt]: https://bitbucket.org/uoyaeg/edmctc/src/tip/Licence.txt
+[gpl-3.0.txt]: https://bitbucket.org/uoyaeg/edmctc/src/tip/gpl-3.0.txt
+[fdl-1.3.txt]: https://bitbucket.org/uoyaeg/edmctc/src/tip/doc/Implementation_Notes/fdl-1.3.txt
 [FEM_SDM_2D]: https://bitbucket.org/uoyaeg/edmctc/src/tip/FEM_SDM_2D
 [FEM_DDM_2D]: https://bitbucket.org/uoyaeg/edmctc/src/tip/FEM_DDM_2D
 [FEM_SDM_3D]: https://bitbucket.org/uoyaeg/edmctc/src/tip/FEM_SDM_3D

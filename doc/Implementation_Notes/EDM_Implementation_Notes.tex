@@ -1,3 +1,10 @@
+% This is part of the Electromagnetic Diffusion Model Canonical Example 
+% Suite Implementation Notes
+%
+% Copyright (C) 2017-2018 Ian D. Flintoft <ian.flintoft@googlemail.com>
+%
+% See the file fdl-1.3.tex for copying conditions.
+%
 \documentclass[a4paper]{article}
 %
 \usepackage[utf8]{inputenc}
@@ -12,7 +19,7 @@
 \usepackage{hhline}
 \usepackage{float}
 \usepackage{hyperref}
-\hypersetup{colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=blue, urlcolor=blue, pdftitle=Implementation of the electromagnetic diffusion model of canonical test cases using the finite element method, pdfauthor=Ian Flintoft, pdfkeywords=power balance; diffusion; statistical energy balance}
+\hypersetup{colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=blue, urlcolor=blue, pdftitle=Electromagnetic Diffusion Model Canonical Example Suite Implementation Notes, pdfauthor=Ian Flintoft, pdfkeywords=power balance; diffusion; statistical energy balance}
 \usepackage[pdftex]{graphicx}
 \usepackage[nottoc]{tocbibind}
 \usepackage{stmaryrd}
@@ -43,7 +50,7 @@
 \providecommand\oiint{\oint}
 \newcommand*{\defeq}{\stackrel{\text{def}}{=}}
 %
-\title{Implementation of electromagnetic diffusion model canonical test cases using FreeFEM++}
+\title{Electromagnetic Diffusion Model Canonical Example Suite Implementation Notes}
 \author{Ian Flintoft}
 %\date{2017-02-04}
 \renewcommand{\headrulewidth}{0.0pt}
@@ -57,13 +64,18 @@
 %
 \begin{document}
 \clearpage\setcounter{page}{1}{\centering
-\textbf{\Large Implementation of EDM canonical test cases using FreeFEM++}
+\textbf{\Large Electromagnetic Diffusion Model Canonical Example Suite Implementation Notes}
 \par}
 \vspace{5mm}
 \thispagestyle{plain}
 {\centering\large 
-Ian Flintoft\footnote{ Email: \href{mailto:ian.flintoft@googlemail.com}{ian.flintoft@googlemail.com}; 
-Web: \url{https://idflintoft.bitbucket.io}}
+Ian Flintoft\footnote{
+Copyright (C) 2017-2018 Ian D. Flintoft <\href{mailto:ian.flintoft@googlemail.com}{ian.flintoft@googlemail.com}>.
+Permission is granted to copy, distribute and/or modify this document under the 
+terms of the GNU Free Documentation License, Version 1.3 or any later version 
+published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, 
+and no Back-Cover Texts. A copy of the license is included in the appendix entitled "GNU
+Free Documentation License".}
 \par}
 \vspace{5mm}
 {\centering
@@ -1372,7 +1384,7 @@ The power density is fairly uniform within each sub-cavity, with a COV of about 
 and a slightly lower value of 0.45\,\% in the coupled cavity. The 2D and 3D models are in very close agreement
 and the EEBC and SDM models only differ by about 1\,\%.
 
-\begin{table}[h]
+\begin{table}[ht]
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline
@@ -1398,7 +1410,7 @@ and the EEBC and SDM models only differ by about 1\,\%.
 \caption{\label{tb:derivparamdu} Derived parameters for the unloaded partitioned cavity.}
 \end{table}
 
-\begin{table}[h]
+\begin{table}[ht]
 \begin{center}
 \begin{tabular}{|l|c|c|c|c|c|}
 \hline
@@ -1931,5 +1943,13 @@ topology of the cavity significantly, resulting in a signiifcantly shorter MFP.
 \bibliographystyle{myabbrvnat}
 %\bibliographystyle{abbrvnat}
 \bibliography{EDM_Implementation_Notes}
+
+%\newpage
+
+\appendix
+
+%\section{GNU Free Documentation License}
+
+\include{fdl-1.3}
 
 \end{document}

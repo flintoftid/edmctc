@@ -1,7 +1,5 @@
 # EDM Canonical Test Cases: To-Do List
 
-* Update variables - geometry, SEA, ....
-
 * Add exporting of w/wr/J/Jr at subset of time-steps to
   time domain soltion.
 
@@ -62,10 +60,6 @@
   wallPerimeter = int1d(Th,Gwall) ( 1.0 );
   wallArea =  Lz * wallPerimeter;
 
-* Is the calculation and subtraction of the direct energy 
-  density correct in high loss cases. Since EDM isn't really valid 
-  in this then maybe it is not an issue.
-  
 * Add volume source capability.
 
 * Add Biot Number calculation
@@ -84,6 +78,4 @@
   MFP = overall MFP.
   
   BN < 0.1 => EDM accurate.
-  
-  Schroeder frequency
   
