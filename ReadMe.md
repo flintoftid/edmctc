@@ -1,4 +1,4 @@
-![](https://bitbucket.org/uoyaeg/edmctc/wiki/edmctc.jpg )
+![](https://github.com/flintoftid/edmctc/blob/master/doc/edmctc.jpg)
 
 # Canonical test cases for electromagnetic diffusion models
 
@@ -69,7 +69,7 @@ but should run on other Linux and Windows systems.
 ## Documentation
 
 The implementation of the test cases is detailed in the [LaTeX][] report in
-[doc/Implementation_Notes](https://bitbucket.org/uoyaeg/edmctc/src/tip/doc/Implementation_Notes) 
+[doc/Implementation_Notes](https://github.com/flintoftid/edmctc/blob/master/doc/Implementation_Notes) 
 in the source tree. A [PDF][] version is available on the wiki: [EDM Implementation Notes][].
 
 There are four implementations of the test cases:
@@ -116,7 +116,7 @@ post-processed using [Octave][]:
     
     octave> Model1
 
-![Figure: Power density flux map for the partitioned cavity with cylinder](https://bitbucket.org/uoyaeg/edmctc/wiki/fluxmap.jpg )
+![Figure: Power density flux map for the partitioned cavity with cylinder](https://github.com/flintoftid/edmctc/blob/master/doc/fluxmap.jpg )
 
 ## Notes
 
@@ -140,8 +140,8 @@ The test case implementation is still under development and no doubt will contai
 many bugs. Known significant bugs are listed in the file doc/[Bugs.md][] in the 
 source code. 
     
-Please report bugs using the bitbucket issue tracker at 
-<https://bitbucket.org/uoyaeg/edmctc/issues> or by email to 
+Please report bugs using the issue tracker at 
+<https://github.com/flintoftid/edmctc/issues> or by email to 
 <ian.flintoft@googlemail.com>.
 
 For general guidance on how to write a good bug report see, for example:
@@ -152,8 +152,6 @@ For general guidance on how to write a good bug report see, for example:
 
 Some of the tips in <http://www.catb.org/esr/faqs/smart-questions.html> are also 
 relevant to reporting bugs.
-
-There is a Wiki on the bitbucket [project page](https://bitbucket.org/uoyaeg/edmctc/wiki/). 
 
 ## How to contribute
 
@@ -249,7 +247,7 @@ modeling techniques”, J. Acoust. Soc. Am., vol. 138, no .2, pp. 708–730, 201
 [University of York]: http://www.york.ac.uk
 [Department of Electronic Engineering]: https://www.york.ac.uk/electronic-engineering
 [AEG]: https://www.york.ac.uk/electronic-engineering/research/communication-technologies/applied-electromagnetics-devices
-[Dr Ian Flintoft]: https://idflintoft.bitbucket.io
+[Dr Ian Flintoft]: https://flintoftid.github.io
 [Open Source]: http://opensource.org
 [GNU]: http://www.gnu.org
 [GPL3]: http://www.gnu.org/copyleft/gpl.html
@@ -258,16 +256,16 @@ modeling techniques”, J. Acoust. Soc. Am., vol. 138, no .2, pp. 708–730, 201
 [FEM]: https://en.wikipedia.org/wiki/Finite_element_method
 [Ubuntu]: https://www.ubuntu.com
 
-[Bugs.md]: https://bitbucket.org/uoyaeg/edmctc/src/tip/doc/Bugs.md
-[ToDo.md]: https://bitbucket.org/uoyaeg/edmctc/src/tip/doc/ToDo.md
-[Variables.md]: https://bitbucket.org/uoyaeg/edmctc/src/tip/doc/Variables.md
-[gpl-3.0.txt]: https://bitbucket.org/uoyaeg/edmctc/src/tip/gpl-3.0.txt
-[fdl-1.3.txt]: https://bitbucket.org/uoyaeg/edmctc/src/tip/doc/Implementation_Notes/fdl-1.3.txt
-[FEM_SDM_2D]: https://bitbucket.org/uoyaeg/edmctc/src/tip/FEM_SDM_2D
-[FEM_DDM_2D]: https://bitbucket.org/uoyaeg/edmctc/src/tip/FEM_DDM_2D
-[FEM_SDM_3D]: https://bitbucket.org/uoyaeg/edmctc/src/tip/FEM_SDM_3D
-[FEM_DDM_3D]: https://bitbucket.org/uoyaeg/edmctc/src/tip/FEM_DDM_3D
-[EDM Implementation Notes]: https://bitbucket.org/uoyaeg/edmctc/wiki/EDM_Implementation_Notes.pdf
+[Bugs.md]: https://github.com/flintoftid/edmctc/blob/master/doc/Bugs.md
+[ToDo.md]: https://github.com/flintoftid/edmctc/blob/master/doc/ToDo.md
+[Variables.md]: https://github.com/flintoftid/edmctc/blob/master/doc/Variables.md
+[gpl-3.0.txt]: https://github.com/flintoftid/edmctc/blob/master/gpl-3.0.txt
+[fdl-1.3.txt]: https://github.com/flintoftid/edmctc/blob/master/doc/Implementation_Notes/fdl-1.3.txt
+[FEM_SDM_2D]: https://github.com/flintoftid/edmctc/blob/master/FEM_SDM_2D
+[FEM_DDM_2D]: https://github.com/flintoftid/edmctc/blob/master/FEM_DDM_2D
+[FEM_SDM_3D]: https://github.com/flintoftid/edmctc/blob/master/FEM_SDM_3D
+[FEM_DDM_3D]: https://github.com/flintoftid/edmctc/blob/master/FEM_DDM_3D
+[EDM Implementation Notes]: https://flintoftid.github.io/software/Flintoft2018-EDM_Implementation_Notes.pdf
 [Electromagnetic Diffusion Model for Stochastic Fields]: https://www.researchgate.net/project/Electromagnetic-diffusion-equation-for-high-frequency-stochastic-fields
 
 [Gmsh]: http://gmsh.info
@@ -275,7 +273,7 @@ modeling techniques”, J. Acoust. Soc. Am., vol. 138, no .2, pp. 708–730, 201
 [Octave]: http://www.gnu.org/software/octave
 [Gnuplot]: http://www.gnuplot.info
 [Mercurial]: https://www.mercurial-scm.org
-[AEGPWB]: https://bitbucket.org/uoyaeg/aegpwb
+[AEGPWB]: https://github.com/flintoftid/aegpwb
 [LaTeX]: https://www.latex-project.org/about
 [PDF]: https://en.wikipedia.org/wiki/Portable_Document_Format
 [INRIA Medit]: https://www.ljll.math.upmc.fr/frey/software.html
